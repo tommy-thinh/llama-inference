@@ -1,0 +1,33 @@
+{
+  "verified_date": "2026-10-21",
+  "runtime": {
+    "repository": "https://github.com/ggml-org/llama.cpp.git",
+    "tag": "v0.7.0",
+    "commit": "620d2225cc436ab0b001e3200e590e3b286ef9ab",
+    "cmake_options": [
+      "-DCMAKE_BUILD_TYPE=Release",
+      "-DGGML_NATIVE=ON",
+      "-DGGML_CUDA=OFF",
+      "-DGGML_VULKAN=OFF",
+      "-DGGML_BLAS=OFF",
+      "-DLLAMA_OPENSSL=OFF",
+      "-DLLAMA_BUILD_TESTS=OFF",
+      "-DLLAMA_BUILD_EXAMPLES=OFF",
+      "-DLLAMA_BUILD_APP=OFF",
+      "-DLLAMA_BUILD_UI=OFF",
+      "-DLLAMA_USE_PREBUILT_UI=OFF"
+    ]
+  },
+  "model": {
+    "upstream": "Qwen/Qwen3.5-0.8B",
+    "upstream_metadata_revision": "2fc06364715b967f1860aea9cf38778875588b17",
+    "repository": "bartowski/Qwen_Qwen3.5-0.8B-GGUF",
+    "revision": "f36b1ea49a332ede8fe5f389bbf5b3575ef71f48",
+    "filename": "Qwen_Qwen3.5-0.8B-Q4_K_M.gguf",
+    "sha256": "fb044e93939a70469c905781334f5de1e6c8b608ced6cbc8c9249bd4127d9526",
+    "size_bytes": 579615840,
+    "quantization": "Q4_K_M",
+    "architecture": "qwen35",
+    "license": "Apache-2.0"
+  }
+}

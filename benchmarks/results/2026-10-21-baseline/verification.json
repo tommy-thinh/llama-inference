@@ -1,0 +1,91 @@
+{
+  "started_at": "2026-10-21T16:23:10.128482+00:00",
+  "commands": [
+    {
+      "command": [
+        "uv",
+        "sync",
+        "--locked",
+        "--offline"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.01631447102408856,
+      "output": "Resolved 15 packages in 1ms\nChecked 13 packages in 0.16ms\n"
+    },
+    {
+      "command": [
+        "uv",
+        "run",
+        "python",
+        "-m",
+        "inference.setup",
+        "--verify-only"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 2.736870774999261,
+      "output": "Runtime, checksum, architecture, quantization and chat template verified: /root/qwen/.runtime/artifact-verification.json\n"
+    },
+    {
+      "command": [
+        "uv",
+        "run",
+        "ruff",
+        "check",
+        "."
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.027761950041167438,
+      "output": "All checks passed!\n"
+    },
+    {
+      "command": [
+        "uv",
+        "run",
+        "ruff",
+        "format",
+        "--check",
+        "."
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.029556005960330367,
+      "output": "24 files already formatted\n"
+    },
+    {
+      "command": [
+        "uv",
+        "run",
+        "pytest"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.7409180250251666,
+      "output": "============================= test session starts ==============================\nplatform linux -- Python 3.14.4, pytest-9.1.1, pluggy-1.7.0\nrootdir: /root/qwen\nconfigfile: pyproject.toml\ntestpaths: tests\nplugins: anyio-4.15.1\ncollected 47 items\n\ntests/test_artifacts.py .........                                        [ 19%]\ntests/test_benchmark.py ................                                 [ 53%]\ntests/test_config_and_process.py ............                            [ 78%]\ntests/test_inference.py sssssss                                          [ 93%]\ntests/test_reports.py ...                                                [100%]\n\n=========================== short test summary info ============================\nSKIPPED [7] tests/test_inference.py: Requires --run-inference and verified local runtime/model\n======================== 40 passed, 7 skipped in 0.13s =========================\n"
+    },
+    {
+      "command": [
+        "uv",
+        "run",
+        "pytest",
+        "--run-inference",
+        "--junitxml=benchmarks/results/2026-10-21-baseline/tests.xml"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 11.426877263002098,
+      "output": "============================= test session starts ==============================\nplatform linux -- Python 3.14.4, pytest-9.1.1, pluggy-1.7.0\nrootdir: /root/qwen\nconfigfile: pyproject.toml\ntestpaths: tests\nplugins: anyio-4.15.1\ncollected 47 items\n\ntests/test_artifacts.py .........                                        [ 19%]\ntests/test_benchmark.py ................                                 [ 53%]\ntests/test_config_and_process.py ............                            [ 78%]\ntests/test_inference.py .......                                          [ 93%]\ntests/test_reports.py ...                                                [100%]\n\n- generated xml file: /root/qwen/benchmarks/results/2026-10-21-baseline/tests.xml -\n============================= 47 passed in 10.79s ==============================\n"
+    }
+  ],
+  "status": "passed",
+  "live_suite": [
+    {
+      "name": "pytest",
+      "errors": "0",
+      "failures": "0",
+      "skipped": "0",
+      "tests": "47",
+      "time": "10.785",
+      "timestamp": "2026-10-21T23:23:14.092999+07:00",
+      "hostname": "vpssieutoc.61147"
+    }
+  ],
+  "remaining_llama_server_pids": [],
+  "finished_at": "2026-10-21T16:23:25.112955+00:00"
+}

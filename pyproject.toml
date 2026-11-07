@@ -1,0 +1,23 @@
+[project]
+name = "llama-inference-foundation"
+version = "0.1.0"
+description = "CPU-only Llama 3.2 1B Instruct inference and reproducible baseline experiments"
+requires-python = ">=3.11"
+dependencies = ["httpx>=0.28,<0.29"]
+
+[dependency-groups]
+dev = ["pytest>=8.3,<10", "ruff>=0.11,<1"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
+addopts = "-ra --strict-markers"
+markers = ["inference: opt-in tests starting the real CPU model server"]
+
+[tool.ruff]
+target-version = "py311"
+line-length = 100
+extend-exclude = [".runtime"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]

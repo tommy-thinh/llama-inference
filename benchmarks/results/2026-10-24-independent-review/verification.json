@@ -1,0 +1,120 @@
+{
+  "started_at": "2026-10-24T06:59:45.422391+00:00",
+  "status": "passed",
+  "commands": [
+    {
+      "command": [
+        ".venv/bin/ruff",
+        "check",
+        "."
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.02332493686117232,
+      "output": "All checks passed!\n"
+    },
+    {
+      "command": [
+        ".venv/bin/ruff",
+        "format",
+        "--check",
+        "."
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.01865131384693086,
+      "output": "28 files already formatted\n"
+    },
+    {
+      "command": [
+        ".venv/bin/pytest",
+        "--junitxml=benchmarks/results/2026-10-24-independent-review/ordinary-tests.xml"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 1.3809413639828563,
+      "output": "============================= test session starts ==============================\nplatform linux -- Python 3.14.4, pytest-9.1.1, pluggy-1.7.0\nrootdir: /root/qwen\nconfigfile: pyproject.toml\ntestpaths: tests\nplugins: anyio-4.15.1\ncollected 94 items\n\ntests/test_artifacts.py ......................                           [ 23%]\ntests/test_benchmark.py ...............................                  [ 56%]\ntests/test_benchmark_runner.py .....                                     [ 61%]\ntests/test_config_and_process.py .......................                 [ 86%]\ntests/test_inference.py sssssss                                          [ 93%]\ntests/test_reports.py ....                                               [ 97%]\ntests/test_setup.py ..                                                   [100%]\n\n- generated xml file: /root/qwen/benchmarks/results/2026-10-24-independent-review/ordinary-tests.xml -\n=========================== short test summary info ============================\nSKIPPED [7] tests/test_inference.py: Requires --run-inference and verified local runtime/model\n======================== 87 passed, 7 skipped in 0.48s =========================\n"
+    },
+    {
+      "command": [
+        ".venv/bin/python",
+        "-m",
+        "inference.setup",
+        "--verify-only"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 3.7937624028418213,
+      "output": "Runtime, checksum, architecture, quantization and chat template verified: /root/qwen/.runtime/artifact-verification.json\n"
+    },
+    {
+      "command": [
+        ".venv/bin/pytest",
+        "--run-inference",
+        "--junitxml=benchmarks/results/2026-10-24-independent-review/live-tests.xml"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 14.633260000031441,
+      "output": "============================= test session starts ==============================\nplatform linux -- Python 3.14.4, pytest-9.1.1, pluggy-1.7.0\nrootdir: /root/qwen\nconfigfile: pyproject.toml\ntestpaths: tests\nplugins: anyio-4.15.1\ncollected 94 items\n\ntests/test_artifacts.py ......................                           [ 23%]\ntests/test_benchmark.py ...............................                  [ 56%]\ntests/test_benchmark_runner.py .....                                     [ 61%]\ntests/test_config_and_process.py .......................                 [ 86%]\ntests/test_inference.py .......                                          [ 93%]\ntests/test_reports.py ....                                               [ 97%]\ntests/test_setup.py ..                                                   [100%]\n\n- generated xml file: /root/qwen/benchmarks/results/2026-10-24-independent-review/live-tests.xml -\n============================= 94 passed in 13.74s ==============================\n"
+    }
+  ],
+  "existing_llama_server_pids": [],
+  "historical_baseline_sha256": "3f70f3b79ff8270511b52eaa0ae4f0907adfe14af9d7151abfb397e116f7a3fe",
+  "reviewer": "/root/independent_review",
+  "tester": "/root/independent_tester",
+  "one_token": {
+    "status": "complete",
+    "summary": [
+      {
+        "profile": "one-token",
+        "prompt_id": "one-token",
+        "requests": 1,
+        "median_ttft_seconds": 0.35208474285900593,
+        "min_ttft_seconds": 0.35208474285900593,
+        "max_ttft_seconds": 0.35208474285900593,
+        "median_total_seconds": 0.35256973886862397,
+        "mean_runtime_decode_tokens_per_second": 0.0,
+        "mean_effective_tokens_per_second": 2.8363182932515496,
+        "completion_tokens": [
+          1
+        ],
+        "length_limited_requests": 1,
+        "peak_server_rss_bytes": 863543296
+      }
+    ],
+    "outputs": [
+      "YES",
+      "YES"
+    ],
+    "decode_rates": [
+      0.0,
+      0.0
+    ]
+  },
+  "test_suites": {
+    "ordinary": [
+      {
+        "name": "pytest",
+        "errors": "0",
+        "failures": "0",
+        "skipped": "7",
+        "tests": "94",
+        "time": "0.470",
+        "timestamp": "2026-10-24T13:59:46.006431+07:00",
+        "hostname": "vpssieutoc.61147"
+      }
+    ],
+    "live": [
+      {
+        "name": "pytest",
+        "errors": "0",
+        "failures": "0",
+        "skipped": "0",
+        "tests": "94",
+        "time": "13.735",
+        "timestamp": "2026-10-24T13:59:51.178937+07:00",
+        "hostname": "vpssieutoc.61147"
+      }
+    ]
+  },
+  "historical_baseline_unchanged": true,
+  "remaining_llama_server_pids": [],
+  "new_remaining_llama_server_pids": [],
+  "finished_at": "2026-10-24T07:00:11.459477+00:00"
+}

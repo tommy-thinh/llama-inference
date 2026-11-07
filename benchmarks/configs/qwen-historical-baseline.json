@@ -1,0 +1,59 @@
+{
+  "schema_version": 1,
+  "warmups": 1,
+  "repetitions": 3,
+  "profiles": [
+    {
+      "name": "baseline",
+      "threads": 4,
+      "ctx_size": 2048,
+      "max_tokens": 64
+    },
+    {
+      "name": "threads-2",
+      "threads": 2,
+      "ctx_size": 2048,
+      "max_tokens": 64
+    },
+    {
+      "name": "threads-6",
+      "threads": 6,
+      "ctx_size": 2048,
+      "max_tokens": 64
+    },
+    {
+      "name": "context-1024",
+      "threads": 4,
+      "ctx_size": 1024,
+      "max_tokens": 64
+    },
+    {
+      "name": "context-4096",
+      "threads": 4,
+      "ctx_size": 4096,
+      "max_tokens": 64
+    },
+    {
+      "name": "output-32",
+      "threads": 4,
+      "ctx_size": 2048,
+      "max_tokens": 32
+    },
+    {
+      "name": "output-128",
+      "threads": 4,
+      "ctx_size": 2048,
+      "max_tokens": 128
+    }
+  ],
+  "prompts": [
+    {
+      "id": "short",
+      "text": "In about 200 words, explain to a computer science student how CPU cache locality can make a program faster. Include a concrete example of traversing an array."
+    },
+    {
+      "id": "long",
+      "text": "Read the following notes, then write a detailed 200-word explanation of how the principles apply to a CPU-only language-model server. Notes: A process runs instructions on a CPU and stores data in memory. Access to a CPU cache is generally faster than access to main memory. Consecutive array elements are often stored next to one another. Processing nearby elements can reuse a cache line. Multiple threads can divide work, but synchronization has a cost. More threads do not guarantee lower latency. A virtual machine may share physical resources with other tenants. Measurements can vary between runs. A model processes the input prompt before generating new tokens. Processing the prompt and producing the output have different computational patterns. During generation, the model repeatedly reads its weights. Quantization reduces the storage needed for many weights. Some tensors remain at higher precision. A context window limits the total tokens that the runtime can keep for a request. Attention layers retain keys and values for prior tokens. Recurrent layers maintain a different kind of state. Memory-mapped weights use the operating system's page cache. Resident memory includes more than the model file. A warm-up request can populate caches and initialize working buffers. A benchmark should record software versions, prompt text, generation limits, and resource settings. Repeated measurements help expose variability. Latency describes how long one request takes. Throughput describes how much work the system completes over time. Streaming lets a caller observe output before the whole answer is complete. A fair comparison changes one setting at a time and keeps other conditions consistent. Explain these ideas together using the server as a practical example."
+    }
+  ]
+}

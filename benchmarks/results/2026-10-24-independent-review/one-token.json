@@ -1,0 +1,635 @@
+{
+  "schema_version": 1,
+  "status": "complete",
+  "started_at": "2026-10-24T07:00:08.360714+00:00",
+  "configuration": {
+    "schema_version": 1,
+    "warmups": 1,
+    "repetitions": 1,
+    "profiles": [
+      {
+        "name": "one-token",
+        "threads": 2,
+        "ctx_size": 1024,
+        "max_tokens": 1
+      }
+    ],
+    "prompts": [
+      {
+        "id": "one-token",
+        "text": "Reply with exactly the word YES."
+      }
+    ]
+  },
+  "configuration_sha256": "adc47fbdb173eac3f1838b5065826a4c1d3f18ee30e4864b0f45521c1b1763a3",
+  "artifacts": {
+    "verified_date": "2026-10-21",
+    "runtime": {
+      "repository": "https://github.com/ggml-org/llama.cpp.git",
+      "tag": "v0.7.0",
+      "commit": "620d2225cc436ab0b001e3200e590e3b286ef9ab",
+      "cmake_options": [
+        "-DCMAKE_BUILD_TYPE=Release",
+        "-DGGML_NATIVE=ON",
+        "-DGGML_CUDA=OFF",
+        "-DGGML_VULKAN=OFF",
+        "-DGGML_BLAS=OFF",
+        "-DLLAMA_OPENSSL=OFF",
+        "-DLLAMA_BUILD_TESTS=OFF",
+        "-DLLAMA_BUILD_EXAMPLES=OFF",
+        "-DLLAMA_BUILD_APP=OFF",
+        "-DLLAMA_BUILD_UI=OFF",
+        "-DLLAMA_USE_PREBUILT_UI=OFF"
+      ]
+    },
+    "model": {
+      "upstream": "Qwen/Qwen3.5-0.8B",
+      "upstream_metadata_revision": "2fc06364715b967f1860aea9cf38778875588b17",
+      "repository": "bartowski/Qwen_Qwen3.5-0.8B-GGUF",
+      "revision": "f36b1ea49a332ede8fe5f389bbf5b3575ef71f48",
+      "filename": "Qwen_Qwen3.5-0.8B-Q4_K_M.gguf",
+      "sha256": "fb044e93939a70469c905781334f5de1e6c8b608ced6cbc8c9249bd4127d9526",
+      "size_bytes": 579615840,
+      "quantization": "Q4_K_M",
+      "architecture": "qwen35",
+      "license": "Apache-2.0"
+    }
+  },
+  "verified_model_sha256": "fb044e93939a70469c905781334f5de1e6c8b608ced6cbc8c9249bd4127d9526",
+  "gguf": {
+    "path": "/root/qwen/.runtime/models/Qwen_Qwen3.5-0.8B-Q4_K_M.gguf",
+    "size_bytes": 579615840,
+    "sha256": "fb044e93939a70469c905781334f5de1e6c8b608ced6cbc8c9249bd4127d9526",
+    "gguf_version": 3,
+    "tensor_count": 335,
+    "metadata": {
+      "general.architecture": "qwen35",
+      "general.type": "model",
+      "general.name": "Qwen3.5 0.8B",
+      "general.basename": "Qwen3.5",
+      "general.size_label": "0.8B",
+      "general.license": "apache-2.0",
+      "general.license.link": "https://huggingface.co/Qwen/Qwen3.5-0.8B/blob/main/LICENSE",
+      "general.base_model.count": 1,
+      "general.base_model.0.name": "Qwen3.5 0.8B Base",
+      "general.base_model.0.organization": "Qwen",
+      "general.base_model.0.repo_url": "https://huggingface.co/Qwen/Qwen3.5-0.8B-Base",
+      "general.tags": [
+        "image-text-to-text"
+      ],
+      "qwen35.block_count": 25,
+      "qwen35.context_length": 262144,
+      "qwen35.embedding_length": 1024,
+      "qwen35.feed_forward_length": 3584,
+      "qwen35.attention.head_count": 8,
+      "qwen35.attention.head_count_kv": 2,
+      "qwen35.rope.dimension_sections": [
+        11,
+        11,
+        10,
+        0
+      ],
+      "qwen35.rope.freq_base": 10000000.0,
+      "qwen35.attention.layer_norm_rms_epsilon": 9.999999974752427e-07,
+      "qwen35.attention.key_length": 256,
+      "qwen35.attention.value_length": 256,
+      "qwen35.ssm.conv_kernel": 4,
+      "qwen35.ssm.state_size": 128,
+      "qwen35.ssm.group_count": 16,
+      "qwen35.ssm.time_step_rank": 16,
+      "qwen35.ssm.inner_size": 2048,
+      "qwen35.full_attention_interval": 4,
+      "qwen35.rope.dimension_count": 64,
+      "qwen35.nextn_predict_layers": 1,
+      "tokenizer.ggml.model": "gpt2",
+      "tokenizer.ggml.pre": "qwen35",
+      "tokenizer.ggml.tokens": {
+        "element_type": 8,
+        "length": 248320
+      },
+      "tokenizer.ggml.token_type": {
+        "element_type": 5,
+        "length": 248320
+      },
+      "tokenizer.ggml.merges": {
+        "element_type": 8,
+        "length": 247587
+      },
+      "tokenizer.ggml.eos_token_id": 248046,
+      "tokenizer.ggml.padding_token_id": 248044,
+      "tokenizer.ggml.add_bos_token": false,
+      "tokenizer.chat_template": "{%- set image_count = namespace(value=0) %}\n{%- set video_count = namespace(value=0) %}\n{%- macro render_content(content, do_vision_count, is_system_content=false) %}\n    {%- if content is string %}\n        {{- content }}\n    {%- elif content is iterable and content is not mapping %}\n        {%- for item in content %}\n            {%- if 'image' in item or 'image_url' in item or item.type == 'image' %}\n                {%- if is_system_content %}\n                    {{- raise_exception('System message cannot contain images.') }}\n                {%- endif %}\n                {%- if do_vision_count %}\n                    {%- set image_count.value = image_count.value + 1 %}\n                {%- endif %}\n                {%- if add_vision_id %}\n                    {{- 'Picture ' ~ image_count.value ~ ': ' }}\n                {%- endif %}\n                {{- '<|vision_start|><|image_pad|><|vision_end|>' }}\n            {%- elif 'video' in item or item.type == 'video' %}\n                {%- if is_system_content %}\n                    {{- raise_exception('System message cannot contain videos.') }}\n                {%- endif %}\n                {%- if do_vision_count %}\n                    {%- set video_count.value = video_count.value + 1 %}\n                {%- endif %}\n                {%- if add_vision_id %}\n                    {{- 'Video ' ~ video_count.value ~ ': ' }}\n                {%- endif %}\n                {{- '<|vision_start|><|video_pad|><|vision_end|>' }}\n            {%- elif 'text' in item %}\n                {{- item.text }}\n            {%- else %}\n                {{- raise_exception('Unexpected item type in content.') }}\n            {%- endif %}\n        {%- endfor %}\n    {%- elif content is none or content is undefined %}\n        {{- '' }}\n    {%- else %}\n        {{- raise_exception('Unexpected content type.') }}\n    {%- endif %}\n{%- endmacro %}\n{%- if not messages %}\n    {{- raise_exception('No messages provided.') }}\n{%- endif %}\n{%- if tools and tools is iterable and tools is not mapping %}\n    {{- '<|im_start|>system\\n' }}\n    {{- \"# Tools\\n\\nYou have access to the following functions:\\n\\n<tools>\" }}\n    {%- for tool in tools %}\n        {{- \"\\n\" }}\n        {{- tool | tojson }}\n    {%- endfor %}\n    {{- \"\\n</tools>\" }}\n    {{- '\\n\\nIf you choose to call a function ONLY reply in the following format with NO suffix:\\n\\n<tool_call>\\n<function=example_function_name>\\n<parameter=example_parameter_1>\\nvalue_1\\n</parameter>\\n<parameter=example_parameter_2>\\nThis is the value for the second parameter\\nthat can span\\nmultiple lines\\n</parameter>\\n</function>\\n</tool_call>\\n\\n<IMPORTANT>\\nReminder:\\n- Function calls MUST follow the specified format: an inner <function=...></function> block must be nested within <tool_call></tool_call> XML tags\\n- Required parameters MUST be specified\\n- You may provide optional reasoning for your function call in natural language BEFORE the function call, but NOT after\\n- If there is no function call available, answer the question like normal with your current knowledge and do not tell the user about function calls\\n</IMPORTANT>' }}\n    {%- if messages[0].role == 'system' %}\n        {%- set content = render_content(messages[0].content, false, true)|trim %}\n        {%- if content %}\n            {{- '\\n\\n' + content }}\n        {%- endif %}\n    {%- endif %}\n    {{- '<|im_end|>\\n' }}\n{%- else %}\n    {%- if messages[0].role == 'system' %}\n        {%- set content = render_content(messages[0].content, false, true)|trim %}\n        {{- '<|im_start|>system\\n' + content + '<|im_end|>\\n' }}\n    {%- endif %}\n{%- endif %}\n{%- set ns = namespace(multi_step_tool=true, last_query_index=messages|length - 1) %}\n{%- for message in messages[::-1] %}\n    {%- set index = (messages|length - 1) - loop.index0 %}\n    {%- if ns.multi_step_tool and message.role == \"user\" %}\n        {%- set content = render_content(message.content, false)|trim %}\n        {%- if not(content.startswith('<tool_response>') and content.endswith('</tool_response>')) %}\n            {%- set ns.multi_step_tool = false %}\n            {%- set ns.last_query_index = index %}\n        {%- endif %}\n    {%- endif %}\n{%- endfor %}\n{%- if ns.multi_step_tool %}\n    {{- raise_exception('No user query found in messages.') }}\n{%- endif %}\n{%- for message in messages %}\n    {%- set content = render_content(message.content, true)|trim %}\n    {%- if message.role == \"system\" %}\n        {%- if not loop.first %}\n            {{- raise_exception('System message must be at the beginning.') }}\n        {%- endif %}\n    {%- elif message.role == \"user\" %}\n        {{- '<|im_start|>' + message.role + '\\n' + content + '<|im_end|>' + '\\n' }}\n    {%- elif message.role == \"assistant\" %}\n        {%- set reasoning_content = '' %}\n        {%- if message.reasoning_content is string %}\n            {%- set reasoning_content = message.reasoning_content %}\n        {%- else %}\n            {%- if '</think>' in content %}\n                {%- set reasoning_content = content.split('</think>')[0].rstrip('\\n').split('<think>')[-1].lstrip('\\n') %}\n                {%- set content = content.split('</think>')[-1].lstrip('\\n') %}\n            {%- endif %}\n        {%- endif %}\n        {%- set reasoning_content = reasoning_content|trim %}\n        {%- if loop.index0 > ns.last_query_index %}\n            {{- '<|im_start|>' + message.role + '\\n<think>\\n' + reasoning_content + '\\n</think>\\n\\n' + content }}\n        {%- else %}\n            {{- '<|im_start|>' + message.role + '\\n' + content }}\n        {%- endif %}\n        {%- if message.tool_calls and message.tool_calls is iterable and message.tool_calls is not mapping %}\n            {%- for tool_call in message.tool_calls %}\n                {%- if tool_call.function is defined %}\n                    {%- set tool_call = tool_call.function %}\n                {%- endif %}\n                {%- if loop.first %}\n                    {%- if content|trim %}\n                        {{- '\\n\\n<tool_call>\\n<function=' + tool_call.name + '>\\n' }}\n                    {%- else %}\n                        {{- '<tool_call>\\n<function=' + tool_call.name + '>\\n' }}\n                    {%- endif %}\n                {%- else %}\n                    {{- '\\n<tool_call>\\n<function=' + tool_call.name + '>\\n' }}\n                {%- endif %}\n                {%- if tool_call.arguments is defined %}\n                    {%- for args_name, args_value in tool_call.arguments|items %}\n                        {{- '<parameter=' + args_name + '>\\n' }}\n                        {%- set args_value = args_value | tojson | safe if args_value is mapping or (args_value is sequence and args_value is not string) else args_value | string %}\n                        {{- args_value }}\n                        {{- '\\n</parameter>\\n' }}\n                    {%- endfor %}\n                {%- endif %}\n                {{- '</function>\\n</tool_call>' }}\n            {%- endfor %}\n        {%- endif %}\n        {{- '<|im_end|>\\n' }}\n    {%- elif message.role == \"tool\" %}\n        {%- if loop.previtem and loop.previtem.role != \"tool\" %}\n            {{- '<|im_start|>user' }}\n        {%- endif %}\n        {{- '\\n<tool_response>\\n' }}\n        {{- content }}\n        {{- '\\n</tool_response>' }}\n        {%- if not loop.last and loop.nextitem.role != \"tool\" %}\n            {{- '<|im_end|>\\n' }}\n        {%- elif loop.last %}\n            {{- '<|im_end|>\\n' }}\n        {%- endif %}\n    {%- else %}\n        {{- raise_exception('Unexpected message role.') }}\n    {%- endif %}\n{%- endfor %}\n{%- if add_generation_prompt %}\n    {{- '<|im_start|>assistant\\n' }}\n    {%- if enable_thinking is defined and enable_thinking is true %}\n        {{- '<think>\\n' }}\n    {%- else %}\n        {{- '<think>\\n\\n</think>\\n\\n' }}\n    {%- endif %}\n{%- endif %}",
+      "general.quantization_version": 2,
+      "general.file_type": 15,
+      "quantize.imatrix.file": "/models_out/Qwen3.5-0.8B-GGUF/Qwen_Qwen3.5-0.8B-imatrix.gguf",
+      "quantize.imatrix.dataset": "/training_dir/calibration_datav5.txt",
+      "quantize.imatrix.entries_count": 186,
+      "quantize.imatrix.chunks_count": 802
+    }
+  },
+  "runtime_commit": "620d2225cc436ab0b001e3200e590e3b286ef9ab",
+  "runtime_version": "version: 0.7.0-dev (build 1, commit 620d222)\nbuilt with GNU 15.2.0 for Linux x86_64",
+  "runtime_binary_sha256": "658e4b951139ef30f55a18702f792b415de961f39f082176503e1e5f7f0aa61d",
+  "cmake_cache": "# This is the CMakeCache file.\n# For build in directory: /root/qwen/.runtime/llama.cpp/build\n# It was generated by CMake: /usr/bin/cmake\n# You can edit this file to change values found and used by cmake.\n# If you do not want to change any of the values, simply exit the editor.\n# If you do want to change a value, simply edit, save, and exit the editor.\n# The syntax for the file is as follows:\n# KEY:TYPE=VALUE\n# KEY is the name of a variable in the cache.\n# TYPE is a hint to GUIs for the type of VALUE, DO NOT EDIT TYPE!.\n# VALUE is the current value for the KEY.\n\n########################\n# EXTERNAL cache entries\n########################\n\n//ggml: build shared libraries\nBUILD_SHARED_LIBS:BOOL=ON\n\n//Path to a program.\nCMAKE_ADDR2LINE:FILEPATH=/usr/bin/addr2line\n\n//Path to a program.\nCMAKE_AR:FILEPATH=/usr/bin/ar\n\n//ASM compiler\nCMAKE_ASM_COMPILER:FILEPATH=/usr/bin/cc\n\n//A wrapper around 'ar' adding the appropriate '--plugin' option\n// for the GCC compiler\nCMAKE_ASM_COMPILER_AR:FILEPATH=/usr/bin/gcc-ar\n\n//A wrapper around 'ranlib' adding the appropriate '--plugin' option\n// for the GCC compiler\nCMAKE_ASM_COMPILER_RANLIB:FILEPATH=/usr/bin/gcc-ranlib\n\n//Flags used by the ASM compiler during all build types.\nCMAKE_ASM_FLAGS:STRING=\n\n//Flags used by the ASM compiler during DEBUG builds.\nCMAKE_ASM_FLAGS_DEBUG:STRING=-g\n\n//Flags used by the ASM compiler during MINSIZEREL builds.\nCMAKE_ASM_FLAGS_MINSIZEREL:STRING=-Os -DNDEBUG\n\n//Flags used by the ASM compiler during RELEASE builds.\nCMAKE_ASM_FLAGS_RELEASE:STRING=-O3 -DNDEBUG\n\n//Flags used by the ASM compiler during RELWITHDEBINFO builds.\nCMAKE_ASM_FLAGS_RELWITHDEBINFO:STRING=-O2 -g -DNDEBUG\n\n//Choose the type of build, options are: None Debug Release RelWithDebInfo\n// MinSizeRel ...\nCMAKE_BUILD_TYPE:STRING=Release\n\n//Enable/Disable color output during build.\nCMAKE_COLOR_MAKEFILE:BOOL=ON\n\n//CXX compiler\nCMAKE_CXX_COMPILER:FILEPATH=/usr/bin/c++\n\n//A wrapper around 'ar' adding the appropriate '--plugin' option\n// for the GCC compiler\nCMAKE_CXX_COMPILER_AR:FILEPATH=/usr/bin/gcc-ar-15\n\n//A wrapper around 'ranlib' adding the appropriate '--plugin' option\n// for the GCC compiler\nCMAKE_CXX_COMPILER_RANLIB:FILEPATH=/usr/bin/gcc-ranlib-15\n\n//Flags used by the CXX compiler during all build types.\nCMAKE_CXX_FLAGS:STRING=\n\n//Flags used by the CXX compiler during DEBUG builds.\nCMAKE_CXX_FLAGS_DEBUG:STRING=-g\n\n//Flags used by the CXX compiler during MINSIZEREL builds.\nCMAKE_CXX_FLAGS_MINSIZEREL:STRING=-Os -DNDEBUG\n\n//Flags used by the CXX compiler during RELEASE builds.\nCMAKE_CXX_FLAGS_RELEASE:STRING=-O3 -DNDEBUG\n\n//Flags used by the CXX compiler during RELWITHDEBINFO builds.\nCMAKE_CXX_FLAGS_RELWITHDEBINFO:STRING=-O2 -g -DNDEBUG\n\n//C compiler\nCMAKE_C_COMPILER:FILEPATH=/usr/bin/cc\n\n//A wrapper around 'ar' adding the appropriate '--plugin' option\n// for the GCC compiler\nCMAKE_C_COMPILER_AR:FILEPATH=/usr/bin/gcc-ar-15\n\n//A wrapper around 'ranlib' adding the appropriate '--plugin' option\n// for the GCC compiler\nCMAKE_C_COMPILER_RANLIB:FILEPATH=/usr/bin/gcc-ranlib-15\n\n//Flags used by the C compiler during all build types.\nCMAKE_C_FLAGS:STRING=\n\n//Flags used by the C compiler during DEBUG builds.\nCMAKE_C_FLAGS_DEBUG:STRING=-g\n\n//Flags used by the C compiler during MINSIZEREL builds.\nCMAKE_C_FLAGS_MINSIZEREL:STRING=-Os -DNDEBUG\n\n//Flags used by the C compiler during RELEASE builds.\nCMAKE_C_FLAGS_RELEASE:STRING=-O3 -DNDEBUG\n\n//Flags used by the C compiler during RELWITHDEBINFO builds.\nCMAKE_C_FLAGS_RELWITHDEBINFO:STRING=-O2 -g -DNDEBUG\n\n//Path to a program.\nCMAKE_DLLTOOL:FILEPATH=CMAKE_DLLTOOL-NOTFOUND\n\n//Flags used by the linker during all build types.\nCMAKE_EXE_LINKER_FLAGS:STRING=\n\n//Flags used by the linker during DEBUG builds.\nCMAKE_EXE_LINKER_FLAGS_DEBUG:STRING=\n\n//Flags used by the linker during MINSIZEREL builds.\nCMAKE_EXE_LINKER_FLAGS_MINSIZEREL:STRING=\n\n//Flags used by the linker during RELEASE builds.\nCMAKE_EXE_LINKER_FLAGS_RELEASE:STRING=\n\n//Flags used by the linker during RELWITHDEBINFO builds.\nCMAKE_EXE_LINKER_FLAGS_RELWITHDEBINFO:STRING=\n\n//Enable/Disable output of compile commands during generation.\nCMAKE_EXPORT_COMPILE_COMMANDS:BOOL=\n\n//Value Computed by CMake.\nCMAKE_FIND_PACKAGE_REDIRECTS_DIR:STATIC=/root/qwen/.runtime/llama.cpp/build/CMakeFiles/pkgRedirects\n\n//User executables (bin)\nCMAKE_INSTALL_BINDIR:PATH=bin\n\n//Read-only architecture-independent data (DATAROOTDIR)\nCMAKE_INSTALL_DATADIR:PATH=\n\n//Read-only architecture-independent data root (share)\nCMAKE_INSTALL_DATAROOTDIR:PATH=share\n\n//Documentation root (DATAROOTDIR/doc/PROJECT_NAME)\nCMAKE_INSTALL_DOCDIR:PATH=\n\n//C header files (include)\nCMAKE_INSTALL_INCLUDEDIR:PATH=include\n\n//Info documentation (DATAROOTDIR/info)\nCMAKE_INSTALL_INFODIR:PATH=\n\n//Object code libraries (lib)\nCMAKE_INSTALL_LIBDIR:PATH=lib\n\n//Program executables (libexec)\nCMAKE_INSTALL_LIBEXECDIR:PATH=libexec\n\n//Locale-dependent data (DATAROOTDIR/locale)\nCMAKE_INSTALL_LOCALEDIR:PATH=\n\n//Modifiable single-machine data (var)\nCMAKE_INSTALL_LOCALSTATEDIR:PATH=var\n\n//Man documentation (DATAROOTDIR/man)\nCMAKE_INSTALL_MANDIR:PATH=\n\n//C header files for non-gcc (/usr/include)\nCMAKE_INSTALL_OLDINCLUDEDIR:PATH=/usr/include\n\n//Install path prefix, prepended onto install directories.\nCMAKE_INSTALL_PREFIX:PATH=/usr/local\n\n//Run-time variable data (LOCALSTATEDIR/run)\nCMAKE_INSTALL_RUNSTATEDIR:PATH=\n\n//System admin executables (sbin)\nCMAKE_INSTALL_SBINDIR:PATH=sbin\n\n//Modifiable architecture-independent data (com)\nCMAKE_INSTALL_SHAREDSTATEDIR:PATH=com\n\n//Read-only single-machine data (etc)\nCMAKE_INSTALL_SYSCONFDIR:PATH=etc\n\n//Path to a program.\nCMAKE_LINKER:FILEPATH=/usr/bin/ld\n\n//Path to a program.\nCMAKE_MAKE_PROGRAM:FILEPATH=/usr/bin/gmake\n\n//Flags used by the linker during the creation of modules during\n// all build types.\nCMAKE_MODULE_LINKER_FLAGS:STRING=\n\n//Flags used by the linker during the creation of modules during\n// DEBUG builds.\nCMAKE_MODULE_LINKER_FLAGS_DEBUG:STRING=\n\n//Flags used by the linker during the creation of modules during\n// MINSIZEREL builds.\nCMAKE_MODULE_LINKER_FLAGS_MINSIZEREL:STRING=\n\n//Flags used by the linker during the creation of modules during\n// RELEASE builds.\nCMAKE_MODULE_LINKER_FLAGS_RELEASE:STRING=\n\n//Flags used by the linker during the creation of modules during\n// RELWITHDEBINFO builds.\nCMAKE_MODULE_LINKER_FLAGS_RELWITHDEBINFO:STRING=\n\n//Path to a program.\nCMAKE_NM:FILEPATH=/usr/bin/nm\n\n//Path to a program.\nCMAKE_OBJCOPY:FILEPATH=/usr/bin/objcopy\n\n//Path to a program.\nCMAKE_OBJDUMP:FILEPATH=/usr/bin/objdump\n\n//Value Computed by CMake\nCMAKE_PROJECT_COMPAT_VERSION:STATIC=\n\n//Value Computed by CMake\nCMAKE_PROJECT_DESCRIPTION:STATIC=\n\n//Value Computed by CMake\nCMAKE_PROJECT_HOMEPAGE_URL:STATIC=\n\n//Value Computed by CMake\nCMAKE_PROJECT_NAME:STATIC=llama.cpp\n\n//Value Computed by CMake\nCMAKE_PROJECT_SPDX_LICENSE:STATIC=\n\n//Path to a program.\nCMAKE_RANLIB:FILEPATH=/usr/bin/ranlib\n\n//Path to a program.\nCMAKE_READELF:FILEPATH=/usr/bin/readelf\n\n//Flags used by the linker during the creation of shared libraries\n// during all build types.\nCMAKE_SHARED_LINKER_FLAGS:STRING=\n\n//Flags used by the linker during the creation of shared libraries\n// during DEBUG builds.\nCMAKE_SHARED_LINKER_FLAGS_DEBUG:STRING=\n\n//Flags used by the linker during the creation of shared libraries\n// during MINSIZEREL builds.\nCMAKE_SHARED_LINKER_FLAGS_MINSIZEREL:STRING=\n\n//Flags used by the linker during the creation of shared libraries\n// during RELEASE builds.\nCMAKE_SHARED_LINKER_FLAGS_RELEASE:STRING=\n\n//Flags used by the linker during the creation of shared libraries\n// during RELWITHDEBINFO builds.\nCMAKE_SHARED_LINKER_FLAGS_RELWITHDEBINFO:STRING=\n\n//If set, runtime paths are not added when installing shared libraries,\n// but are added when building.\nCMAKE_SKIP_INSTALL_RPATH:BOOL=NO\n\n//If set, runtime paths are not added when using shared libraries.\nCMAKE_SKIP_RPATH:BOOL=NO\n\n//Flags used by the archiver during the creation of static libraries\n// during all build types.\nCMAKE_STATIC_LINKER_FLAGS:STRING=\n\n//Flags used by the archiver during the creation of static libraries\n// during DEBUG builds.\nCMAKE_STATIC_LINKER_FLAGS_DEBUG:STRING=\n\n//Flags used by the archiver during the creation of static libraries\n// during MINSIZEREL builds.\nCMAKE_STATIC_LINKER_FLAGS_MINSIZEREL:STRING=\n\n//Flags used by the archiver during the creation of static libraries\n// during RELEASE builds.\nCMAKE_STATIC_LINKER_FLAGS_RELEASE:STRING=\n\n//Flags used by the archiver during the creation of static libraries\n// during RELWITHDEBINFO builds.\nCMAKE_STATIC_LINKER_FLAGS_RELWITHDEBINFO:STRING=\n\n//Path to a program.\nCMAKE_STRIP:FILEPATH=/usr/bin/strip\n\n//Path to a program.\nCMAKE_TAPI:FILEPATH=CMAKE_TAPI-NOTFOUND\n\n//If this value is on, makefiles will be generated without the\n// .SILENT directive, and all commands will be echoed to the console\n// during the make.  This is useful for debugging only. With Visual\n// Studio IDE projects all commands are done without /nologo.\nCMAKE_VERBOSE_MAKEFILE:BOOL=FALSE\n\n//ggml: enable Accelerate framework\nGGML_ACCELERATE:BOOL=ON\n\n//ggml: enable all compiler warnings in 3rd party libs\nGGML_ALL_WARNINGS_3RD_PARTY:BOOL=OFF\n\n//ggml: enable AMX-BF16\nGGML_AMX_BF16:BOOL=OFF\n\n//ggml: enable AMX-INT8\nGGML_AMX_INT8:BOOL=OFF\n\n//ggml: enable AMX-TILE\nGGML_AMX_TILE:BOOL=OFF\n\n//ggml: enable AVX\nGGML_AVX:BOOL=OFF\n\n//ggml: enable AVX2\nGGML_AVX2:BOOL=OFF\n\n//ggml: enable AVX512F\nGGML_AVX512:BOOL=OFF\n\n//ggml: enable AVX512-BF16\nGGML_AVX512_BF16:BOOL=OFF\n\n//ggml: enable AVX512-VBMI\nGGML_AVX512_VBMI:BOOL=OFF\n\n//ggml: enable AVX512-VNNI\nGGML_AVX512_VNNI:BOOL=OFF\n\n//ggml: enable AVX-VNNI\nGGML_AVX_VNNI:BOOL=OFF\n\n//ggml: directory to load dynamic backends from (requires GGML_BACKEND_DL\nGGML_BACKEND_DIR:PATH=\n\n//ggml: build backends as dynamic libraries (requires BUILD_SHARED_LIBS)\nGGML_BACKEND_DL:BOOL=OFF\n\n//Location of binary  files\nGGML_BIN_INSTALL_DIR:PATH=bin\n\n//ggml: use BLAS\nGGML_BLAS:BOOL=OFF\n\n//ggml: BLAS library vendor\nGGML_BLAS_VENDOR:STRING=Generic\n\n//ggml: enable BMI2\nGGML_BMI2:BOOL=OFF\n\n//ggml: build examples\nGGML_BUILD_EXAMPLES:BOOL=OFF\n\n//ggml: build tests\nGGML_BUILD_TESTS:BOOL=OFF\n\n//ggml: use ccache if available\nGGML_CCACHE:BOOL=ON\n\n//Path to a program.\nGGML_CCACHE_FOUND:FILEPATH=GGML_CCACHE_FOUND-NOTFOUND\n\n//ggml: enable CPU backend\nGGML_CPU:BOOL=ON\n\n//ggml: build all variants of the CPU backend (requires GGML_BACKEND_DL)\nGGML_CPU_ALL_VARIANTS:BOOL=OFF\n\n//ggml: CPU architecture for ARM\nGGML_CPU_ARM_ARCH:STRING=\n\n//ggml: use memkind for CPU HBM\nGGML_CPU_HBM:BOOL=OFF\n\n//ggml: use KleidiAI optimized kernels if applicable\nGGML_CPU_KLEIDIAI:BOOL=OFF\n\n//ggml: CPU type for PowerPC\nGGML_CPU_POWERPC_CPUTYPE:STRING=\n\n//ggml: use runtime weight conversion of Q4_0 to Q4_X_X\nGGML_CPU_REPACK:BOOL=ON\n\n//ggml: use CUDA\nGGML_CUDA:BOOL=OFF\n\n//ggml: CCCL git tag to fetch, empty to use the version bundled\n// with the installed CUDA Toolkit\nGGML_CUDA_CCCL_VERSION:STRING=\n\n//ggml: cuda link binary compression mode; requires cuda 12.8+\nGGML_CUDA_COMPRESSION_MODE:STRING=size\n\n//ggml: compile ggml FlashAttention CUDA kernels\nGGML_CUDA_FA:BOOL=ON\n\n//ggml: compile all quants for FlashAttention\nGGML_CUDA_FA_ALL_QUANTS:BOOL=OFF\n\n//ggml: FlashAttention K-V type combinations to compile, \"all\"\n// or a list such as \"q8_0-q8_0;q8_0-q4_0\"\nGGML_CUDA_FA_QUANTS:STRING=q4_0-q4_0;q8_0-q8_0;f16-f16;bf16-bf16\n\n//ggml: always use cuBLAS instead of mmq kernels\nGGML_CUDA_FORCE_CUBLAS:BOOL=OFF\n\n//ggml: use mmq kernels instead of cuBLAS\nGGML_CUDA_FORCE_MMQ:BOOL=OFF\n\n//ggml: use CUDA graphs (llama.cpp only)\nGGML_CUDA_GRAPHS:BOOL=ON\n\n//ggml: use NVIDIA Collective Comm. Library\nGGML_CUDA_NCCL:BOOL=ON\n\n//ggml: do not use peer to peer copies\nGGML_CUDA_NO_PEER_COPY:BOOL=OFF\n\n//ggml: do not try to use CUDA VMM\nGGML_CUDA_NO_VMM:BOOL=OFF\n\n//ggml: use ET backend\nGGML_ET:BOOL=OFF\n\n//ggml: use ET backend via sysemu\nGGML_ET_SYSEMU:BOOL=OFF\n\n//ggml: enable F16C\nGGML_F16C:BOOL=OFF\n\n//ggml: enable FMA\nGGML_FMA:BOOL=OFF\n\n//ggml: enable gprof\nGGML_GPROF:BOOL=OFF\n\n//ggml: enable Hexagon backend\nGGML_HEXAGON:BOOL=OFF\n\n//ggml: use HIP\nGGML_HIP:BOOL=OFF\n\n//ggml: enable kernel perf metrics output\nGGML_HIP_EXPORT_METRICS:BOOL=OFF\n\n//ggml: use HIP graph\nGGML_HIP_GRAPHS:BOOL=ON\n\n//ggml: enable MFMA MMA for CDNA in MMQ\nGGML_HIP_MMQ_MFMA:BOOL=ON\n\n//ggml: do not try to use HIP VMM\nGGML_HIP_NO_VMM:BOOL=ON\n\n//ggml: use ROCm Collective Comm. Library\nGGML_HIP_RCCL:BOOL=OFF\n\n//Location of header  files\nGGML_INCLUDE_INSTALL_DIR:PATH=include\n\n//ggml: enable lasx\nGGML_LASX:BOOL=ON\n\n//Location of library files\nGGML_LIB_INSTALL_DIR:PATH=lib\n\n//ggml: use LLAMAFILE\nGGML_LLAMAFILE:BOOL=ON\n\n//ggml: enable lsx\nGGML_LSX:BOOL=ON\n\n//ggml: enable link time optimization\nGGML_LTO:BOOL=OFF\n\n//ggml: use Metal\nGGML_METAL:BOOL=OFF\n\n//ggml: embed Metal library\nGGML_METAL_EMBED_LIBRARY:BOOL=OFF\n\n//ggml: metal minimum macOS version\nGGML_METAL_MACOSX_VERSION_MIN:STRING=\n\n//ggml: disable Metal debugging\nGGML_METAL_NDEBUG:BOOL=OFF\n\n//ggml: compile Metal with -fno-fast-math\nGGML_METAL_SHADER_DEBUG:BOOL=OFF\n\n//ggml: metal standard version (-std flag)\nGGML_METAL_STD:STRING=\n\n//ggml: metal -mtargetos OS name (macos, ios, xros, tvos)\nGGML_METAL_TARGET_OS:STRING=macos\n\n//ggml: use MUSA\nGGML_MUSA:BOOL=OFF\n\n//ggml: use MUSA graph, experimental, unstable\nGGML_MUSA_GRAPHS:BOOL=OFF\n\n//ggml: enable muDNN for accelerated copy\nGGML_MUSA_MUDNN_COPY:BOOL=OFF\n\n//ggml: optimize the build for the current system\nGGML_NATIVE:BOOL=ON\n\n//ggml: use OpenCL\nGGML_OPENCL:BOOL=OFF\n\n//ggml: embed kernels\nGGML_OPENCL_EMBED_KERNELS:BOOL=ON\n\n//ggml: use OpenCL profiling (increases overhead)\nGGML_OPENCL_PROFILING:BOOL=OFF\n\n//ggml: OpenCL API version to target\nGGML_OPENCL_TARGET_VERSION:STRING=300\n\n//ggml: use optimized kernels for Adreno\nGGML_OPENCL_USE_ADRENO_KERNELS:BOOL=ON\n\n//ggml: use OpenMP\nGGML_OPENMP:BOOL=ON\n\n//ggml: fetch LLVM OpenMP\nGGML_OPENMP_FETCH:BOOL=OFF\n\n//ggml: use OPENVINO\nGGML_OPENVINO:BOOL=OFF\n\n//ggml: use RPC\nGGML_RPC:BOOL=OFF\n\n//ggml: enable rvv\nGGML_RVV:BOOL=ON\n\n//ggml: enable riscv zfh\nGGML_RV_ZFH:BOOL=ON\n\n//ggml: enable riscv zicbop\nGGML_RV_ZICBOP:BOOL=ON\n\n//ggml: enable riscv zihintpause\nGGML_RV_ZIHINTPAUSE:BOOL=ON\n\n//ggml: enable riscv zvfbfwma\nGGML_RV_ZVFBFWMA:BOOL=OFF\n\n//ggml: enable riscv zvfh\nGGML_RV_ZVFH:BOOL=ON\n\n//ggml: enable address sanitizer\nGGML_SANITIZE_ADDRESS:BOOL=OFF\n\n//ggml: enable thread sanitizer\nGGML_SANITIZE_THREAD:BOOL=OFF\n\n//ggml: enable undefined sanitizer\nGGML_SANITIZE_UNDEFINED:BOOL=OFF\n\n//Path to a program.\nGGML_SCCACHE_FOUND:FILEPATH=GGML_SCCACHE_FOUND-NOTFOUND\n\n//ggml: max input copies for pipeline parallelism\nGGML_SCHED_MAX_COPIES:STRING=4\n\n//ggml: disallow reallocations in ggml-alloc (for debugging)\nGGML_SCHED_NO_REALLOC:BOOL=OFF\n\n//ggml: enable SSE 4.2\nGGML_SSE42:BOOL=OFF\n\n//ggml: static link libraries\nGGML_STATIC:BOOL=OFF\n\n//ggml: use SYCL\nGGML_SYCL:BOOL=OFF\n\n//ggml: sycl device architecture\nGGML_SYCL_DEVICE_ARCH:STRING=\n\n//ggml: enable oneDNN in the SYCL backend\nGGML_SYCL_DNN:BOOL=ON\n\n//ggml: use 16 bit floats for sycl calculations\nGGML_SYCL_F16:BOOL=OFF\n\n//ggml: enable graphs in the SYCL backend\nGGML_SYCL_GRAPH:BOOL=ON\n\n//ggml: allow host memory fallback in SYCL reorder (requires kernel\n// 6.8+)\nGGML_SYCL_HOST_MEM_FALLBACK:BOOL=ON\n\n//ggml: use Level Zero API in SYCL backend\nGGML_SYCL_SUPPORT_LEVEL_ZERO_API:BOOL=ON\n\n//ggml: sycl target device\nGGML_SYCL_TARGET:STRING=INTEL\n\n//ggml: use the VirtGPU/Virglrenderer API Remoting frontend\nGGML_VIRTGPU:BOOL=OFF\n\n//ggml: build the VirtGPU/Virglrenderer API Remoting backend\nGGML_VIRTGPU_BACKEND:BOOL=OFF\n\n//ggml: use Vulkan\nGGML_VULKAN:BOOL=OFF\n\n//ggml: run Vulkan op checks\nGGML_VULKAN_CHECK_RESULTS:BOOL=OFF\n\n//ggml: enable Vulkan debug output\nGGML_VULKAN_DEBUG:BOOL=OFF\n\n//ggml: enable Vulkan memory debug output\nGGML_VULKAN_MEMORY_DEBUG:BOOL=OFF\n\n//ggml: run Vulkan tests\nGGML_VULKAN_RUN_TESTS:BOOL=OFF\n\n//ggml: toolchain file for vulkan-shaders-gen\nGGML_VULKAN_SHADERS_GEN_TOOLCHAIN:FILEPATH=\n\n//ggml: enable Vulkan shader debug info\nGGML_VULKAN_SHADER_DEBUG_INFO:BOOL=OFF\n\n//ggml: enable Vulkan validation\nGGML_VULKAN_VALIDATE:BOOL=OFF\n\n//ggml: enable vxe\nGGML_VXE:BOOL=ON\n\n//ggml: use WebGPU\nGGML_WEBGPU:BOOL=OFF\n\n//ggml: enable WebGPU profiling (CPU)\nGGML_WEBGPU_CPU_PROFILE:BOOL=OFF\n\n//ggml: enable WebGPU debug output\nGGML_WEBGPU_DEBUG:BOOL=OFF\n\n//ggml: enable WebGPU profiling (GPU)\nGGML_WEBGPU_GPU_PROFILE:BOOL=OFF\n\n//ggml: use JSPI for WebGPU\nGGML_WEBGPU_JSPI:BOOL=ON\n\n//ggml: enable xtheadvector\nGGML_XTHEADVECTOR:BOOL=OFF\n\n//ggml: use zDNN\nGGML_ZDNN:BOOL=OFF\n\n//ggml: use ZenDNN\nGGML_ZENDNN:BOOL=OFF\n\n//Path to a program.\nGIT_EXE:FILEPATH=/usr/bin/git\n\n//Git command line client\nGIT_EXECUTABLE:FILEPATH=/usr/bin/git\n\n//llama: enable all compiler warnings\nLLAMA_ALL_WARNINGS:BOOL=ON\n\n//llama: enable all compiler warnings in 3rd party libs\nLLAMA_ALL_WARNINGS_3RD_PARTY:BOOL=OFF\n\n//Location of binary  files\nLLAMA_BIN_INSTALL_DIR:PATH=bin\n\n//llama: build the unified binary\nLLAMA_BUILD_APP:BOOL=OFF\n\n//llama: build common utils library\nLLAMA_BUILD_COMMON:BOOL=ON\n\n//llama: build examples\nLLAMA_BUILD_EXAMPLES:BOOL=OFF\n\n//llama: dev build\nLLAMA_BUILD_IS_DEV:BOOL=ON\n\n//llama: build tools/mtmd library standalone\nLLAMA_BUILD_MTMD:BOOL=OFF\n\n//llama: build server example\nLLAMA_BUILD_SERVER:BOOL=ON\n\n//llama: build tests\nLLAMA_BUILD_TESTS:BOOL=OFF\n\n//llama: build tools\nLLAMA_BUILD_TOOLS:BOOL=ON\n\n//llama: build the embedded Web UI for server\nLLAMA_BUILD_UI:BOOL=OFF\n\n//llama: enable -Werror flag\nLLAMA_FATAL_WARNINGS:BOOL=OFF\n\n//Location of header  files\nLLAMA_INCLUDE_INSTALL_DIR:PATH=include\n\n//Location of library files\nLLAMA_LIB_INSTALL_DIR:PATH=lib\n\n//llama-common: include LLGuidance library for structured output\n// in common utils\nLLAMA_LLGUIDANCE:BOOL=OFF\n\n//llama: use openssl to support HTTPS\nLLAMA_OPENSSL:BOOL=OFF\n\n//llama: enable address sanitizer\nLLAMA_SANITIZE_ADDRESS:BOOL=OFF\n\n//llama: enable thread sanitizer\nLLAMA_SANITIZE_THREAD:BOOL=OFF\n\n//llama: enable undefined sanitizer\nLLAMA_SANITIZE_UNDEFINED:BOOL=OFF\n\n//llama-common: use subprocess, required by server tools and server\n// router mode\nLLAMA_SUBPROCESS:BOOL=ON\n\n//llama: install tests\nLLAMA_TESTS_INSTALL:BOOL=ON\n\n//llama: install tools\nLLAMA_TOOLS_INSTALL:BOOL=ON\n\n//Apply gzip compress to assets to save bandwidth\nLLAMA_UI_GZIP:BOOL=ON\n\n//Hugging Face bucket name for prebuilt UI assets\nLLAMA_UI_HF_BUCKET:STRING=ggml-org/llama-ui\n\n//llama: use prebuilt UI from HF Bucket when available\nLLAMA_USE_PREBUILT_UI:BOOL=OFF\n\n//Use system libggml\nLLAMA_USE_SYSTEM_GGML:BOOL=OFF\n\n//llama: use 64-bit memory in WASM builds\nLLAMA_WASM_MEM64:BOOL=ON\n\n//enable video support in mtmd (requires ffmpeg binary in PATH)\nMTMD_VIDEO:BOOL=ON\n\n//Disable OpenSSL ASM code when building BoringSSL or LibreSSL\nOPENSSL_NO_ASM:BOOL=ON\n\n//CXX compiler flags for OpenMP parallelization\nOpenMP_CXX_FLAGS:STRING=-fopenmp\n\n//CXX compiler libraries for OpenMP parallelization\nOpenMP_CXX_LIB_NAMES:STRING=gomp;pthread\n\n//C compiler flags for OpenMP parallelization\nOpenMP_C_FLAGS:STRING=-fopenmp\n\n//C compiler libraries for OpenMP parallelization\nOpenMP_C_LIB_NAMES:STRING=gomp;pthread\n\n//Path to the gomp library for OpenMP\nOpenMP_gomp_LIBRARY:FILEPATH=/usr/lib/gcc/x86_64-linux-gnu/15/libgomp.so\n\n//Path to the pthread library for OpenMP\nOpenMP_pthread_LIBRARY:FILEPATH=/usr/lib/x86_64-linux-gnu/libpthread.a\n\n//ggml: path to ZenDNN installation\nZENDNN_ROOT:BOOL=OFF\n\n//Value Computed by CMake\nggml_BINARY_DIR:STATIC=/root/qwen/.runtime/llama.cpp/build/ggml\n\n//Value Computed by CMake\nggml_IS_TOP_LEVEL:STATIC=OFF\n\n//Value Computed by CMake\nggml_SOURCE_DIR:STATIC=/root/qwen/.runtime/llama.cpp/ggml\n\n//Value Computed by CMake\nllama.cpp_BINARY_DIR:STATIC=/root/qwen/.runtime/llama.cpp/build\n\n//Value Computed by CMake\nllama.cpp_IS_TOP_LEVEL:STATIC=ON\n\n//Value Computed by CMake\nllama.cpp_SOURCE_DIR:STATIC=/root/qwen/.runtime/llama.cpp\n\n\n########################\n# INTERNAL cache entries\n########################\n\n//ADVANCED property for variable: CMAKE_ADDR2LINE\nCMAKE_ADDR2LINE-ADVANCED:INTERNAL=1\n//ADVANCED property for variable: CMAKE_AR\nCMAKE_AR-ADVANCED:INTERNAL=1\n//ADVANCED property for variable: CMAKE_ASM_COMPILER\nCMAKE_ASM_COMPILER-ADVANCED:INTERNAL=1\n//ADVANCED property for variable: CMAKE_ASM_COMPILER_AR\nCMAKE_ASM_COMPILER_AR-ADVANCED:INTERNAL=1\n//ADVANCED property for variable: CMAKE_ASM_COMPILER_RANLIB\nCMAKE_ASM_COMPILER_RANLIB-ADVANCED:INTERNAL=1\nCMAKE_ASM_COMPILER_WORKS:INTERNAL=1\n//ADVANCED property for variable: CMAKE_ASM_FLAGS\nCMAKE_ASM_FLAGS-ADVANCED:INTERNAL=1\n//ADVANCED property for variable: CMAKE_ASM_FLAGS_DEBUG\nCMAKE_ASM_FLAGS_DEBUG-ADVANCED:INTERNAL=1\n//ADVANCED property for variable: CMAKE_ASM_FLAGS_MINSIZEREL\nCMAKE_ASM_FLAGS_MINSIZEREL-ADVANCED:INTERNAL=1\n//ADVANCED property for variable: CMAKE_ASM_FLAGS_RELEASE\nCMAKE_ASM_FLAGS_RELEASE-ADVANCED:INTERNAL=1\n//ADVANCED property for variable: CMAKE_ASM_FLAGS_RELWITHDEBINFO\nCMAKE_ASM_FLAGS_RELWITHDEBINFO-ADVANCED:INTERNAL=1\n//This is the directory where this CMakeCache.txt was created\nCMAKE_CACHEFILE_DIR:INTERNAL=/root/qwen/.runtime/llama.cpp/build\n//Major version of cmake used to create the current loaded cache\nCMAKE_CACHE_MAJOR_VERSION:INTERNAL=4\n//Minor version of cmake used to create the current loaded cache\nCMAKE_CACHE_MINOR_VERSION:INTERNAL=2\n//Patch version of cmake used to create the current loaded cache\nCMAKE_CACHE_PATCH_VERSION:INTERNAL=3\n//ADVANCED property for variable: CMAKE_COLOR_MAKEFILE\nCMAKE_COLOR_MAKEFILE-ADVANCED:INTERNAL=1\n//Path to CMake executable.\nCMAKE_COMMAND:INTERNAL=/usr/bin/cmake\n//Path to cpack program executable.\nCMAKE_CPACK_COMMAND:INTERNAL=/usr/bin/cpack\n//Path to ctest program executable.\nCMAKE_CTEST_COMMAND:INTERNAL=/usr/bin/ctest\n//ADVANCED property for variable: CMAKE_CXX_COMPILER\nCMAKE_CXX_COMPILER-ADVANCED:INTERNAL=1\n//ADVANCED property for variable: CMAKE_CXX_COMPILER_AR\nCMAKE_CXX_COMPILER_AR-ADVANCED:INTERNAL=1\n//ADVANCED property for variable: CMAKE_CXX_COMPILER_RANLIB\nCMAKE_CXX_COMPILER_RANLIB-ADVANCED:INTERNAL=1\n//ADVANCED property for variable: CMAKE_CXX_FLAGS\nCMAKE_CXX_FLAGS-ADVANCED:INTERNAL=1\n//ADVANCED property for variable: CMAKE_CXX_FLAGS_DEBUG\nCMAKE_CXX_FLAGS_DEBUG-ADVANCED:INTERNAL=1\n//ADVANCED property for variable: CMAKE_CXX_FLAGS_MINSIZEREL\nCMAKE_CXX_FLAGS_MINSIZEREL-ADVANCED:INTERNAL=1\n//ADVANCED property for variable: CMAKE_CXX_FLAGS_RELEASE\nCMAKE_CXX_FLAGS_RELEASE-ADVANCED:INTERNAL=1\n//ADVANCED property for variable: CMAKE_CXX_FLAGS_RELWITHDEBINFO\nCMAKE_CXX_FLAGS_RELWITHDEBINFO-ADVANCED:INTERNAL=1\n//ADVANCED property for variable: CMAKE_C_COMPILER\nCMAKE_C_COMPILER-ADVANCED:INTERNAL=1\n//ADVANCED property for variable: CMAKE_C_COMPILER_AR\nCMAKE_C_COMPILER_AR-ADVANCED:INTERNAL=1\n//ADVANCED property for variable: CMAKE_C_COMPILER_RANLIB\nCMAKE_C_COMPILER_RANLIB-ADVANCED:INTERNAL=1\n//ADVANCED property for variable: CMAKE_C_FLAGS\nCMAKE_C_FLAGS-ADVANCED:INTERNAL=1\n//ADVANCED property for variable: CMAKE_C_FLAGS_DEBUG\nCMAKE_C_FLAGS_DEBUG-ADVANCED:INTERNAL=1\n//ADVANCED property for variable: CMAKE_C_FLAGS_MINSIZEREL\nCMAKE_C_FLAGS_MINSIZEREL-ADVANCED:INTERNAL=1\n//ADVANCED property for variable: CMAKE_C_FLAGS_RELEASE\nCMAKE_C_FLAGS_RELEASE-ADVANCED:INTERNAL=1\n//ADVANCED property for variable: CMAKE_C_FLAGS_RELWITHDEBINFO\nCMAKE_C_FLAGS_RELWITHDEBINFO-ADVANCED:INTERNAL=1\n//ADVANCED property for variable: CMAKE_DLLTOOL\nCMAKE_DLLTOOL-ADVANCED:INTERNAL=1\n//Executable file format\nCMAKE_EXECUTABLE_FORMAT:INTERNAL=ELF\n//ADVANCED property for variable: CMAKE_EXE_LINKER_FLAGS\nCMAKE_EXE_LINKER_FLAGS-ADVANCED:INTERNAL=1\n//ADVANCED property for variable: CMAKE_EXE_LINKER_FLAGS_DEBUG\nCMAKE_EXE_LINKER_FLAGS_DEBUG-ADVANCED:INTERNAL=1\n//ADVANCED property for variable: CMAKE_EXE_LINKER_FLAGS_MINSIZEREL\nCMAKE_EXE_LINKER_FLAGS_MINSIZEREL-ADVANCED:INTERNAL=1\n//ADVANCED property for variable: CMAKE_EXE_LINKER_FLAGS_RELEASE\nCMAKE_EXE_LINKER_FLAGS_RELEASE-ADVANCED:INTERNAL=1\n//ADVANCED property for variable: CMAKE_EXE_LINKER_FLAGS_RELWITHDEBINFO\nCMAKE_EXE_LINKER_FLAGS_RELWITHDEBINFO-ADVANCED:INTERNAL=1\n//ADVANCED property for variable: CMAKE_EXPORT_COMPILE_COMMANDS\nCMAKE_EXPORT_COMPILE_COMMANDS-ADVANCED:INTERNAL=1\n//Name of external makefile project generator.\nCMAKE_EXTRA_GENERATOR:INTERNAL=\n//Name of generator.\nCMAKE_GENERATOR:INTERNAL=Unix Makefiles\n//Generator instance identifier.\nCMAKE_GENERATOR_INSTANCE:INTERNAL=\n//Name of generator platform.\nCMAKE_GENERATOR_PLATFORM:INTERNAL=\n//Name of generator toolset.\nCMAKE_GENERATOR_TOOLSET:INTERNAL=\n//Test CMAKE_HAVE_LIBC_PTHREAD\nCMAKE_HAVE_LIBC_PTHREAD:INTERNAL=1\n//Source directory with the top level CMakeLists.txt file for this\n// project\nCMAKE_HOME_DIRECTORY:INTERNAL=/root/qwen/.runtime/llama.cpp\n//ADVANCED property for variable: CMAKE_INSTALL_BINDIR\nCMAKE_INSTALL_BINDIR-ADVANCED:INTERNAL=1\n//ADVANCED property for variable: CMAKE_INSTALL_DATADIR\nCMAKE_INSTALL_DATADIR-ADVANCED:INTERNAL=1\n//ADVANCED property for variable: CMAKE_INSTALL_DATAROOTDIR\nCMAKE_INSTALL_DATAROOTDIR-ADVANCED:INTERNAL=1\n//ADVANCED property for variable: CMAKE_INSTALL_DOCDIR\nCMAKE_INSTALL_DOCDIR-ADVANCED:INTERNAL=1\n//ADVANCED property for variable: CMAKE_INSTALL_INCLUDEDIR\nCMAKE_INSTALL_INCLUDEDIR-ADVANCED:INTERNAL=1\n//ADVANCED property for variable: CMAKE_INSTALL_INFODIR\nCMAKE_INSTALL_INFODIR-ADVANCED:INTERNAL=1\n//ADVANCED property for variable: CMAKE_INSTALL_LIBDIR\nCMAKE_INSTALL_LIBDIR-ADVANCED:INTERNAL=1\n//ADVANCED property for variable: CMAKE_INSTALL_LIBEXECDIR\nCMAKE_INSTALL_LIBEXECDIR-ADVANCED:INTERNAL=1\n//ADVANCED property for variable: CMAKE_INSTALL_LOCALEDIR\nCMAKE_INSTALL_LOCALEDIR-ADVANCED:INTERNAL=1\n//ADVANCED property for variable: CMAKE_INSTALL_LOCALSTATEDIR\nCMAKE_INSTALL_LOCALSTATEDIR-ADVANCED:INTERNAL=1\n//ADVANCED property for variable: CMAKE_INSTALL_MANDIR\nCMAKE_INSTALL_MANDIR-ADVANCED:INTERNAL=1\n//ADVANCED property for variable: CMAKE_INSTALL_OLDINCLUDEDIR\nCMAKE_INSTALL_OLDINCLUDEDIR-ADVANCED:INTERNAL=1\n//ADVANCED property for variable: CMAKE_INSTALL_RUNSTATEDIR\nCMAKE_INSTALL_RUNSTATEDIR-ADVANCED:INTERNAL=1\n//ADVANCED property for variable: CMAKE_INSTALL_SBINDIR\nCMAKE_INSTALL_SBINDIR-ADVANCED:INTERNAL=1\n//ADVANCED property for variable: CMAKE_INSTALL_SHAREDSTATEDIR\nCMAKE_INSTALL_SHAREDSTATEDIR-ADVANCED:INTERNAL=1\n//Install .so files without execute permission.\nCMAKE_INSTALL_SO_NO_EXE:INTERNAL=1\n//ADVANCED property for variable: CMAKE_INSTALL_SYSCONFDIR\nCMAKE_INSTALL_SYSCONFDIR-ADVANCED:INTERNAL=1\n//ADVANCED property for variable: CMAKE_LINKER\nCMAKE_LINKER-ADVANCED:INTERNAL=1\n//Name of CMakeLists files to read\nCMAKE_LIST_FILE_NAME:INTERNAL=CMakeLists.txt\n//ADVANCED property for variable: CMAKE_MAKE_PROGRAM\nCMAKE_MAKE_PROGRAM-ADVANCED:INTERNAL=1\n//ADVANCED property for variable: CMAKE_MODULE_LINKER_FLAGS\nCMAKE_MODULE_LINKER_FLAGS-ADVANCED:INTERNAL=1\n//ADVANCED property for variable: CMAKE_MODULE_LINKER_FLAGS_DEBUG\nCMAKE_MODULE_LINKER_FLAGS_DEBUG-ADVANCED:INTERNAL=1\n//ADVANCED property for variable: CMAKE_MODULE_LINKER_FLAGS_MINSIZEREL\nCMAKE_MODULE_LINKER_FLAGS_MINSIZEREL-ADVANCED:INTERNAL=1\n//ADVANCED property for variable: CMAKE_MODULE_LINKER_FLAGS_RELEASE\nCMAKE_MODULE_LINKER_FLAGS_RELEASE-ADVANCED:INTERNAL=1\n//ADVANCED property for variable: CMAKE_MODULE_LINKER_FLAGS_RELWITHDEBINFO\nCMAKE_MODULE_LINKER_FLAGS_RELWITHDEBINFO-ADVANCED:INTERNAL=1\n//ADVANCED property for variable: CMAKE_NM\nCMAKE_NM-ADVANCED:INTERNAL=1\n//number of local generators\nCMAKE_NUMBER_OF_MAKEFILES:INTERNAL=31\n//ADVANCED property for variable: CMAKE_OBJCOPY\nCMAKE_OBJCOPY-ADVANCED:INTERNAL=1\n//ADVANCED property for variable: CMAKE_OBJDUMP\nCMAKE_OBJDUMP-ADVANCED:INTERNAL=1\n//Platform information initialized\nCMAKE_PLATFORM_INFO_INITIALIZED:INTERNAL=1\n//ADVANCED property for variable: CMAKE_RANLIB\nCMAKE_RANLIB-ADVANCED:INTERNAL=1\n//ADVANCED property for variable: CMAKE_READELF\nCMAKE_READELF-ADVANCED:INTERNAL=1\n//Path to CMake installation.\nCMAKE_ROOT:INTERNAL=/usr/share/cmake-4.2\n//ADVANCED property for variable: CMAKE_SHARED_LINKER_FLAGS\nCMAKE_SHARED_LINKER_FLAGS-ADVANCED:INTERNAL=1\n//ADVANCED property for variable: CMAKE_SHARED_LINKER_FLAGS_DEBUG\nCMAKE_SHARED_LINKER_FLAGS_DEBUG-ADVANCED:INTERNAL=1\n//ADVANCED property for variable: CMAKE_SHARED_LINKER_FLAGS_MINSIZEREL\nCMAKE_SHARED_LINKER_FLAGS_MINSIZEREL-ADVANCED:INTERNAL=1\n//ADVANCED property for variable: CMAKE_SHARED_LINKER_FLAGS_RELEASE\nCMAKE_SHARED_LINKER_FLAGS_RELEASE-ADVANCED:INTERNAL=1\n//ADVANCED property for variable: CMAKE_SHARED_LINKER_FLAGS_RELWITHDEBINFO\nCMAKE_SHARED_LINKER_FLAGS_RELWITHDEBINFO-ADVANCED:INTERNAL=1\n//ADVANCED property for variable: CMAKE_SKIP_INSTALL_RPATH\nCMAKE_SKIP_INSTALL_RPATH-ADVANCED:INTERNAL=1\n//ADVANCED property for variable: CMAKE_SKIP_RPATH\nCMAKE_SKIP_RPATH-ADVANCED:INTERNAL=1\n//ADVANCED property for variable: CMAKE_STATIC_LINKER_FLAGS\nCMAKE_STATIC_LINKER_FLAGS-ADVANCED:INTERNAL=1\n//ADVANCED property for variable: CMAKE_STATIC_LINKER_FLAGS_DEBUG\nCMAKE_STATIC_LINKER_FLAGS_DEBUG-ADVANCED:INTERNAL=1\n//ADVANCED property for variable: CMAKE_STATIC_LINKER_FLAGS_MINSIZEREL\nCMAKE_STATIC_LINKER_FLAGS_MINSIZEREL-ADVANCED:INTERNAL=1\n//ADVANCED property for variable: CMAKE_STATIC_LINKER_FLAGS_RELEASE\nCMAKE_STATIC_LINKER_FLAGS_RELEASE-ADVANCED:INTERNAL=1\n//ADVANCED property for variable: CMAKE_STATIC_LINKER_FLAGS_RELWITHDEBINFO\nCMAKE_STATIC_LINKER_FLAGS_RELWITHDEBINFO-ADVANCED:INTERNAL=1\n//ADVANCED property for variable: CMAKE_STRIP\nCMAKE_STRIP-ADVANCED:INTERNAL=1\n//ADVANCED property for variable: CMAKE_TAPI\nCMAKE_TAPI-ADVANCED:INTERNAL=1\n//uname command\nCMAKE_UNAME:INTERNAL=/usr/bin/uname\n//ADVANCED property for variable: CMAKE_VERBOSE_MAKEFILE\nCMAKE_VERBOSE_MAKEFILE-ADVANCED:INTERNAL=1\n//Details about finding Git\nFIND_PACKAGE_MESSAGE_DETAILS_Git:INTERNAL=[/usr/bin/git][v2.53.0()]\n//Details about finding OpenMP\nFIND_PACKAGE_MESSAGE_DETAILS_OpenMP:INTERNAL=[TRUE][TRUE][ ][v4.5()]\n//Details about finding OpenMP_C\nFIND_PACKAGE_MESSAGE_DETAILS_OpenMP_C:INTERNAL=[-fopenmp][/usr/lib/gcc/x86_64-linux-gnu/15/libgomp.so][/usr/lib/x86_64-linux-gnu/libpthread.a][v4.5()]\n//Details about finding OpenMP_CXX\nFIND_PACKAGE_MESSAGE_DETAILS_OpenMP_CXX:INTERNAL=[-fopenmp][/usr/lib/gcc/x86_64-linux-gnu/15/libgomp.so][/usr/lib/x86_64-linux-gnu/libpthread.a][v4.5()]\n//Details about finding Threads\nFIND_PACKAGE_MESSAGE_DETAILS_Threads:INTERNAL=[TRUE][v()]\n//List of backends for cmake package\nGGML_AVAILABLE_BACKENDS:INTERNAL=ggml-cpu\n//STRINGS property for variable: GGML_CUDA_COMPRESSION_MODE\nGGML_CUDA_COMPRESSION_MODE-STRINGS:INTERNAL=none;speed;balance;size\nGGML_OPENMP_ENABLED:INTERNAL=ON\n//ADVANCED property for variable: GIT_EXECUTABLE\nGIT_EXECUTABLE-ADVANCED:INTERNAL=1\n//Result of TRY_COMPILE\nOpenMP_COMPILE_RESULT_CXX_fopenmp:INTERNAL=TRUE\n//Result of TRY_COMPILE\nOpenMP_COMPILE_RESULT_C_fopenmp:INTERNAL=TRUE\n//ADVANCED property for variable: OpenMP_CXX_FLAGS\nOpenMP_CXX_FLAGS-ADVANCED:INTERNAL=1\n//ADVANCED property for variable: OpenMP_CXX_LIB_NAMES\nOpenMP_CXX_LIB_NAMES-ADVANCED:INTERNAL=1\n//CXX compiler's OpenMP specification date\nOpenMP_CXX_SPEC_DATE:INTERNAL=201511\n//ADVANCED property for variable: OpenMP_C_FLAGS\nOpenMP_C_FLAGS-ADVANCED:INTERNAL=1\n//ADVANCED property for variable: OpenMP_C_LIB_NAMES\nOpenMP_C_LIB_NAMES-ADVANCED:INTERNAL=1\n//C compiler's OpenMP specification date\nOpenMP_C_SPEC_DATE:INTERNAL=201511\n//Result of TRY_COMPILE\nOpenMP_SPECTEST_CXX_:INTERNAL=TRUE\n//Result of TRY_COMPILE\nOpenMP_SPECTEST_C_:INTERNAL=TRUE\n//ADVANCED property for variable: OpenMP_gomp_LIBRARY\nOpenMP_gomp_LIBRARY-ADVANCED:INTERNAL=1\n//ADVANCED property for variable: OpenMP_pthread_LIBRARY\nOpenMP_pthread_LIBRARY-ADVANCED:INTERNAL=1\n//CMAKE_INSTALL_PREFIX during last run\n_GNUInstallDirs_LAST_CMAKE_INSTALL_PREFIX:INTERNAL=/usr/local\n\n",
+  "source_sha256": {
+    "inference/__init__.py": "ae957b577b85e5a4ac0fa7bd9cbc1af7ee2ab2a47febe8152b9a0f5bedabfb9d",
+    "inference/artifacts.py": "348e40814c07a6315fae81920afe741318fd354f518523703f0838d8a049d842",
+    "inference/config.py": "1cca9f1def7995a7e3424a9305088c9acedb77926292b1275731b053a7ad709f",
+    "inference/server.py": "d1600fed1cf19e6ffa4e4f089307dacb61af8e3f2ae315665d2696ce8b742a4d",
+    "inference/setup.py": "feb22fb2f05fb5318853f13a15cfd024080be60c43eae1343a72ca1a5b588614",
+    "benchmarks/scripts/__init__.py": "1cce119371d2a9ae2db99deeab17345c5a33840b7eafa9292e191fe3d2d229b7",
+    "benchmarks/scripts/metrics.py": "c4c5890e6644d4afd9a5b136b5f36bf75ce4c1dcf86854bdff18f10f964abe73",
+    "benchmarks/scripts/report.py": "3d1e6d77e644c00f5d9e023e62c664eb51b29dd74562aa025db0da7a0cca1340",
+    "benchmarks/scripts/run.py": "5a8e5643cb8ea8b32264c61aee3911395e6feecd251cf118a58b2187b9991c42",
+    "uv.lock": "70236686a9eb09983ab532ff8acb75d18b67bad08e520e2528b35374a90e55d3"
+  },
+  "hardware": {
+    "platform": "Linux-7.0.0-38-generic-x86_64-with-glibc2.43",
+    "python": "3.14.4 (main, Aug 20 2026, 10:41:58) [GCC 15.2.0]",
+    "os_release": "PRETTY_NAME=\"Ubuntu 26.04.1 LTS\"\nNAME=\"Ubuntu\"\nVERSION_ID=\"26.04\"\nVERSION=\"26.04.1 LTS (Resolute Raccoon)\"\nVERSION_CODENAME=resolute\nID=ubuntu\nID_LIKE=debian\nHOME_URL=\"https://www.ubuntu.com/\"\nSUPPORT_URL=\"https://help.ubuntu.com/\"\nBUG_REPORT_URL=\"https://bugs.launchpad.net/ubuntu/\"\nPRIVACY_POLICY_URL=\"https://www.ubuntu.com/legal/terms-and-policies/privacy-policy\"\nUBUNTU_CODENAME=resolute\nLOGO=ubuntu-logo\n",
+    "lscpu": {
+      "lscpu": [
+        {
+          "field": "Architecture:",
+          "data": "x86_64"
+        },
+        {
+          "field": "CPU op-mode(s):",
+          "data": "32-bit, 64-bit"
+        },
+        {
+          "field": "Address sizes:",
+          "data": "46 bits physical, 48 bits virtual"
+        },
+        {
+          "field": "Byte Order:",
+          "data": "Little Endian"
+        },
+        {
+          "field": "CPU(s):",
+          "data": "6"
+        },
+        {
+          "field": "On-line CPU(s) list:",
+          "data": "0-5"
+        },
+        {
+          "field": "Vendor ID:",
+          "data": "GenuineIntel"
+        },
+        {
+          "field": "Model name:",
+          "data": "Intel(R) Xeon(R) Platinum 8272CL CPU @ 2.60GHz"
+        },
+        {
+          "field": "CPU family:",
+          "data": "6"
+        },
+        {
+          "field": "Model:",
+          "data": "85"
+        },
+        {
+          "field": "Thread(s) per core:",
+          "data": "1"
+        },
+        {
+          "field": "Core(s) per socket:",
+          "data": "6"
+        },
+        {
+          "field": "Socket(s):",
+          "data": "1"
+        },
+        {
+          "field": "Stepping:",
+          "data": "7"
+        },
+        {
+          "field": "BogoMIPS:",
+          "data": "5187.82"
+        },
+        {
+          "field": "Flags:",
+          "data": "fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 ss ht syscall nx pdpe1gb rdtscp lm arch_perfmon rep_good nopl xtopology cpuid tsc_known_freq pni pclmulqdq vmx ssse3 fma cx16 pdcm pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand hypervisor lahf_lm abm 3dnowprefetch cpuid_fault ssbd ibrs ibpb stibp ibrs_enhanced tpr_shadow flexpriority ept vpid ept_ad fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid mpx avx512f avx512dq rdseed adx smap clflushopt clwb avx512cd avx512bw avx512vl xsaveopt xsavec xgetbv1 xsaves arat vnmi umip pku ospke avx512_vnni md_clear flush_l1d arch_capabilities"
+        },
+        {
+          "field": "Virtualization:",
+          "data": "VT-x"
+        },
+        {
+          "field": "Hypervisor vendor:",
+          "data": "KVM"
+        },
+        {
+          "field": "Virtualization type:",
+          "data": "full"
+        },
+        {
+          "field": "L1d cache:",
+          "data": "192 KiB (6 instances)"
+        },
+        {
+          "field": "L1i cache:",
+          "data": "192 KiB (6 instances)"
+        },
+        {
+          "field": "L2 cache:",
+          "data": "24 MiB (6 instances)"
+        },
+        {
+          "field": "L3 cache:",
+          "data": "16 MiB (1 instance)"
+        },
+        {
+          "field": "NUMA node(s):",
+          "data": "1"
+        },
+        {
+          "field": "NUMA node0 CPU(s):",
+          "data": "0-5"
+        },
+        {
+          "field": "Vulnerability Gather data sampling:",
+          "data": "Unknown: Dependent on hypervisor status"
+        },
+        {
+          "field": "Vulnerability Ghostwrite:",
+          "data": "Not affected"
+        },
+        {
+          "field": "Vulnerability Indirect target selection:",
+          "data": "Mitigation; Aligned branch/return thunks"
+        },
+        {
+          "field": "Vulnerability Itlb multihit:",
+          "data": "Not affected"
+        },
+        {
+          "field": "Vulnerability L1tf:",
+          "data": "Not affected"
+        },
+        {
+          "field": "Vulnerability Mds:",
+          "data": "Not affected"
+        },
+        {
+          "field": "Vulnerability Meltdown:",
+          "data": "Not affected"
+        },
+        {
+          "field": "Vulnerability Mmio stale data:",
+          "data": "Mitigation; Clear CPU buffers; SMT Host state unknown"
+        },
+        {
+          "field": "Vulnerability Old microcode:",
+          "data": "Not affected"
+        },
+        {
+          "field": "Vulnerability Reg file data sampling:",
+          "data": "Not affected"
+        },
+        {
+          "field": "Vulnerability Retbleed:",
+          "data": "Mitigation; Enhanced IBRS"
+        },
+        {
+          "field": "Vulnerability Spec rstack overflow:",
+          "data": "Not affected"
+        },
+        {
+          "field": "Vulnerability Spec store bypass:",
+          "data": "Mitigation; Speculative Store Bypass disabled via prctl"
+        },
+        {
+          "field": "Vulnerability Spectre v1:",
+          "data": "Mitigation; usercopy/swapgs barriers and __user pointer sanitization"
+        },
+        {
+          "field": "Vulnerability Spectre v2:",
+          "data": "Mitigation; Enhanced / Automatic IBRS; IBPB conditional; PBRSB-eIBRS SW sequence; BHI SW loop, KVM SW loop"
+        },
+        {
+          "field": "Vulnerability Srbds:",
+          "data": "Not affected"
+        },
+        {
+          "field": "Vulnerability Tsa:",
+          "data": "Not affected"
+        },
+        {
+          "field": "Vulnerability Tsx async abort:",
+          "data": "Mitigation; TSX disabled"
+        },
+        {
+          "field": "Vulnerability Vmscape:",
+          "data": "Not affected"
+        }
+      ]
+    },
+    "meminfo": "MemTotal:       16368964 kB\nMemFree:         3048268 kB\nMemAvailable:   15114720 kB\nBuffers:          421944 kB\nCached:         11342508 kB\nSwapCached:            0 kB\nActive:          1023024 kB\nInactive:       11174680 kB\nActive(anon):     394836 kB\nInactive(anon):    48196 kB\nActive(file):     628188 kB\nInactive(file): 11126484 kB\nUnevictable:        4000 kB\nMlocked:               0 kB\nSwapTotal:             0 kB\nSwapFree:              0 kB\nZswap:                 0 kB\nZswapped:              0 kB\nDirty:              1468 kB\nWriteback:             0 kB\nAnonPages:        437564 kB\nMapped:           553224 kB\nShmem:              9880 kB\nKReclaimable:     649508 kB\nSlab:             810192 kB\nSReclaimable:     649508 kB\nSUnreclaim:       160684 kB\nKernelStack:        5584 kB\nPageTables:        10284 kB\nSecPageTables:         0 kB\nNFS_Unstable:          0 kB\nBounce:                0 kB\nWritebackTmp:          0 kB\nCommitLimit:     8184480 kB\nCommitted_AS:    1417932 kB\nVmallocTotal:   34359738367 kB\nVmallocUsed:       22256 kB\nVmallocChunk:          0 kB\nPercpu:            19168 kB\nHardwareCorrupted:     0 kB\nAnonHugePages:         0 kB\nShmemHugePages:        0 kB\nShmemPmdMapped:        0 kB\nFileHugePages:    811008 kB\nFilePmdMapped:         0 kB\nCmaTotal:              0 kB\nCmaFree:          140700 kB\nUnaccepted:            0 kB\nBalloon:               0 kB\nGPUActive:             0 kB\nGPUReclaim:            0 kB\nHugePages_Total:       0\nHugePages_Free:        0\nHugePages_Rsvd:        0\nHugePages_Surp:        0\nHugepagesize:       2048 kB\nHugetlb:               0 kB\nDirectMap4k:      163688 kB\nDirectMap2M:     9273344 kB\nDirectMap1G:     9437184 kB\n",
+    "load_average": [
+      0.40185546875,
+      0.2490234375,
+      0.1943359375
+    ],
+    "cpu_affinity": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "httpx": "0.28.1",
+    "disk_usage_bytes": {
+      "total": 105356316672,
+      "used": 15608340480,
+      "free": 84363403264
+    },
+    "compiler_version": "g++ (Ubuntu 15.2.0-16ubuntu1) 15.2.0\nCopyright (C) 2025 Free Software Foundation, Inc.\nThis is free software; see the source for copying conditions.  There is NO\nwarranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.",
+    "cmake_version": "cmake version 4.2.3\n\nCMake suite maintained and supported by Kitware (kitware.com/cmake).",
+    "uv_version": "uv 0.13.4 (x86_64-unknown-linux-gnu)"
+  },
+  "profiles": [
+    {
+      "name": "one-token",
+      "settings": {
+        "binary": "/root/qwen/.runtime/llama.cpp/build/bin/llama-server",
+        "model": "/root/qwen/.runtime/models/Qwen_Qwen3.5-0.8B-Q4_K_M.gguf",
+        "threads": 2,
+        "ctx_size": 1024,
+        "max_tokens": 1,
+        "port": 33573
+      },
+      "command": [
+        "/root/qwen/.runtime/llama.cpp/build/bin/llama-server",
+        "--model",
+        "/root/qwen/.runtime/models/Qwen_Qwen3.5-0.8B-Q4_K_M.gguf",
+        "--alias",
+        "qwen3.5-0.8b",
+        "--host",
+        "127.0.0.1",
+        "--port",
+        "33573",
+        "--n-gpu-layers",
+        "0",
+        "--threads",
+        "2",
+        "--threads-batch",
+        "2",
+        "--threads-http",
+        "2",
+        "--ctx-size",
+        "1024",
+        "--parallel",
+        "1",
+        "--batch-size",
+        "256",
+        "--ubatch-size",
+        "128",
+        "--n-predict",
+        "1",
+        "--cache-type-k",
+        "f16",
+        "--cache-type-v",
+        "f16",
+        "--cache-ram",
+        "0",
+        "--no-cache-idle-slots",
+        "--ctx-checkpoints",
+        "0",
+        "--flash-attn",
+        "on",
+        "--fit",
+        "off",
+        "--jinja",
+        "--reasoning",
+        "off",
+        "--no-context-shift",
+        "--no-webui",
+        "--offline",
+        "--perf"
+      ],
+      "startup_seconds": 2.0213866920676082,
+      "memory_after_startup": {
+        "peak_rss_bytes": 858050560,
+        "rss_bytes": 858050560
+      },
+      "server_props": {
+        "default_generation_settings": {
+          "params": {
+            "seed": 4294967295,
+            "temperature": 0.800000011920929,
+            "dynatemp_range": 0.0,
+            "dynatemp_exponent": 1.0,
+            "top_k": 40,
+            "top_p": 0.949999988079071,
+            "min_p": 0.05000000074505806,
+            "top_n_sigma": -1.0,
+            "xtc_probability": 0.0,
+            "xtc_threshold": 0.10000000149011612,
+            "typical_p": 1.0,
+            "repeat_last_n": 64,
+            "repeat_penalty": 1.0,
+            "presence_penalty": 0.0,
+            "frequency_penalty": 0.0,
+            "dry_multiplier": 0.0,
+            "dry_base": 1.75,
+            "dry_allowed_length": 2,
+            "dry_penalty_last_n": 64,
+            "mirostat": 0,
+            "mirostat_tau": 5.0,
+            "mirostat_eta": 0.10000000149011612,
+            "adaptive_target": -1.0,
+            "adaptive_decay": 0.8999999761581421,
+            "max_tokens": -1,
+            "n_predict": -1,
+            "n_keep": 0,
+            "n_discard": 0,
+            "ignore_eos": false,
+            "stream": false,
+            "n_probs": 0,
+            "min_keep": 0,
+            "chat_format": "Content-only",
+            "reasoning_format": "none",
+            "reasoning_in_content": false,
+            "generation_prompt": "",
+            "samplers": [
+              "penalties",
+              "dry",
+              "top_n_sigma",
+              "top_k",
+              "typ_p",
+              "top_p",
+              "min_p",
+              "xtc",
+              "temperature"
+            ],
+            "speculative.types": "none",
+            "timings_per_token": false,
+            "post_sampling_probs": false,
+            "backend_sampling": false,
+            "lora": []
+          },
+          "n_ctx": 1024
+        },
+        "total_slots": 1,
+        "model_alias": "qwen3.5-0.8b",
+        "model_ftype": "Q4_K - Medium",
+        "model_path": "/root/qwen/.runtime/models/Qwen_Qwen3.5-0.8B-Q4_K_M.gguf",
+        "modalities": {
+          "vision": false,
+          "video": false,
+          "audio": false
+        },
+        "media_marker": "<__media_C2JVSIf2UttibeWaZuq4tjW9pwSAgbhJ__>",
+        "endpoint_slots": true,
+        "endpoint_props": false,
+        "endpoint_metrics": false,
+        "ui": false,
+        "ui_settings": {},
+        "chat_template": "{%- set image_count = namespace(value=0) %}\n{%- set video_count = namespace(value=0) %}\n{%- macro render_content(content, do_vision_count, is_system_content=false) %}\n    {%- if content is string %}\n        {{- content }}\n    {%- elif content is iterable and content is not mapping %}\n        {%- for item in content %}\n            {%- if 'image' in item or 'image_url' in item or item.type == 'image' %}\n                {%- if is_system_content %}\n                    {{- raise_exception('System message cannot contain images.') }}\n                {%- endif %}\n                {%- if do_vision_count %}\n                    {%- set image_count.value = image_count.value + 1 %}\n                {%- endif %}\n                {%- if add_vision_id %}\n                    {{- 'Picture ' ~ image_count.value ~ ': ' }}\n                {%- endif %}\n                {{- '<|vision_start|><|image_pad|><|vision_end|>' }}\n            {%- elif 'video' in item or item.type == 'video' %}\n                {%- if is_system_content %}\n                    {{- raise_exception('System message cannot contain videos.') }}\n                {%- endif %}\n                {%- if do_vision_count %}\n                    {%- set video_count.value = video_count.value + 1 %}\n                {%- endif %}\n                {%- if add_vision_id %}\n                    {{- 'Video ' ~ video_count.value ~ ': ' }}\n                {%- endif %}\n                {{- '<|vision_start|><|video_pad|><|vision_end|>' }}\n            {%- elif 'text' in item %}\n                {{- item.text }}\n            {%- else %}\n                {{- raise_exception('Unexpected item type in content.') }}\n            {%- endif %}\n        {%- endfor %}\n    {%- elif content is none or content is undefined %}\n        {{- '' }}\n    {%- else %}\n        {{- raise_exception('Unexpected content type.') }}\n    {%- endif %}\n{%- endmacro %}\n{%- if not messages %}\n    {{- raise_exception('No messages provided.') }}\n{%- endif %}\n{%- if tools and tools is iterable and tools is not mapping %}\n    {{- '<|im_start|>system\\n' }}\n    {{- \"# Tools\\n\\nYou have access to the following functions:\\n\\n<tools>\" }}\n    {%- for tool in tools %}\n        {{- \"\\n\" }}\n        {{- tool | tojson }}\n    {%- endfor %}\n    {{- \"\\n</tools>\" }}\n    {{- '\\n\\nIf you choose to call a function ONLY reply in the following format with NO suffix:\\n\\n<tool_call>\\n<function=example_function_name>\\n<parameter=example_parameter_1>\\nvalue_1\\n</parameter>\\n<parameter=example_parameter_2>\\nThis is the value for the second parameter\\nthat can span\\nmultiple lines\\n</parameter>\\n</function>\\n</tool_call>\\n\\n<IMPORTANT>\\nReminder:\\n- Function calls MUST follow the specified format: an inner <function=...></function> block must be nested within <tool_call></tool_call> XML tags\\n- Required parameters MUST be specified\\n- You may provide optional reasoning for your function call in natural language BEFORE the function call, but NOT after\\n- If there is no function call available, answer the question like normal with your current knowledge and do not tell the user about function calls\\n</IMPORTANT>' }}\n    {%- if messages[0].role == 'system' %}\n        {%- set content = render_content(messages[0].content, false, true)|trim %}\n        {%- if content %}\n            {{- '\\n\\n' + content }}\n        {%- endif %}\n    {%- endif %}\n    {{- '<|im_end|>\\n' }}\n{%- else %}\n    {%- if messages[0].role == 'system' %}\n        {%- set content = render_content(messages[0].content, false, true)|trim %}\n        {{- '<|im_start|>system\\n' + content + '<|im_end|>\\n' }}\n    {%- endif %}\n{%- endif %}\n{%- set ns = namespace(multi_step_tool=true, last_query_index=messages|length - 1) %}\n{%- for message in messages[::-1] %}\n    {%- set index = (messages|length - 1) - loop.index0 %}\n    {%- if ns.multi_step_tool and message.role == \"user\" %}\n        {%- set content = render_content(message.content, false)|trim %}\n        {%- if not(content.startswith('<tool_response>') and content.endswith('</tool_response>')) %}\n            {%- set ns.multi_step_tool = false %}\n            {%- set ns.last_query_index = index %}\n        {%- endif %}\n    {%- endif %}\n{%- endfor %}\n{%- if ns.multi_step_tool %}\n    {{- raise_exception('No user query found in messages.') }}\n{%- endif %}\n{%- for message in messages %}\n    {%- set content = render_content(message.content, true)|trim %}\n    {%- if message.role == \"system\" %}\n        {%- if not loop.first %}\n            {{- raise_exception('System message must be at the beginning.') }}\n        {%- endif %}\n    {%- elif message.role == \"user\" %}\n        {{- '<|im_start|>' + message.role + '\\n' + content + '<|im_end|>' + '\\n' }}\n    {%- elif message.role == \"assistant\" %}\n        {%- set reasoning_content = '' %}\n        {%- if message.reasoning_content is string %}\n            {%- set reasoning_content = message.reasoning_content %}\n        {%- else %}\n            {%- if '</think>' in content %}\n                {%- set reasoning_content = content.split('</think>')[0].rstrip('\\n').split('<think>')[-1].lstrip('\\n') %}\n                {%- set content = content.split('</think>')[-1].lstrip('\\n') %}\n            {%- endif %}\n        {%- endif %}\n        {%- set reasoning_content = reasoning_content|trim %}\n        {%- if loop.index0 > ns.last_query_index %}\n            {{- '<|im_start|>' + message.role + '\\n<think>\\n' + reasoning_content + '\\n</think>\\n\\n' + content }}\n        {%- else %}\n            {{- '<|im_start|>' + message.role + '\\n' + content }}\n        {%- endif %}\n        {%- if message.tool_calls and message.tool_calls is iterable and message.tool_calls is not mapping %}\n            {%- for tool_call in message.tool_calls %}\n                {%- if tool_call.function is defined %}\n                    {%- set tool_call = tool_call.function %}\n                {%- endif %}\n                {%- if loop.first %}\n                    {%- if content|trim %}\n                        {{- '\\n\\n<tool_call>\\n<function=' + tool_call.name + '>\\n' }}\n                    {%- else %}\n                        {{- '<tool_call>\\n<function=' + tool_call.name + '>\\n' }}\n                    {%- endif %}\n                {%- else %}\n                    {{- '\\n<tool_call>\\n<function=' + tool_call.name + '>\\n' }}\n                {%- endif %}\n                {%- if tool_call.arguments is defined %}\n                    {%- for args_name, args_value in tool_call.arguments|items %}\n                        {{- '<parameter=' + args_name + '>\\n' }}\n                        {%- set args_value = args_value | tojson | safe if args_value is mapping or (args_value is sequence and args_value is not string) else args_value | string %}\n                        {{- args_value }}\n                        {{- '\\n</parameter>\\n' }}\n                    {%- endfor %}\n                {%- endif %}\n                {{- '</function>\\n</tool_call>' }}\n            {%- endfor %}\n        {%- endif %}\n        {{- '<|im_end|>\\n' }}\n    {%- elif message.role == \"tool\" %}\n        {%- if loop.previtem and loop.previtem.role != \"tool\" %}\n            {{- '<|im_start|>user' }}\n        {%- endif %}\n        {{- '\\n<tool_response>\\n' }}\n        {{- content }}\n        {{- '\\n</tool_response>' }}\n        {%- if not loop.last and loop.nextitem.role != \"tool\" %}\n            {{- '<|im_end|>\\n' }}\n        {%- elif loop.last %}\n            {{- '<|im_end|>\\n' }}\n        {%- endif %}\n    {%- else %}\n        {{- raise_exception('Unexpected message role.') }}\n    {%- endif %}\n{%- endfor %}\n{%- if add_generation_prompt %}\n    {{- '<|im_start|>assistant\\n' }}\n    {%- if enable_thinking is defined and enable_thinking is true %}\n        {{- '<think>\\n' }}\n    {%- else %}\n        {{- '<think>\\n\\n</think>\\n\\n' }}\n    {%- endif %}\n{%- endif %}",
+        "chat_template_caps": {
+          "supports_object_arguments": true,
+          "supports_parallel_tool_calls": true,
+          "supports_preserve_reasoning": false,
+          "supports_reasoning_effort": false,
+          "supports_string_content": true,
+          "supports_system_role": true,
+          "supports_tool_calls": true,
+          "supports_tools": true,
+          "supports_typed_content": true
+        },
+        "bos_token": ",",
+        "eos_token": "<|im_end|>",
+        "build_info": "b1-620d222",
+        "is_sleeping": false,
+        "cors_proxy_enabled": false
+      },
+      "memory_after_requests": {
+        "peak_rss_bytes": 863543296,
+        "rss_bytes": 863543296
+      },
+      "load_average_after_requests": [
+        0.4501953125,
+        0.26171875,
+        0.19873046875
+      ],
+      "server_exit_code": 0
+    }
+  ],
+  "requests": [
+    {
+      "profile": "one-token",
+      "phase": "warmup",
+      "repeat": 0,
+      "prompt_id": "one-token",
+      "payload": {
+        "model": "qwen3.5-0.8b",
+        "messages": [
+          {
+            "role": "user",
+            "content": "Reply with exactly the word YES."
+          }
+        ],
+        "temperature": 0,
+        "seed": 42,
+        "max_tokens": 1,
+        "stream": true,
+        "stream_options": {
+          "include_usage": true
+        },
+        "cache_prompt": false
+      },
+      "output": "YES",
+      "ttft_seconds": 0.4187566649634391,
+      "total_seconds": 0.41930601093918085,
+      "content_chunks": 1,
+      "prompt_tokens": 19,
+      "completion_tokens": 1,
+      "finish_reason": "length",
+      "effective_tokens_per_second": 2.3848930707197686,
+      "timings": {
+        "cache_n": 0,
+        "prompt_n": 19,
+        "prompt_ms": 413.447,
+        "prompt_per_token_ms": 21.760368421052632,
+        "prompt_per_second": 45.95510428180638,
+        "predicted_n": 1,
+        "predicted_ms": 0.001,
+        "predicted_per_token_ms": 0.0,
+        "predicted_per_second": 0.0
+      },
+      "memory": {
+        "peak_rss_bytes": 863457280,
+        "rss_bytes": 863457280
+      }
+    },
+    {
+      "profile": "one-token",
+      "phase": "measured",
+      "repeat": 0,
+      "prompt_id": "one-token",
+      "payload": {
+        "model": "qwen3.5-0.8b",
+        "messages": [
+          {
+            "role": "user",
+            "content": "Reply with exactly the word YES."
+          }
+        ],
+        "temperature": 0,
+        "seed": 42,
+        "max_tokens": 1,
+        "stream": true,
+        "stream_options": {
+          "include_usage": true
+        },
+        "cache_prompt": false
+      },
+      "output": "YES",
+      "ttft_seconds": 0.35208474285900593,
+      "total_seconds": 0.35256973886862397,
+      "content_chunks": 1,
+      "prompt_tokens": 19,
+      "completion_tokens": 1,
+      "finish_reason": "length",
+      "effective_tokens_per_second": 2.8363182932515496,
+      "timings": {
+        "cache_n": 0,
+        "prompt_n": 19,
+        "prompt_ms": 347.319,
+        "prompt_per_token_ms": 18.279947368421052,
+        "prompt_per_second": 54.70475269132987,
+        "predicted_n": 1,
+        "predicted_ms": 0.001,
+        "predicted_per_token_ms": 0.0,
+        "predicted_per_second": 0.0
+      },
+      "memory": {
+        "peak_rss_bytes": 863543296,
+        "rss_bytes": 863543296
+      }
+    }
+  ],
+  "summary": [
+    {
+      "profile": "one-token",
+      "prompt_id": "one-token",
+      "requests": 1,
+      "median_ttft_seconds": 0.35208474285900593,
+      "min_ttft_seconds": 0.35208474285900593,
+      "max_ttft_seconds": 0.35208474285900593,
+      "median_total_seconds": 0.35256973886862397,
+      "mean_runtime_decode_tokens_per_second": 0.0,
+      "mean_effective_tokens_per_second": 2.8363182932515496,
+      "completion_tokens": [
+        1
+      ],
+      "length_limited_requests": 1,
+      "peak_server_rss_bytes": 863543296
+    }
+  ],
+  "finished_at": "2026-10-24T07:00:11.447085+00:00"
+}

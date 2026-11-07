@@ -1,0 +1,11 @@
+{
+  "schema_version": 1,
+  "warmups": 1,
+  "repetitions": 1,
+  "profiles": [
+    {"name": "smoke", "threads": 2, "ctx_size": 1024, "max_tokens": 16}
+  ],
+  "prompts": [
+    {"id": "arithmetic", "text": "What is 2 + 2? Answer with only the number."}
+  ]
+}
