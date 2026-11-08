@@ -26,8 +26,8 @@ class ServerConfig:
     binary: Path
     model: Path
     threads: int = 4
-    ctx_size: int = 2048
-    max_tokens: int = 128
+    ctx_size: int = 4096
+    max_tokens: int = 1024
     port: int = 8081
 
     def __post_init__(self) -> None:
@@ -35,8 +35,8 @@ class ServerConfig:
             raise ValueError("threads must fit the available logical CPUs")
         if not 512 <= self.ctx_size <= 8192:
             raise ValueError("Phase 1 context must be between 512 and 8192 tokens")
-        if not 1 <= self.max_tokens <= 512 or self.max_tokens >= self.ctx_size:
-            raise ValueError("max_tokens must be between 1 and 512 and below ctx_size")
+        if not 1 <= self.max_tokens <= 2048 or self.max_tokens >= self.ctx_size:
+            raise ValueError("max_tokens must be between 1 and 2048 and below ctx_size")
         if not 1024 <= self.port <= 65535:
             raise ValueError("port must be between 1024 and 65535")
 
@@ -45,8 +45,8 @@ class ServerConfig:
         model_name = load_lock()["model"]["filename"]
         values = {
             "threads": os.environ.get("LLAMA_THREADS", "4"),
-            "ctx_size": os.environ.get("LLAMA_CTX_SIZE", "2048"),
-            "max_tokens": os.environ.get("LLAMA_MAX_TOKENS", "128"),
+            "ctx_size": os.environ.get("LLAMA_CTX_SIZE", "4096"),
+            "max_tokens": os.environ.get("LLAMA_MAX_TOKENS", "1024"),
             "port": os.environ.get("LLAMA_PORT", "8081"),
         }
         values.update(overrides)

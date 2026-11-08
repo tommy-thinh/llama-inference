@@ -1,8 +1,62 @@
 # Project status
 
-Updated: 2026-11-08. **Llama is downloaded, verified, and passes all live tests.
-The complete 56-request Phase 1 baseline is recorded. Tommy has authorized Phase 2 after the
-Phase 1 review/audit and commit.**
+Updated: 2026-11-08. **Phase 1 is reviewed, audited, and committed as
+`de5b6b5` (`Phase 1`). Phase 2 is complete for its local stateless scope, with passing ordinary/live
+checks and independent review/audit. Stop before Phase 3.**
+
+## Output-limit update
+
+- Tommy requested a default output budget of **1,024 tokens** and a maximum of
+  **2,048 tokens**. API validation, UI defaults/bounds, native configuration,
+  environment example, and current usage docs now agree.
+- Native default context is **4,096 tokens**, leaving prompt room alongside the
+  maximum output budget. Explicit output must remain below configured context.
+- Independent affected tests passed, including inclusive 2,048 and rejected
+  2,049 boundaries, forwarding, HTML defaults, and native context constraints.
+- Full ordinary suite: **265 passed, 8 intentional live skips**. Full live suite:
+  **273 passed, 0 skipped, 0 failed (18.40 s)**. Ruff lint and formatting pass.
+- [Verification](evidence/output-limits-verification.json) and
+  [live JUnit](evidence/output-limits-live-tests.xml) record this update. Earlier
+  Phase 1/Phase 2 measurements, source hashes, and test counts below describe
+  their original snapshots before this policy change.
+
+## Phase 2 — local backend and frontend
+
+- Added FastAPI with a per-application HTTPX AsyncClient, bounded Pydantic input,
+  SSE relay, connect/read/total deadlines, safe errors, and explicit cancellation
+  cleanup for ASGI 2.3 and 2.4. It uses the separate existing model process.
+- Added a responsive vanilla JavaScript page with progressive text, bounded
+  generation settings, loading/error states, Stop Generation, safe text rendering,
+  and in-tab conversation history. Failed/stopped turns are not sent as history.
+- Conda pins FastAPI core 0.162.2, Uvicorn 0.54.0, Pydantic 2.14.3, AnyIO 4.16.0,
+  and Node 24.22.1. Existing Python/HTTPX/pytest/Ruff pins remain. Node is solely
+  for dependency-free JavaScript tests; no Node application server is used.
+- Independent backend suite: 100 passed, plus 14 deadline/ownership regressions. Independent frontend suite: 33 Node
+  behavioral cases passed; its pytest bridge passes. Combined ordinary suite:
+  **252 passed, 8 intentional live-test skips**. Full `pytest --run-inference`:
+  **260 passed, 0 skipped, 0 failed (19.17 s)**.
+- Real TCP smoke: static page/assets served; Node Fetch and the actual frontend
+  parser received progressive Llama text, cancelled after two chunks, and
+  recovered with arithmetic answer `4` in about 0.48 s. The native log confirms
+  cancellation. Uvicorn and llama-server were terminated/reaped afterward.
+- The audit found terminal error delivery could block before upstream cleanup.
+  It is fixed: every upstream error closes its response before delivery, and all
+  downstream sends have a total-deadline bound with at most 100 ms terminal grace.
+  Fourteen independent raw-ASGI regressions failed before this fix and now pass.
+- [Saved verification](evidence/phase2-verification.json),
+  [live-suite JUnit](evidence/phase2-live-tests.xml), and
+  [TCP smoke](evidence/phase2-local-smoke.json) record final actual outcomes.
+- Documentation: [architecture](04-fastapi-architecture.md),
+  [HTTP streaming](05-http-streaming.md),
+  [frontend communication](06-frontend-backend-communication.md).
+- Automated browser rendering/visual layout was not checked. Frontend behavior
+  uses a minimal DOM fixture; the TCP smoke uses real Fetch and SSE parsing.
+
+Independent GPT-6.1-Sol agents at high reasoning completed the Phase 2
+[review](phase2-review-2026-11-08.md) and [audit](phase2-audit-2026-11-08.md).
+Final verdicts are **Ship** and **Healthy** after the audit finding was fixed and
+retested. Phase 2 changes are left uncommitted for Tommy's review; the requested
+`Phase 1` commit remains `de5b6b5`.
 
 ## Llama setup and verification — 2026-11-08
 
@@ -43,7 +97,7 @@ Phase 1 review/audit and commit.**
 Independent GPT-6.1-Sol agents at high reasoning completed the
 [review](phase1-review-2026-11-08.md) and [audit](phase1-audit-2026-11-08.md).
 The review's two launch findings were fixed and retested; final verdicts are
-**Ship** and **Healthy for Phase 1**. Phase 1 is ready for its requested commit.
+**Ship** and **Healthy for Phase 1**. Phase 1 was committed as `de5b6b5`.
 
 ## Python environment migration — 2026-11-02
 
@@ -267,14 +321,14 @@ The selected original benchmark and verification artifacts are intentionally cur
 
 ## Remaining limitations
 
-Phase 1 implementation, live tests, and baseline are complete; independent
-review/audit are complete, with the requested commit next. The suite establishes local functional behavior,
-not general answer quality, concurrent capacity, or public-serving safety.
-Historical Qwen measurements remain specific to their original model and runtime.
+Phase 2 is a local stateless application. It has no persistence, authentication,
+public deployment, quotas, or admission queue; those are later roadmap phases.
+Prompt character bounds do not replace runtime context-token checks. Browser
+layout was not visually automated. Phase 1 baseline results remain serial,
+fixed-order measurements rather than quality or concurrency guarantees.
 
 ## Next approved action
 
-Finish independent review and audit; address concrete
-findings and commit with message `Phase 1`. Tommy explicitly authorized Phase 2
-on 2026-11-08 after that commit. Implement only its local FastAPI/vanilla-JavaScript
-scope, then stop before Phase 3. Public deployment remains a later phase.
+Tommy can run the local chat using the README two-terminal instructions and
+review the uncommitted Phase 2 changes. **Stop before Phase 3** and wait for
+separate approval before persistence or later infrastructure work.

@@ -4,6 +4,11 @@ Status: selected; model acquired and metadata verified on 2026-11-08 after Tommy
 confirmed license/access acceptance. See project status for live-test outcomes.
 Date: 2026-10-25.
 
+Output-limit update: Tommy subsequently requested a default of 1,024 output
+tokens and a maximum of 2,048. The current launcher uses a 4,096-token context
+to accommodate prompt and output; the original baseline retains its recorded
+profile configurations.
+
 ## Context
 
 The project remains a CPU-only llama.cpp inference platform on the six-vCPU VPS.

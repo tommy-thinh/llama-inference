@@ -1,0 +1,15 @@
+{
+  "static_page": true,
+  "static_assets": true,
+  "progressive_chunks": 2,
+  "partial": "1,",
+  "first_text_ms": 409.52439899999996,
+  "cancelled": true,
+  "recovery_answer": "4",
+  "recovery_ms": 476.56413799999996,
+  "native_pid": 117190,
+  "backend_pid": 117201,
+  "backend_exit_code": -15,
+  "native_exit_code": 0,
+  "native_cancel_log": true
+}

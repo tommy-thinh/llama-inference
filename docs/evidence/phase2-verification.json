@@ -1,0 +1,72 @@
+{
+  "date": "2026-11-08",
+  "phase1_commit": "de5b6b5",
+  "phase2_authorized": true,
+  "commands": {
+    "ruff check .": {
+      "exit_code": 0
+    },
+    "ruff format --check .": {
+      "exit_code": 0
+    },
+    "pytest -ra": {
+      "passed": 252,
+      "skipped": 8,
+      "failed": 0,
+      "seconds": 4.05
+    },
+    "pytest --run-inference --junitxml=.runtime/logs/phase2-live-tests.xml": {
+      "passed": 260,
+      "skipped": 0,
+      "failed": 0,
+      "seconds": 19.17
+    },
+    "node --test --test-isolation=none tests/frontend/*.test.mjs": {
+      "passed": 33,
+      "skipped": 0,
+      "failed": 0,
+      "runner": "independent frontend tester; also invoked by pytest bridge"
+    },
+    "python .runtime/phase2-smoke.py": {
+      "exit_code": 0,
+      "transport": "real loopback TCP; Node Fetch -> frontend parser -> Uvicorn/FastAPI -> llama-server"
+    },
+    "pytest tests/test_backend_deadline.py tests/test_backend.py -q": {
+      "passed": 114,
+      "skipped": 0,
+      "failed": 0,
+      "seconds": 3.25
+    }
+  },
+  "dependency_versions": {
+    "python": "3.11.18",
+    "httpx": "0.28.1",
+    "fastapi-core": "0.162.2",
+    "uvicorn": "0.54.0",
+    "pydantic": "2.14.3",
+    "anyio": "4.16.0",
+    "nodejs": "24.22.1"
+  },
+  "source_sha256": {
+    "backend/__init__.py": "c39ebc8adf50f769dcff06524dcae163b36380afac33bedb2b64533745aee667",
+    "backend/__main__.py": "badc3ecabf68e8a0bdb52dffd2d3fec2c81394012962773ce4861fece2d5c36f",
+    "backend/app.py": "fc5ad29483a047c3caa0fcecf93be6235e89ba74044e209f9faea4278f03fbec",
+    "backend/config.py": "b32628227f20e824a81e2f16f5000f05493d56a9325ea1cb135cd3d50c57abb4",
+    "backend/inference.py": "fada2e185e84bdbb1a2a2a7f5d1a616629aaa6821fc4cd4bc60f4ffdf1a8246f",
+    "backend/schemas.py": "d365b8d5b33921f80d7012ad09e02b859d8b92d509d0d8cf8a45efe0592aac0b",
+    "frontend/app.mjs": "655daaa88d33b6fb08a3b475aac7691433f0dc02eef15d2986a1fc388192a2c9",
+    "frontend/index.html": "7a54f8a82b10e8104123e35ae6ff6a7cc5293454b5d47ed0cef1fd1e10e3f555",
+    "frontend/stream.mjs": "982a53a84da8944e4badd108c80e11ff0c0d1f4eca1d48850aa7dcaa0236fa69",
+    "frontend/style.css": "77f08002436be255e0c016ec2d158c9276a9138e9073ea916301579ee8f4a1f2",
+    "environment.yml": "d8d94c3b133f59bd2fd8595bd646bebf9ea5561d34fd4e1ac76a8d1ccb727970",
+    "pyproject.toml": "6c00580167b855294295b1340566c7e897d2bb5ca60260aeb43713ac490f6958"
+  },
+  "smoke_sha256": "6770759d5b28e8033fef6cc61df20f6456698acb4612c1eef8fad0fd7f3be1e8",
+  "remaining_llama_server_processes": [],
+  "limitations": [
+    "Local stateless application only; Phase3 not started",
+    "Frontend DOM behavior and real Fetch streaming checked; no graphical browser/visual layout automation",
+    "Runtime enforces exact token context capacity; character validation is not exact token counting"
+  ],
+  "audit_finding_resolved": "All terminal upstream failures close their response before yielding a safe error frame. Outer producer deadline bounds every downstream send with at most100ms terminal flush grace.14 independent regressions reproduced original failure and pass unchanged after fix."
+}

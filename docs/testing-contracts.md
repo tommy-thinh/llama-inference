@@ -25,7 +25,57 @@ The independent tester derived these requirements from `MIGRATION_TASK.md`,
 implementation. The full historical Qwen test mapping remains in
 [qwen-testing-contracts-2026-10-24.md](qwen-testing-contracts-2026-10-24.md).
 
-## Current verification — 2026-11-08
+## Output-limit update verification
+
+The user-requested policy is default 1,024 output tokens and maximum 2,048.
+Independent tests cover API omission/default and forwarding, inclusive upper
+boundary, rejection of 2,049, frontend input HTML/behavior, and native context
+constraints. The launcher now defaults to a 4,096-token context.
+
+- Ordinary: 265 passed, eight intentional live skips.
+- Live: 273 passed, no skips or failures (18.40 seconds).
+- Ruff lint and formatting: passed.
+- [Current verification](evidence/output-limits-verification.json) and
+  [JUnit](evidence/output-limits-live-tests.xml).
+
+Earlier sections retain their original pre-update test counts and evidence.
+
+## Phase 2 verification — 2026-11-08
+
+Independent test design started from the spec and API/frontend contracts before
+reading implementation. Backend cases cover strict schema and boundary values,
+fixed upstream payload, progressive bounded SSE, safe upstream errors, connect/read
+and total deadlines, client lifespan, and ASGI 2.3/2.4 disconnects before headers
+and during output. Frontend tests exercise real Web Streams and a small DOM fixture.
+
+| Command in llama Conda environment | Actual result |
+| --- | --- |
+| `pytest -ra` | 252 passed, 8 intentional inference skips, 0 failures |
+| `pytest --run-inference` | 260 passed, no skips/failures; 19.17 seconds |
+| `node --test --test-isolation=none tests/frontend/*.test.mjs` | 33 behavioral cases passed; also runs through the pytest bridge |
+| `ruff check .` and `ruff format --check .` | Passed |
+| Real TCP Fetch/parser/backend/native smoke | Progressive output; cancellation after two chunks; next request returns 4; both processes reaped |
+
+Four initial frontend failures were test fixture/observation defects: synthetic
+SSE responses lacked SSE MIME headers, and cancellation cleanup was checked in
+the same synchronous turn rather than awaited. These were reported, discussed,
+and corrected while retaining partial-output, cancellation, reader-release,
+retry, and history assertions. The backend's initial 100 cases passed on first execution. The independent audit
+then found a missing case: a downstream blocked while receiving a terminal error
+could retain upstream resources after the deadline. Fourteen independent
+regressions (six error origins and final EOF sends across ASGI 2.3/2.4) reproduced
+this. The fix closes upstream before error delivery and bounds every send by the
+total deadline plus a documented 100 ms terminal-flush grace. All fourteen pass
+unchanged; the final backend/deadline subset has 114 passes.
+
+[Verification record](evidence/phase2-verification.json),
+[live-suite JUnit](evidence/phase2-live-tests.xml), and
+[real TCP smoke](evidence/phase2-local-smoke.json) preserve actual outcomes.
+The independent [review](phase2-review-2026-11-08.md) and
+[audit](phase2-audit-2026-11-08.md) are complete with Ship/Healthy verdicts.
+No graphical-browser layout check was performed.
+
+## Phase 1 verification — 2026-11-08
 
 Tommy confirmed Meta license/access acceptance before downloading the pinned model.
 Setup and verify-only pass with the real GGUF, including its Jinja BOS expression

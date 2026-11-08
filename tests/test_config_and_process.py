@@ -24,8 +24,8 @@ def test_server_configuration_is_local_cpu_only() -> None:
         ("--alias", "llama-3.2-1b-instruct"),
         ("--threads", "1"),
         ("--threads-batch", "1"),
-        ("--ctx-size", "2048"),
-        ("--n-predict", "128"),
+        ("--ctx-size", "4096"),
+        ("--n-predict", "1024"),
         ("--batch-size", "256"),
         ("--ubatch-size", "128"),
         ("--cache-type-k", "f16"),
@@ -49,7 +49,7 @@ def test_server_configuration_is_local_cpu_only() -> None:
         ("ctx_size", 128),
         ("ctx_size", 100000),
         ("max_tokens", 0),
-        ("max_tokens", 513),
+        ("max_tokens", 2049),
         ("port", 80),
         ("port", 65536),
     ],
@@ -57,6 +57,33 @@ def test_server_configuration_is_local_cpu_only() -> None:
 def test_invalid_resource_settings_are_rejected(setting: str, value: int) -> None:
     with pytest.raises(ValueError):
         ServerConfig.local(**{setting: value})
+
+
+@pytest.mark.parametrize("max_tokens", [1, 513, 1024, 2048])
+def test_supported_output_limits_reach_native_command(max_tokens: int) -> None:
+    config = ServerConfig.local(threads=1, ctx_size=4096, max_tokens=max_tokens)
+    command = config.command()
+    assert command[command.index("--n-predict") + 1] == str(max_tokens)
+    assert config.max_tokens < config.ctx_size
+
+
+@pytest.mark.parametrize("ctx_size,max_tokens", [(512, 512), (1024, 1024), (2048, 2048)])
+def test_output_limit_must_leave_context_room_for_prompt(ctx_size: int, max_tokens: int) -> None:
+    with pytest.raises(ValueError, match="ctx_size"):
+        ServerConfig.local(threads=1, ctx_size=ctx_size, max_tokens=max_tokens)
+
+
+def test_output_limit_immediately_below_context_size_is_valid() -> None:
+    config = ServerConfig.local(threads=1, ctx_size=2048, max_tokens=2047)
+    assert config.max_tokens == 2047
+
+
+def test_environment_can_select_new_maximum_output_limit(monkeypatch: pytest.MonkeyPatch) -> None:
+    monkeypatch.setenv("LLAMA_CTX_SIZE", "4096")
+    monkeypatch.setenv("LLAMA_MAX_TOKENS", "2048")
+    config = ServerConfig.local(threads=1)
+    assert config.ctx_size == 4096
+    assert config.max_tokens == 2048
 
 
 def test_inherited_llama_settings_cannot_change_experiment(monkeypatch: pytest.MonkeyPatch) -> None:

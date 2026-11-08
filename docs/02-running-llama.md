@@ -117,8 +117,8 @@ reaches the serving process directly.
 | GPU layers | `0` | CPU-only VPS |
 | Inference and batch threads | `4` | Initial allocation on six vCPUs |
 | Parallel slots | `1` | One active generation; one model load |
-| Context capacity | `2048` tokens | Moderate first-phase reservation |
-| Default generation cap | `128` tokens | Clients should still set their own cap |
+| Context capacity | `4096` tokens | Room for a prompt alongside the 2,048-token output cap |
+| Default generation cap | `1024` tokens | Clients may request up to 2,048 output tokens |
 | Batch / microbatch | `256` / `128` | Bounded prompt processing |
 | KV cache types | f16 K and V | Keep cache precision fixed for baseline |
 | Prompt cache RAM / checkpoints | `0` / `0` | Avoid extra retention in the baseline |

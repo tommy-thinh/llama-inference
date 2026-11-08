@@ -5,9 +5,8 @@ intuition before details, explain why decisions work, and use concrete examples.
 Keep chat updates concise; put detailed teaching material in `docs/`.
 
 - Follow `PROJECT_SPEC.md`. Implement only the phase explicitly authorized.
-- Phase 1 implementation and baseline are complete. Finish review/audit and
-  commit, then implement authorized Phase 2.
-  Tommy authorized this sequence on 2026-11-08. Stop before Phase 3.
+- Phase 1 is committed as `de5b6b5` (`Phase 1`). Phase 2 is authorized by Tommy
+  on 2026-11-08. Complete its local web application, then stop before Phase 3.
 - Read `docs/project-status.md` before continuing work in a later session.
 - Use CPU-only llama.cpp and the exact Meta Llama 3.2 1B Instruct model in the
   active configuration; never substitute silently. Keep the former Qwen model
