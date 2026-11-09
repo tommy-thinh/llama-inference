@@ -1,51 +1,24 @@
 """FastAPI routes, local assets, and per-application HTTP client lifespan."""
 
+import asyncio
 from contextlib import asynccontextmanager
 from pathlib import Path
 
-import anyio
 import httpx
 from fastapi import FastAPI, Request
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import FileResponse, JSONResponse, StreamingResponse
 from fastapi.staticfiles import StaticFiles
+from sqlalchemy.exc import SQLAlchemyError
 
 from backend.config import Settings
+from backend.conversations import router
+from backend.database import Database
 from backend.inference import stream_chat
+from backend.responses import ChatStreamingResponse
 from backend.schemas import ChatRequest
 
 FRONTEND = Path(__file__).resolve().parents[1] / "frontend"
-
-
-class ChatStreamingResponse(StreamingResponse):
-    """Monitor disconnect even while waiting for the first upstream byte."""
-
-    def __init__(self, content, *, total_timeout: float, **kwargs) -> None:
-        super().__init__(content, **kwargs)
-        self.total_timeout = total_timeout
-
-    async def __call__(self, scope, receive, send) -> None:
-        # Always keep a receive listener, including on ASGI 2.4 where the base
-        # class detects disconnect only through a failed downstream send.
-        async with anyio.create_task_group() as group:
-
-            async def produce() -> None:
-                try:
-                    # A short terminal-frame grace keeps every downstream send bounded.
-                    with anyio.move_on_after(self.total_timeout + 0.1):
-                        await self.stream_response(send)
-                except OSError:
-                    pass  # Client socket closed during send.
-                finally:
-                    with anyio.CancelScope(shield=True):
-                        await self.body_iterator.aclose()
-                    group.cancel_scope.cancel()
-
-            group.start_soon(produce)
-            await self.listen_for_disconnect(receive)
-            group.cancel_scope.cancel()
-        if self.background is not None:
-            await self.background()
 
 
 def create_app(
@@ -67,10 +40,26 @@ def create_app(
             transport=transport,
         ) as client:
             app.state.client = client
-            yield
+            app.state.database = Database(selected.database_url) if selected.database_url else None
+            try:
+                if app.state.database:
+                    async with asyncio.timeout(5):
+                        await app.state.database.recover()
+                yield
+            finally:
+                if app.state.database:
+                    await app.state.database.close()
 
     app = FastAPI(title="Local Llama chat", lifespan=lifespan)
     app.state.settings = selected
+    app.include_router(router)
+
+    @app.exception_handler(SQLAlchemyError)
+    async def database_failure(request: Request, exc: SQLAlchemyError):
+        return JSONResponse(
+            status_code=503, content={"detail": "Persistence is temporarily unavailable"}
+        )
+
     app.mount("/static", StaticFiles(directory=FRONTEND), name="static")
 
     @app.exception_handler(RequestValidationError)

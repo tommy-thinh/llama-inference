@@ -1,8 +1,89 @@
 # Project status
 
-Updated: 2026-11-08. **Phase 1 is reviewed, audited, and committed as
-`de5b6b5` (`Phase 1`). Phase 2 is complete for its local stateless scope, with passing ordinary/live
-checks and independent review/audit. Stop before Phase 3.**
+Updated: 2026-11-09. **Phase 3 is complete for local, single-worker use.
+PostgreSQL persistence, real Llama streaming, independent tests/review, and an
+actual HTTP restart/cancellation smoke check pass. Phase 1 is committed as
+`de5b6b5` (`Phase 1`); Phase 2 as `e9afd64` (`Phase 2`). Stop before Phase 4.**
+
+## Phase 3 — PostgreSQL and persistence
+
+- Installed PostgreSQL **18.6** as a new `18/main` cluster. It listens only on
+  `127.0.0.1:5432`, with SCRAM password authentication, UTC, and 30 connections.
+  Dedicated application/test databases have separate nonsuperuser roles with no
+  database/role creation privileges. Private generated credentials are in ignored
+  `.runtime/database.env`, mode 0600. No prior cluster was replaced.
+- Pinned SQLAlchemy **2.0.54**, Alembic **1.20.1**, and psycopg **3.3.8** in
+  `environment.yml`. Existing inference runtime, exact Llama weights, architecture,
+  historical Qwen artifacts, and baseline measurements are preserved.
+- Alembic revision `0001` creates anonymous sessions, conversations, messages, and
+  inference requests/metrics, with ownership keys, state checks, indexes, and one
+  running request per conversation. Application schema upgrade and `alembic check`
+  both pass; the model and migration definitions have no pending drift.
+- Browser bootstrap restores cookie-owned conversations; New Conversation and
+  selection use the persistent API. Random 256-bit cookies are HttpOnly and
+  SameSite=Lax; only hashes are stored. Expiry is fixed at 30 days. Completed
+  persisted turns supply model context; cancelled/failed output stays visible
+  but is excluded from subsequent model input. `/api/chat` remains an explicit
+  transient compatibility endpoint.
+- Short transactions reserve turns, checkpoint partial text, and commit terminal
+  state before success. Inference errors/timeouts become failed, disconnects
+  cancelled, and startup recovers interrupted running requests without losing
+  committed text. All finalization attempts share a bounded, shielded five-second
+  budget. A database outage preserves the last durable checkpoint and reports a
+  safe error instead of successful completion.
+- Basic retention is manual: `python -m backend.retention --days 30` previews,
+  `--apply` deletes eligible rows. Locks protect running conversations and their
+  owners. Application dry run found zero eligible conversations/sessions and
+  deleted nothing. Apply behavior is tested only in isolated test schemas.
+- Independent testers derived requirements from the spec and database/session
+  docs before implementation review. They covered migrations up/down, constraints,
+  CRUD/pagination/ownership, rollback, errors/partial states, early disconnects,
+  real PostgreSQL write stalls, retention, metrics, and actual Llama restoration.
+  Their frontend regressions cover failed selection and stale asynchronous replies.
+
+| Executed in the `llama` Conda environment | Actual result |
+| --- | --- |
+| `ruff check .` | Passed |
+| `ruff format --check .` | Passed; 64 files formatted |
+| `pytest -q` | **268 passed, 34 intentional skips**, 5.31 s |
+| `pytest -q --run-database --run-inference` | **302 passed, 0 skipped, 0 failed**, 37.86 s |
+| `alembic upgrade head` and `alembic check` | Revision `0001`; no pending upgrade operations |
+| `python -m backend.retention --days 30` | Dry run; zero eligible rows; `applied=false` |
+| Independent Node behavior suite | **48 passed**, no failures/skips |
+| Real TCP persistence smoke | Passed: page/assets, generation/metrics, restart restore, owner isolation, cancelled partial |
+
+The ordinary skips are 26 PostgreSQL cases (one also needs the model) plus eight
+existing model cases. Explicit live tests use `LLAMA_TEST_DATABASE_URL`, refuse a
+database name without `_test`, and create/drop only unique temporary schemas.
+Neither the integration suite nor TCP smoke uses application conversation data.
+
+The actual TCP check generated arithmetic answer `4`, saved 49 prompt/2 completion
+tokens, and recorded backend TTFT 0.470 s, terminal latency 0.525 s, and native
+decode 18.29 tokens/s. These describe **one functional smoke request**, not a new
+controlled inference benchmark. It restored identical messages after a real
+backend process restart, denied another cookie owner, then disconnected after
+three visible chunks and retrieved the saved cancelled partial text. Both owned
+backend/native processes were reaped and the test schema removed. PostgreSQL
+remains running as the intended local database service.
+
+The independent GPT-6.1-Sol high [review](phase3-review-2026-11-09.md) verdict is
+**Ship**. Review findings were fixed and independently reproduced/retested: a
+shared-task inference timer cancelling checkpoint work, a stale conversation list
+overwriting a new selection, and terminal DB timeout classification/cleanup
+budget. A separate frontend selection defect was also fixed. Initial stale
+manifest/bootstrap assertions were classified as test defects and corrected;
+behavior regressions were retained.
+
+Evidence: [verification/source snapshot](evidence/phase3-verification.json),
+[ordinary JUnit](evidence/phase3-ordinary-tests.xml),
+[full live JUnit](evidence/phase3-live-tests.xml),
+[database setup](evidence/phase3-database-setup.json),
+[TCP smoke](evidence/phase3-local-smoke.json).
+
+Read [database design and local setup](07-database-design.md) and
+[sessions/persistent API](08-sessions-and-persistence.md) to understand the new
+layer. Phase 3 changes remain uncommitted for Tommy; no Phase 4 work began.
+
 
 ## Output-limit update
 
@@ -55,7 +136,7 @@ checks and independent review/audit. Stop before Phase 3.**
 Independent GPT-6.1-Sol agents at high reasoning completed the Phase 2
 [review](phase2-review-2026-11-08.md) and [audit](phase2-audit-2026-11-08.md).
 Final verdicts are **Ship** and **Healthy** after the audit finding was fixed and
-retested. Phase 2 changes are left uncommitted for Tommy's review; the requested
+retested. Tommy subsequently committed Phase 2 as `e9afd64` (`Phase 2`). The
 `Phase 1` commit remains `de5b6b5`.
 
 ## Llama setup and verification — 2026-11-08
@@ -321,14 +402,18 @@ The selected original benchmark and verification artifacts are intentionally cur
 
 ## Remaining limitations
 
-Phase 2 is a local stateless application. It has no persistence, authentication,
-public deployment, quotas, or admission queue; those are later roadmap phases.
-Prompt character bounds do not replace runtime context-token checks. Browser
-layout was not visually automated. Phase 1 baseline results remain serial,
-fixed-order measurements rather than quality or concurrency guarantees.
+Phase 3 is a local single-worker application with anonymous cookie ownership,
+not account recovery. Clearing the cookie loses access. Recovery runs on startup;
+multiple workers or overlapping instances need a lease design first. A crash or
+DB outage may lose text since the last checkpoint. The UI lists the latest 20
+conversations and latest 100 messages; older pages are available through the API
+without UI paging controls. Public HTTPS, full security/CSRF review, quotas,
+admission control, and backup/recovery procedures remain Phase 4. Prompt character
+bounds do not replace runtime token checks. Graphical browser layout was not
+automated. Phase 1 baseline measurements remain separate historical evidence.
 
 ## Next approved action
 
-Tommy can run the local chat using the README two-terminal instructions and
-review the uncommitted Phase 2 changes. **Stop before Phase 3** and wait for
-separate approval before persistence or later infrastructure work.
+Tommy can run persistent chat using the README two-terminal instructions and
+review the uncommitted Phase 3 changes. **Stop before Phase 4** and wait for
+separate approval before public deployment/security infrastructure work.

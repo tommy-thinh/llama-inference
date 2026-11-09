@@ -12,9 +12,23 @@ def pytest_addoption(parser: pytest.Parser) -> None:
     parser.addoption(
         "--run-inference", action="store_true", help="Start the real CPU inference model"
     )
+    parser.addoption(
+        "--run-database", action="store_true", help="Use the isolated PostgreSQL test database"
+    )
+
+
+def pytest_configure(config: pytest.Config) -> None:
+    config.addinivalue_line("markers", "database: opt-in isolated PostgreSQL integration tests")
 
 
 def pytest_collection_modifyitems(config: pytest.Config, items: list[pytest.Item]) -> None:
+    if not config.getoption("--run-database"):
+        skip_database = pytest.mark.skip(
+            reason="Requires --run-database and LLAMA_TEST_DATABASE_URL"
+        )
+        for item in items:
+            if "database" in item.keywords:
+                item.add_marker(skip_database)
     if not config.getoption("--run-inference"):
         skip = pytest.mark.skip(reason="Requires --run-inference and verified local runtime/model")
         for item in items:

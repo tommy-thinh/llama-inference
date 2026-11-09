@@ -46,3 +46,33 @@ class ChatRequest(BaseModel):
             "stream_options": {"include_usage": True},
             "cache_prompt": False,
         }
+
+
+class ConversationTitle(BaseModel):
+    model_config = ConfigDict(extra="forbid", strict=True)
+    title: str = Field(min_length=1, max_length=80)
+
+    @field_validator("title")
+    @classmethod
+    def nonblank(cls, value: str) -> str:
+        if not value.strip():
+            raise ValueError("Title must not be blank")
+        return value.strip()
+
+
+class NewConversation(ConversationTitle):
+    title: str = "New conversation"
+
+
+class TurnRequest(BaseModel):
+    model_config = ConfigDict(extra="forbid", strict=True, allow_inf_nan=False)
+    content: str = Field(min_length=1, max_length=4000)
+    max_tokens: int = Field(default=1024, ge=1, le=2048)
+    temperature: float = Field(default=0.7, ge=0, le=2)
+    top_p: float = Field(default=0.9, gt=0, le=1)
+    seed: int = Field(default=42, ge=0, le=2147483647)
+
+    @field_validator("content")
+    @classmethod
+    def nonblank(cls, value: str) -> str:
+        return Message(role="user", content=value).content

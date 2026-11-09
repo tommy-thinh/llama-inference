@@ -6,6 +6,7 @@ h1 { margin: .2rem 0; font-size: clamp(1.8rem, 5vw, 2.5rem); }
 header p, footer { color: light-dark(#526075, #a5b2c7); }
 .eyebrow { font-size: .8rem; text-transform: uppercase; letter-spacing: .13em; }
 #messages { display: grid; gap: 1rem; margin-bottom: 1.5rem; }
+select { display: block; width: 100%; font: inherit; padding: .6rem; }
 .message { border: 1px solid light-dark(#d3dbe7, #344057); border-radius: .8rem; padding: 1rem; }
 .message.user { background: light-dark(#edf1f9, #1b2536); }
 .message strong { display: block; margin-bottom: .5rem; }

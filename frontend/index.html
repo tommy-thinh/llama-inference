@@ -10,7 +10,11 @@
 <body>
   <main>
     <header><p class="eyebrow">CPU inference lab</p><h1>Local Llama chat</h1>
-      <p>Llama 3.2 1B Instruct · Messages stay in this tab until you refresh.</p></header>
+      <p>Llama 3.2 1B Instruct · Conversations are saved for this browser session.</p></header>
+    <nav class="options" aria-label="Saved conversations">
+      <label for="conversations">Conversation <select id="conversations"></select></label>
+      <button id="new-conversation" type="button">New Conversation</button>
+    </nav>
     <section id="messages" aria-label="Conversation" role="log" aria-live="polite"></section>
     <form id="chat-form">
       <label for="prompt">Your message</label>

@@ -1,0 +1,43 @@
+{
+  "date": "2026-11-09",
+  "database": "isolated schema in llama_test",
+  "transport": "actual loopback TCP",
+  "checks": {
+    "page_and_assets": true,
+    "completed_stream_and_metrics": true,
+    "restored_after_backend_process_restart": true,
+    "second_cookie_owner_cannot_read": true,
+    "tcp_disconnect_saves_cancelled_partial": true,
+    "owned_backend_and_native_processes_reaped": true,
+    "test_schema_removed": true
+  },
+  "completed_request": {
+    "model": "llama-3.2-1b-instruct",
+    "max_tokens": 24,
+    "temperature": 0.0,
+    "prompt_tokens": 49,
+    "completion_tokens": 2,
+    "ttft_seconds": 0.46971738804131746,
+    "latency_seconds": 0.5254619300831109,
+    "decode_tokens_per_second": 18.28989483310471,
+    "observed_tcp_seconds": 0.640801589936018
+  },
+  "cancelled_request": {
+    "observed_visible_chunks": 3,
+    "saved_characters": 3,
+    "status": "cancelled",
+    "error_code": "client_disconnected"
+  },
+  "configuration": {
+    "native_threads": 4,
+    "native_ctx_size": 2048,
+    "native_default_max_tokens": 128,
+    "native_port": "temporary loopback port",
+    "backend_port": "temporary loopback port",
+    "backend_workers": 1,
+    "connect_timeout_seconds": 5,
+    "read_timeout_seconds": 30,
+    "total_timeout_seconds": 120,
+    "test_script_sha256": "9df3be1d03a451256d1aaf09bf8d4979d7af4e3958e9e8f54f9b53e27267d76d"
+  }
+}

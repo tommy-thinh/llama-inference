@@ -1,0 +1,134 @@
+{
+  "date": "2026-11-09",
+  "scope": "Phase 3 only: local PostgreSQL persistence; stop before Phase 4",
+  "base_commit": "e9afd640c2528342ad7a10b8284233bb7a368f66",
+  "environment": "llama Conda environment, Python 3.11.18; commands invoked through conda run -n llama",
+  "commands": [
+    {
+      "command": "ruff check .",
+      "exit_code": 0
+    },
+    {
+      "command": "ruff format --check .",
+      "exit_code": 0,
+      "files": 64
+    },
+    {
+      "command": "pytest -q --junitxml=docs/evidence/phase3-ordinary-tests.xml",
+      "exit_code": 0
+    },
+    {
+      "command": "pytest -q --run-database --run-inference --junitxml=docs/evidence/phase3-live-tests.xml",
+      "exit_code": 0
+    },
+    {
+      "command": "alembic upgrade head",
+      "exit_code": 0
+    },
+    {
+      "command": "alembic check",
+      "exit_code": 0,
+      "result": "No new upgrade operations detected"
+    },
+    {
+      "command": "python -m backend.retention --days 30",
+      "exit_code": 0,
+      "result": {
+        "conversations": 0,
+        "sessions": 0,
+        "applied": false
+      }
+    },
+    {
+      "command": "PYTHONPATH=. python .runtime/phase3-tcp-smoke.py",
+      "exit_code": 0,
+      "note": "Temporary manual verification script; actual loopback TCP with isolated test schema and bounded process lifecycles"
+    }
+  ],
+  "test_suites": {
+    "ordinary": {
+      "tests": "302",
+      "failures": "0",
+      "errors": "0",
+      "skipped": "34",
+      "time": "5.299",
+      "passed": 268
+    },
+    "live": {
+      "tests": "302",
+      "failures": "0",
+      "errors": "0",
+      "skipped": "0",
+      "time": "37.852",
+      "passed": 302
+    }
+  },
+  "frontend": {
+    "node_behavior_tests": 48,
+    "failed": 0,
+    "skipped": 0,
+    "executed_by": "independent frontend tester; pytest bridge also executed in both full suites"
+  },
+  "independent_roles": {
+    "database_tester": "GPT-6.1-Sol high",
+    "frontend_tester": "GPT-6.1-Sol high",
+    "reviewer": "GPT-6.1-Sol high, ponytail-review, verdict Ship"
+  },
+  "resolved_failures": [
+    "Expected old manifest and incidental bootstrap call-count oracles updated after classifying stale test contracts",
+    "Missing metadata conversation ID and six early-header cleanup cases fixed; unchanged regressions pass",
+    "Failed selection ID, stale list reply, timer cancellation leakage, and terminal timeout classification/budget fixed and independently retested",
+    "One focused command named a nonexistent tests/test_backend_deadlines.py and ran no tests; corrected tests/test_backend_deadline.py run passed all 118 backend cases",
+    "Sandbox loopback restrictions required approved test execution outside the restricted sandbox"
+  ],
+  "database_setup": "phase3-database-setup.json",
+  "tcp_smoke": "phase3-local-smoke.json",
+  "secrets": "Excluded. Private credentials remain only in ignored .runtime/database.env mode 0600",
+  "data_safety": "All destructive test/migration/retention cases used unique temporary schemas in dedicated llama_test. Application retention was dry-run only. No models or historical benchmarks deleted/rebuilt.",
+  "runtime_model_pin_changed": false,
+  "source_sha256": {
+    ".env.example": "c45ed88ecff6a97220ac76630c0c4ae9de98a77cb5355fddc672ebe9329deb21",
+    "AGENTS.md": "0b3946e672d5fb19887b9567167b12b5a2f806a49e00b625b668c9eb1118051b",
+    "PROJECT_SPEC.md": "1bcb19c891abe2c4f4b555f963757456e1620aa7d5649849ebbbf9d9afbc8921",
+    "README.md": "56eed36aa72bf2aadc3a4ba232fdefff3551001ceee4c0d9fd777cbf755ae020",
+    "alembic.ini": "a4939c306021daf2b35cde192def9a9f1d6796af26a3a19a9d6cf3b4cf6bb0af",
+    "backend/app.py": "3233ad7426e91c8cabdcfc0bc552d920b69467a7022d04f465f95c6f9927ac61",
+    "backend/config.py": "1104930d22d1bf70adbac738319ad75ed39a51de1d2767b956dbdb48f2d17326",
+    "backend/conversations.py": "5ad1bde692b38d8a3512b97893cc56dacbb54c40d17c7d46f79d6af1b1daa517",
+    "backend/database.py": "27c8672c86ac6fe0265fb5cc411abcfb9603c69f2d99cd2928fbccd3c8d77a5c",
+    "backend/inference.py": "3ecb37ca491ee431bc4d125b6b0b80060961a50553c0bd158d1362b1522de9dd",
+    "backend/migrations/env.py": "2e410602967a321129dd621b55d23403df8259bc0752430b5104db11012ab12f",
+    "backend/migrations/script.py.mako": "6483fdd24396d707ce5f072065e2bf66305dd3b5a80e4642a733a02a6089e313",
+    "backend/migrations/versions/0001_initial_persistence_schema.py": "9df6162593b94cc03c563596a47e54939e8cd3829c91dc062d1b98e217b5aff2",
+    "backend/models.py": "b901a34f5fd00206b440b447d5cc6a48550e0c856bfdd7334cc5c477e5c04088",
+    "backend/persistent_chat.py": "10b26a9e20c068415c05cc14854f9fe0b7653c015952f72f06abaff69f973630",
+    "backend/responses.py": "84d04ba0879c8e58e7736edbea33a6868c6e47d78920970e491513732504dd4e",
+    "backend/retention.py": "e37d9283bdd4ce4b2b32d5486af843d3b557b62db8cf2faf2af9389e9472683a",
+    "backend/schemas.py": "de9fcfd0a990d29a7acc5df149adce531bbf3d1f53479413faf5b09e8c5e75cb",
+    "docs/04-fastapi-architecture.md": "bdc14fa93409155fa5090224e5a122edf4663452a37dfef3bcd4f2b4935c0607",
+    "docs/05-http-streaming.md": "8a179c70f31e9d7d9159cdd547028c708ba7244f71e4520c6e53148c2995f9e0",
+    "docs/06-frontend-backend-communication.md": "dc360cd93111ff00faf8f8a75ff2c1e5961bb74aaa4f3dd5ae5276724eaa7bbf",
+    "docs/07-database-design.md": "e7138b0bf2638df036ee9945917f10bc5f3fd3a876a3bd853a209b216f02ea0d",
+    "docs/08-sessions-and-persistence.md": "e27d68022c2652468577d766e258c5fcadee65f452ac51029fc7ed73aebbb5b8",
+    "docs/phase3-review-2026-11-09.md": "984689c06bdf682b23c4b74ae0f249871a92c9929eaec62130ba8e2059698863",
+    "docs/project-status.md": "18e5885a97691d7c41472b26e2c77ab2d2c55d36b2d8e18f8448695262b69551",
+    "environment.yml": "70c7ce75960fe8bd7c420a35150b61390313cfc7df12e6b76b6a88d3d707a489",
+    "frontend/app.mjs": "ce6ef8593ff307c0dadf975b18eb57d192980ec95699f9350031321da546d173",
+    "frontend/index.html": "c7334ef0d211ab7821f07df5bb1007236774883b74b55681aa6837df1f060685",
+    "frontend/style.css": "f04ca9e29f64b908661280b6b5dc5883c8a22f2bd303571633ddb91b5784f6f6",
+    "pyproject.toml": "d1916e90f162c692c4d89c62343eb901001ee4ac24a21c811067b8fefc8f8f46",
+    "tests/conftest.py": "1e6fdd44e50c1f709edab6dafba74aea63c8fea27709f74b9fdd9a4b391785da",
+    "tests/frontend/app.test.mjs": "d808a7218acc76909a69e6a83cf9aab32506bd6374975a634844a95556166181",
+    "tests/test_conda_environment.py": "684301c90e9d463a11318d45cf13af4abe65b21169b95113cac36f1c7967dcd9",
+    "tests/test_persistence.py": "db7177e7ea59d2c8152ceb5a77f47d5a4f2734bdc931478c4671d97459502733"
+  },
+  "limitations": [
+    "One backend worker and instance; startup recovers interrupted running requests",
+    "Fixed 30-day anonymous sessions; clearing cookie loses access",
+    "UI lists newest 20 conversations and latest 100 messages; API supports older-page retrieval",
+    "Graphical browser layout not automated",
+    "Public HTTPS, CSRF review, rate limiting/admission, backups deferred to Phase 4"
+  ],
+  "runtime_model_and_benchmark_git_diff": "No changes under inference/ or benchmarks/",
+  "final_process_check": "No remaining llama-server process; no listeners on 8000/8081; PostgreSQL intended listener only 127.0.0.1:5432"
+}

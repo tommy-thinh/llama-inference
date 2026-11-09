@@ -1,6 +1,8 @@
 # 05 — HTTP streaming and cancellation
 
-A POST request sends the conversation and generation parameters as JSON. The
+A persistent POST sends the new message and generation parameters as JSON; the
+backend reconstructs completed history. The transient compatibility API accepts
+a whole conversation. The
 response is an HTTP body containing Server-Sent Events (SSE): fields separated
 by newlines, with a blank line ending each event. This is one-way output after
 one request, so it does not need a persistent bidirectional WebSocket protocol.
@@ -57,13 +59,21 @@ timeout bounds idle gaps. A separate total deadline bounds the entire operation,
 including a peer that keeps sending small pieces without ever finishing. Backend
 timeouts are configurable through `LLAMA_API_CONNECT_TIMEOUT`,
 `LLAMA_API_READ_TIMEOUT`, and `LLAMA_API_TOTAL_TIMEOUT` (positive, at most 300 s).
-Their defaults are 5, 30, and 120 seconds.
+Their defaults are 5, 30, and 120 seconds. Upstream deadlines wrap network
+awaits rather than generator yields: a yield runs caller work in the same task,
+so an armed timer could otherwise cancel a database checkpoint and mislabel it
+as a disconnect. Persistent checkpoints use the remaining whole-request budget.
 
 Terminal errors are emitted only after the upstream response is closed. The
 response producer grants at most 100 ms beyond the total deadline to flush a
 terminal frame, then cancels a blocked send. This also bounds the final empty
 HTTP body send after successful `[DONE]`; a client that stops reading cannot
-retain the upstream response or an indefinitely pending response task.
+retain the upstream response or an indefinitely pending response task. Phase 3
+adds a separate shared five-second shielded cleanup budget for durable terminal
+writes after cancellation. Success is committed before `[DONE]`; a DB failure
+uses `persistence_error`. The response also finalizes a reserved request if headers
+fail before the generator starts; closing an unstarted generator cannot run its
+`finally` block. See [database states](07-database-design.md).
 
 ## References
 

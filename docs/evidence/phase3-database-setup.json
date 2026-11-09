@@ -1,0 +1,27 @@
+{
+  "date": "2026-11-09",
+  "packages": {
+    "sqlalchemy": "2.0.54",
+    "alembic": "1.20.1",
+    "psycopg": "3.3.8"
+  },
+  "credential_file_mode": "0o600",
+  "postgresql": "18.6 (Ubuntu 18.6-0ubuntu0.26.04.1)",
+  "listen_addresses": "127.0.0.1",
+  "max_connections": "30",
+  "password_encryption": "scram-sha-256",
+  "timezone": "UTC",
+  "application_role_privileges": {
+    "rolsuper": false,
+    "rolcreatedb": false,
+    "rolcreaterole": false
+  },
+  "tables": [
+    "alembic_version",
+    "conversations",
+    "inference_requests",
+    "messages",
+    "sessions"
+  ],
+  "migration": "0001"
+}

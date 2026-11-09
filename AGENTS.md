@@ -5,8 +5,8 @@ intuition before details, explain why decisions work, and use concrete examples.
 Keep chat updates concise; put detailed teaching material in `docs/`.
 
 - Follow `PROJECT_SPEC.md`. Implement only the phase explicitly authorized.
-- Phase 1 is committed as `de5b6b5` (`Phase 1`). Phase 2 is authorized by Tommy
-  on 2026-11-08. Complete its local web application, then stop before Phase 3.
+- Phases 1 and 2 are committed as `de5b6b5` and `e9afd64`. Tommy authorized
+  Phase 3 on 2026-11-09. Complete PostgreSQL persistence, then stop before Phase 4.
 - Read `docs/project-status.md` before continuing work in a later session.
 - Use CPU-only llama.cpp and the exact Meta Llama 3.2 1B Instruct model in the
   active configuration; never substitute silently. Keep the former Qwen model
@@ -26,6 +26,12 @@ Keep chat updates concise; put detailed teaching material in `docs/`.
   not activated, use `conda run -n llama` for project commands.
 - Run `ruff check .`, `ruff format --check .`, and `pytest`.
 - Run real inference tests with `pytest --run-inference` after setup.
+- Phase 3 uses PostgreSQL 18, SQLAlchemy 2, Alembic, and psycopg 3. Apply schema
+  changes explicitly with Alembic; run only one backend worker. Database tests
+  require `--run-database` and `LLAMA_TEST_DATABASE_URL` for a dedicated `_test`
+  database, with isolated schemas. Never run tests against application data.
+- Local credentials are in ignored `.runtime/database.env` (mode 0600). Never
+  print or commit them. Retention defaults to dry run; `--apply` deletes rows.
 - For implementation changes, delegate test design and test changes to an
   independent tester subagent. Have it derive expected behavior from the spec,
   documentation, and any architecture/class diagrams before reading implementation.

@@ -80,8 +80,10 @@ async def stream_chat(
 ) -> AsyncIterator[bytes]:
     response = None
     failure = None
+    deadline = asyncio.get_running_loop().time() + settings.total_timeout
+    events = None
     try:
-        async with asyncio.timeout(settings.total_timeout):
+        async with asyncio.timeout_at(deadline):
             request = client.build_request("POST", "/v1/chat/completions", json=payload)
             response = await client.send(request, stream=True)
             if response.status_code in {400, 413, 422}:
@@ -102,8 +104,16 @@ async def stream_chat(
                 != "text/event-stream"
             ):
                 raise UpstreamProtocolError("Expected SSE")
-            async for event in relay_events(response):
-                yield event
+        events = relay_events(response)
+        while True:
+            # A generator's caller processes each yield in the same task. Keep
+            # our timeout around upstream I/O so it cannot cancel caller work.
+            try:
+                async with asyncio.timeout_at(deadline):
+                    event = await anext(events)
+            except StopAsyncIteration:
+                break
+            yield event
     except UpstreamFailure as exc:
         failure = error_event(exc.code, str(exc))
     except (TimeoutError, httpx.TimeoutException):
@@ -121,6 +131,9 @@ async def stream_chat(
             "upstream_error", "The connection to the inference server was interrupted."
         )
     finally:
+        if events is not None:
+            with anyio.CancelScope(shield=True):
+                await events.aclose()
         if response is not None:
             # Disconnect cancels the producer; closure must survive that cancellation.
             with anyio.CancelScope(shield=True):

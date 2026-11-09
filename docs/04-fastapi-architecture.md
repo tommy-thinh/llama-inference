@@ -1,11 +1,12 @@
 # 04 — FastAPI architecture
 
-Phase 2 is authorized. Phase 1 was reviewed, audited, and committed as
-`de5b6b5` (`Phase 1`). This phase adds a local stateless web application.
+Phase 2 established the local streaming web application. Phase 3 adds persistent
+sessions and conversations while reusing that inference path.
 
 ```mermaid
 flowchart LR
-    B[Browser: vanilla JavaScript] -->|POST /api/chat| A[FastAPI: 127.0.0.1:8000]
+    B[Browser: vanilla JavaScript] -->|POST /api/conversations/id/chat| A[FastAPI: 127.0.0.1:8000]
+    A -->|short SQL transactions| D[PostgreSQL: 127.0.0.1:5432]
     A -->|HTTPX streaming request| L[llama-server: 127.0.0.1:8081]
     L --> M[One loaded Llama GGUF]
     L -->|SSE| A
@@ -14,10 +15,16 @@ flowchart LR
 
 The backend never reads model weights or starts a model process. It creates one
 shared HTTPX AsyncClient during application lifespan and closes it at shutdown.
-Each generation owns and closes its upstream response. The browser's messages
-are in memory; refreshing the page clears them. Persistence is Phase 3.
+Each generation owns and closes its upstream response. The browser sends only the new turn; PostgreSQL supplies completed history.
+Refreshing restores saved messages. A shared SQLAlchemy engine owns a bounded
+five-connection pool; sessions/transactions are short and never span inference.
+[Database design](07-database-design.md) and [persistent APIs](08-sessions-and-persistence.md)
+explain the Phase 3 path.
 
-## Observable API contract
+## Transient inference API contract
+
+The earlier `/api/chat` remains a stateless compatibility endpoint. The browser
+uses the owned persistent routes documented in [08](08-sessions-and-persistence.md).
 
 - `GET /` serves the chat page; `/static/` serves local CSS and JavaScript.
 - `GET /health` returns `{"status":"ok"}` for backend liveness.
@@ -68,7 +75,8 @@ native runtime and benchmark modules keep their Phase 1 responsibilities.
 Start llama-server in one terminal and the backend in another. Both bind only
 loopback. Remote testing uses SSH port forwarding to backend port 8000; the
 browser needs no direct inference-server access. Explicit resource admission,
-quotas, Caddy/HTTPS, database storage, and public exposure belong to later phases.
+quotas, Caddy/HTTPS, backups, and public exposure belong to Phase 4. PostgreSQL
+is local and provisioned in Phase 3; run only one backend worker.
 
 FastAPI, Uvicorn, and Pydantic are Conda packages. Node.js is a development-only
 tool for dependency-free tests of the vanilla JavaScript parser and UI behavior;

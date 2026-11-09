@@ -1,8 +1,9 @@
 # 06 — Browser and backend communication
 
 The UI is a single responsive HTML page with local CSS and vanilla JavaScript.
-It uses `fetch('/api/chat', {method: 'POST', body, signal})` and reads the response
-body incrementally. Requests stay on the same origin. Chat text is inserted with
+It uses `fetch('/api/conversations/{id}/chat', {method: 'POST', body, signal})` and reads the response
+body incrementally. Requests stay on the same origin with the session cookie. The server builds
+model history; the browser sends only the current content and generation settings. Chat text is inserted with
 `textContent`, so user/model HTML is displayed literally.
 
 ## Observable frontend contract
@@ -19,15 +20,18 @@ body incrementally. Requests stay on the same origin. Chat text is inserted with
   an explicit message. Network/HTTP errors and EOF without `[DONE]` are failures.
 - Stop uses AbortController and cancels the active body reader. It preserves
   partial text, labels the request stopped, and restores controls. A new request
-  can be submitted afterward. Completed turns are kept in browser memory;
-  unsuccessful/stopped turns stay visible but are excluded from future input.
+  can be submitted afterward. All accepted turns are saved in PostgreSQL;
+  unsuccessful/stopped turns stay visible with state labels but are excluded from
+  future model input. Refresh retrieves saved messages.
 - The frontend parser supports fragmented UTF-8, CRLF, SSE comments and multiline
   data, `[DONE]`, and both named error events and JSON error payloads. Event and
-  input bounds prevent accidental unlimited accumulation. Conversation history
-  fits the backend's 16-message/8,000-character bound; a full history produces a
+  input bounds prevent accidental unlimited accumulation. Completed model history
+  must fit the backend's 16-message/8,000-character bound; a full history produces a
   visible error rather than silently dropping context.
-- A fresh page has no persisted history, authentication, storage cookies, or
-  external CDN/font/script dependency.
+- Page bootstrap establishes an anonymous cookie session, lists conversations,
+  and restores the latest (or creates the first). New Conversation and the
+  selector switch saved histories. There is no account registration or external
+  CDN/font/script dependency. See [session semantics](08-sessions-and-persistence.md).
 
 `frontend/stream.mjs` exports `consumeSSE(body, onText)`, which returns the joined
 assistant text after a valid terminator and closes its reader on every exit.
@@ -35,16 +39,21 @@ An optional third AbortSignal cancels the reader immediately, including when a
 test transport does not connect Fetch cancellation to its response body.
 `frontend/app.mjs` exports `mountChat(document, fetchImpl=globalThis.fetch)` and
 mounts itself in a browser. Element IDs are `chat-form`, `prompt`, `messages`,
-`status`, `send`, `stop`, `max-tokens`, and `temperature`. These module boundaries
+`status`, `send`, `stop`, `max-tokens`, `temperature`, `conversations`, and
+`new-conversation`. These module boundaries
 support Node's built-in test runner without installing a frontend framework or
 DOM library. Tests check observable state, safe rendering, stop/retry, and parsing.
 
 Use two terminals after `conda activate llama`: `python -m inference.server`
-owns the model process; `python -m backend` serves the page at
+owns the model process; `source .runtime/database.env` then `alembic upgrade head`
+and `python -m backend` serve the page at
 `http://127.0.0.1:8000`. On a VPS, forward that backend port over SSH and open the
 forwarded local address. Ctrl+C stops each foreground service.
 
-## Executed verification
+## Historical Phase 2 verification
+
+The counts below describe the committed Phase 2 snapshot, before persistence.
+Current Phase 3 verification is in [project status](project-status.md).
 
 All 33 Node behavior tests pass through the pytest bridge. The full live suite
 passes 260 tests, including the actual backend-to-native streaming smoke. A
