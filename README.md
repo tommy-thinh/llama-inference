@@ -4,7 +4,8 @@ A learning and engineering project for serving **Meta Llama 3.2 1B Instruct**
 with llama.cpp on a CPU-only VPS. Phase 1 establishes verified native inference
 and a measured baseline. Phase 2 adds a local FastAPI backend and vanilla
 JavaScript chat page with progressive streaming and cancellation. Phase 3 adds
-PostgreSQL sessions, saved conversations, and request metrics.
+PostgreSQL sessions, saved conversations, and request metrics. Phase 4 security
+controls and deployment templates are prepared locally; **deployment is deferred**.
 
 ## Model access status
 
@@ -141,5 +142,38 @@ Benchmarks own their server processes and write new results under ignored
 - [Full scope and six-phase roadmap](PROJECT_SPEC.md)
 
 Phase 1 is committed as `de5b6b5` (`Phase 1`), Phase 2 as `e9afd64` (`Phase 2`).
-Phase 3 is implemented and verified for local single-worker use. Stop before Phase 4; public deployment
-requires separate approval. The six-phase roadmap remains in the project spec.
+Phase 3 is committed as `bbae986` (`Phase 3`). Phase 4 preparation is authorized,
+with an explicit instruction **not to deploy yet**. Stop before Phase 5. The six-phase roadmap remains in the project spec.
+
+
+## Prepare for deployment (do not run go-live steps yet)
+
+Read [the manual deployment guide](docs/09-deployment-guide.md) first. It covers
+a separate nonroot application copy, private environment, database migration and
+runtime roles, Caddy, HTTPS, systemd limits, validation, and the go-live checklist.
+You will need a domain, ACME email, and monitored abuse contact before launch.
+
+The public profile is opt-in with `LLAMA_PUBLIC_ORIGIN=https://YOUR_DOMAIN`, a
+database URL, and Secure cookies. It disables transient chat, enforces same-origin
+writes, limits API bodies/rates, reserves durable daily quotas, and permits one
+generation plus two waiters. See [security and resource controls](docs/10-security-and-resource-management.md).
+
+Migration `0002` and `deploy/` files are prepared, **not applied to this host**.
+The existing application database is still at its Phase 3 schema. Deploying later
+requires the explicit reviewed migration; `/ready` checks quota-table availability.
+No domain, firewall, public service, or public certificate was configured.
+[Operations and troubleshooting](docs/11-operations-and-troubleshooting.md) covers
+restart, backup, isolated restore, update, and rollback. Public HTTPS and installed
+service recovery remain future deployment checks.
+
+The ordinary suite can also start a temporary loopback Caddy proxy when a staged
+or installed test binary is available. Use `LLAMA_TEST_CADDY=/path/to/caddy` to
+select one; otherwise its configuration/proxy cases report skips. Full integration:
+
+```bash
+source .runtime/database.env
+unset LLAMA_DATABASE_URL
+pytest --run-database --run-inference
+```
+
+Tests use temporary listeners and isolated `_test` schemas; they do not deploy.

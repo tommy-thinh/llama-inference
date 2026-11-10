@@ -1,9 +1,86 @@
 # Project status
 
-Updated: 2026-11-09. **Phase 3 is complete for local, single-worker use.
-PostgreSQL persistence, real Llama streaming, independent tests/review, and an
-actual HTTP restart/cancellation smoke check pass. Phase 1 is committed as
-`de5b6b5` (`Phase 1`); Phase 2 as `e9afd64` (`Phase 2`). Stop before Phase 4.**
+Updated: 2026-11-09. **Phase 4 code and deployment preparation are ready locally;
+public deployment is explicitly deferred by Tommy.** Phases 1–3 are committed as
+`de5b6b5`, `e9afd64`, and `bbae986`. No Phase 5 work is authorized.
+
+## Phase 4 — prepared, not deployed
+
+- Public mode is opt-in through an exact HTTPS `LLAMA_PUBLIC_ORIGIN`, database URL,
+  and Secure cookies. The local development profile remains available. No domain,
+  firewall, public listener, installed service, ACME certificate, or application
+  migration was configured by this milestone. Migration `0002` is prepared and
+  tested only in isolated test schemas; the application DB remains at `0001`.
+- Added same-origin/Host/Fetch Metadata guards, JSON/64KiB request bounds, security
+  headers, bounded rate tracking, safe JSON request/stream logs, and dependency
+  readiness. Public transient chat and API documentation are disabled. Client IP
+  is trusted only from the loopback Caddy peer's overwritten `X-Real-IP`.
+- Default public limits: 60 API requests/IP/minute, 6 inference requests/session/
+  minute; durable daily 50 requests/32768 reserved output tokens per session and
+  200/131072 per IP. Reservations include cancelled/failed/queue-rejected turns
+  once the turn transaction commits; unused actual token counts are not refunded.
+- One active generation and two FIFO waiters, ten-second queue wait, explicit
+  429/503 with Retry-After. Cancellation, upstream closure, terminal persistence,
+  and permit release are independently tested. Daily reservations survive restart;
+  minute windows/queue are intentionally single-process and reset on restart.
+- Prepared Caddy static allowlist/reverse proxy, three private environment
+  examples, dedicated nonroot systemd units/resource ceilings, least-privilege
+  runtime grants, checked private atomic logical backups, and manual fresh-target
+  restore/rollback. These files are not installed. Complete official Meta license
+  and use policy are pinned with source hashes; UI displays Built with Llama.
+- Independent tests first derived requirements from the spec/docs. Review found
+  and fixed a request-count normal shutdown incompatible with restart-on-failure,
+  and readiness falsely passing without the quota schema. Testing also found a
+  permit promotion/cancellation race; the unchanged regression passes after the
+  fix. Other failure classifications are recorded in the verification evidence.
+- A checksum-verified Ubuntu Caddy 2.6.2 package was extracted under ignored
+  `.runtime` strictly for testing. It was not installed. Local HTTP proxy tests
+  verify real assets/imports, private-path isolation, client-header overwriting,
+  progressive SSE and cancellation. A custom-format PostgreSQL dump restored
+  successfully only within an isolated `_test` schema.
+- A complete certificate-verified **loopback HTTPS** check connected actual Caddy,
+  a real backend process, PostgreSQL, and pinned Llama inference. It verified
+  Secure cookies, arithmetic streaming/metrics, durable quotas, saved history
+  after process restart, cross-origin403, transient404, cancelled partial text,
+  and a successful following request. The temporary self-signed certificate was
+  trusted only by that test client; no system CA change or ACME request occurred.
+
+| Executed in the `llama` environment | Actual result |
+| --- | --- |
+| `ruff check .` | Passed |
+| `ruff format --check .` | Passed; 77 files formatted |
+| `pytest -q` | **318 passed, 51 intentional skips**, 10.24 s |
+| `pytest -q --run-database --run-inference` | **369 passed, 0 skipped, 0 failed**, 59.18 s |
+| Independent security/public persistence tests | 53 passed plus new readiness migration regression passed |
+| Independent deployment tests | 12 passed, including real isolated dump/restore |
+| Independent real public-stack HTTPS test | 1 passed, 7.40 s; also included in final full suite |
+
+The ordinary skips are 43 database cases (two also need native inference) and
+8 other native cases. Caddy tests ran using the staged verified binary. A machine
+without a test Caddy binary reports additional explicit skips. The first parent
+ordinary run could not create loopback/systemd-analysis sockets inside the
+restricted sandbox; the unchanged final suite ran with approved temporary socket
+access. An initial public-stack test parser incorrectly joined valid null-content
+role events; the tester corrected that oracle and retained all behavior checks.
+
+Evidence: [final verification/source snapshot](evidence/phase4-verification.json),
+[ordinary JUnit](evidence/phase4-ordinary-tests.xml),
+[full live JUnit](evidence/phase4-live-tests.xml),
+[proxy/backup/unit checks](evidence/phase4-deployment-verification.json),
+[real loopback HTTPS stack](evidence/phase4-public-stack-verification.json),
+[read-only not-deployed check](evidence/phase4-not-deployed.json).
+Final inspection found no remaining owned Caddy/native processes or listeners
+on80/443/2019/8000/8081, no installed Phase4 unit files, and PostgreSQL still only
+on127.0.0.1:5432. The application migration remains0001, with no quota table.
+Phase4 changes remain uncommitted for Tommy's review.
+
+Read [deployment instructions](09-deployment-guide.md),
+[security/resource model](10-security-and-resource-management.md), and
+[operations/recovery](11-operations-and-troubleshooting.md). Independent
+[review](phase4-review-2026-11-09.md) verdict: **Ship the local preparation**.
+Actual public HTTPS, DNS/firewall checks, installed-service restart/recovery, and
+production restore remain deployment-time checks. The Phase 4 public-access
+completion criterion is pending by explicit user instruction.
 
 ## Phase 3 — PostgreSQL and persistence
 
@@ -82,7 +159,8 @@ Evidence: [verification/source snapshot](evidence/phase3-verification.json),
 
 Read [database design and local setup](07-database-design.md) and
 [sessions/persistent API](08-sessions-and-persistence.md) to understand the new
-layer. Phase 3 changes remain uncommitted for Tommy; no Phase 4 work began.
+layer. Tommy subsequently committed Phase 3 as `bbae986` (`Phase 3`).
+The results above describe that snapshot before Phase 4 preparation.
 
 
 ## Output-limit update
@@ -407,13 +485,15 @@ not account recovery. Clearing the cookie loses access. Recovery runs on startup
 multiple workers or overlapping instances need a lease design first. A crash or
 DB outage may lose text since the last checkpoint. The UI lists the latest 20
 conversations and latest 100 messages; older pages are available through the API
-without UI paging controls. Public HTTPS, full security/CSRF review, quotas,
-admission control, and backup/recovery procedures remain Phase 4. Prompt character
+without UI paging controls. Public HTTPS remains deferred. CSRF/rate/quota/admission controls and
+backup/recovery procedures are prepared in Phase 4; live enforcement by the
+installed deployment remains unverified. Prompt character
 bounds do not replace runtime token checks. Graphical browser layout was not
 automated. Phase 1 baseline measurements remain separate historical evidence.
 
 ## Next approved action
 
-Tommy can run persistent chat using the README two-terminal instructions and
-review the uncommitted Phase 3 changes. **Stop before Phase 4** and wait for
-separate approval before public deployment/security infrastructure work.
+Tommy can review Phase 4 preparation and follow docs09 when he chooses to
+deploy and supplies a real domain. **Do not deploy yet**: public changes and the
+application migration remain deferred. **Stop before Phase 5**; Efficient AI
+experiments require separate authorization.

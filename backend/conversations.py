@@ -1,5 +1,8 @@
 """Cookie-owned persistent conversation endpoints."""
 
+import asyncio
+import json
+import logging
 from uuid import UUID
 
 from fastapi import APIRouter, HTTPException, Query, Request, Response
@@ -91,9 +94,51 @@ async def requests(
 @router.post("/conversations/{identity}/chat")
 async def chat(request: Request, identity: UUID, body: TurnRequest):
     db = database(request)
-    request_id, payload = await db.reserve(await owner(request), identity, body)
+    settings = request.app.state.settings
+    session_id = await owner(request)
+    if settings.public_origin:
+        request.app.state.limiter.check(
+            "session", str(session_id), settings.session_requests_per_minute
+        )
+    request_id, payload = await db.reserve(
+        session_id,
+        identity,
+        body,
+        quota_ip=request.state.client_ip if settings.public_origin else None,
+        limits=settings,
+    )
 
     finalization = Finalization(db, request_id)
+    permit = None
+    try:
+        if settings.public_origin:
+            permit = await request.app.state.admission.for_request(request)
+    except BaseException as exc:
+        if isinstance(exc, asyncio.CancelledError):
+            await finalization.cancel_unfinished()
+        else:
+            try:
+                await finalization.finish("failed", "", {}, "admission_rejected")
+            except Exception:
+                pass  # Startup recovery preserves the reservation if persistence is unavailable.
+        raise
+
+    async def cleanup():
+        try:
+            await finalization.cancel_unfinished()
+        finally:
+            if permit:
+                await permit.release()
+            logging.getLogger("llama.requests").info(
+                json.dumps(
+                    {
+                        "event": "stream_complete",
+                        "request_id": request.state.request_id,
+                        "status": finalization.outcome,
+                    }
+                )
+            )
+
     return ChatStreamingResponse(
         persistent_events(
             db,
@@ -106,7 +151,7 @@ async def chat(request: Request, identity: UUID, body: TurnRequest):
         ),
         # Headers can fail before the generator starts, so cleanup also belongs
         # to the response lifecycle. Closing an unstarted generator runs no finally.
-        background=BackgroundTask(finalization.cancel_unfinished),
+        background=BackgroundTask(cleanup),
         total_timeout=request.app.state.settings.total_timeout,
         media_type="text/event-stream",
         headers={

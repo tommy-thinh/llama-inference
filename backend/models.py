@@ -1,10 +1,11 @@
 """PostgreSQL persistence rows and database-enforced invariants."""
 
-from datetime import datetime
+from datetime import date, datetime
 from uuid import UUID, uuid4
 
 from sqlalchemy import (
     CheckConstraint,
+    Date,
     DateTime,
     Float,
     ForeignKey,
@@ -22,6 +23,19 @@ from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
 
 class Base(DeclarativeBase):
     pass
+
+
+class DailyQuota(Base):
+    __tablename__ = "daily_quotas"
+    scope: Mapped[str] = mapped_column(String(16), primary_key=True)
+    subject_hash: Mapped[str] = mapped_column(String(64), primary_key=True)
+    day: Mapped[date] = mapped_column(Date, primary_key=True, index=True)
+    requests: Mapped[int] = mapped_column(Integer, default=0, server_default="0")
+    tokens: Mapped[int] = mapped_column(Integer, default=0, server_default="0")
+    __table_args__ = (
+        CheckConstraint("scope IN ('ip','session')", name="ck_quota_scope"),
+        CheckConstraint("requests >= 0 AND tokens >= 0", name="ck_quota_usage"),
+    )
 
 
 class Session(Base):

@@ -1,0 +1,1 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="0" skipped="0" tests="1" time="7.406" timestamp="2026-11-09T11:14:10.954118+07:00" hostname="vpssieutoc.61147"><testcase classname="tests.test_public_stack" name="test_real_public_https_generation_restart_and_cancel" time="6.597" /></testsuite></testsuites>

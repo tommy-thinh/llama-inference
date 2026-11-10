@@ -182,3 +182,15 @@ Active conversations and sessions with any running descendant are protected unde
 row locks. Expiry is fixed at 30 days from session creation, not a sliding timeout;
 `last_seen_at` records activity but does not extend the cookie. No automatic
 retention schedule or backup service is configured in Phase 3.
+
+## Phase 4 quota migration (prepared only)
+
+Revision `0002` adds `daily_quotas` keyed by `(scope, subject_hash, day)`, with
+nonnegative request/reserved-token counters and a day index for retention. It
+uses UTC days and locks IP then session rows in a fixed order. Both increments
+and the turn reservation commit together; rejecting either budget rolls back all
+changes. Quotas are not foreign-keyed to sessions: deleting a session cannot
+refund its IP's daily usage. [Public controls](10-security-and-resource-management.md)
+explain the conservative reservation policy. The application database has not
+been migrated for deployment; use the future explicit staging instructions in
+[09](09-deployment-guide.md).

@@ -7,10 +7,11 @@ from uuid import UUID
 
 from fastapi import HTTPException
 from sqlalchemy import delete, select, update
+from sqlalchemy.dialects.postgresql import insert
 from sqlalchemy.engine import make_url
 from sqlalchemy.ext.asyncio import async_sessionmaker, create_async_engine
 
-from backend.models import Conversation, InferenceRequest, Message, Session
+from backend.models import Conversation, DailyQuota, InferenceRequest, Message, Session
 from backend.schemas import ChatRequest
 
 COOKIE_NAME = "llama_session"
@@ -56,6 +57,37 @@ class Database:
 
     async def close(self) -> None:
         await self.engine.dispose()
+
+    async def ping(self) -> bool:
+        async with self.sessions() as db:
+            # Also verify the required quota schema and runtime SELECT privilege.
+            await db.execute(select(DailyQuota.day).limit(1))
+            return True
+
+    async def reserve_quota(self, db, owner, ip, tokens, limits):
+        current = now()
+        retry = max(
+            1,
+            int(
+                (
+                    (current + timedelta(days=1)).replace(hour=0, minute=0, second=0, microsecond=0)
+                    - current
+                ).total_seconds()
+            ),
+        )
+        for scope, subject, requests, budget in (
+            ("ip", ip, limits.daily_ip_requests, limits.daily_ip_tokens),
+            ("session", str(owner), limits.daily_session_requests, limits.daily_session_tokens),
+        ):
+            key = {"scope": scope, "subject_hash": token_hash(subject), "day": current.date()}
+            await db.execute(insert(DailyQuota).values(**key).on_conflict_do_nothing())
+            row = await db.scalar(select(DailyQuota).filter_by(**key).with_for_update())
+            if row.requests >= requests or row.tokens + tokens > budget:
+                raise HTTPException(
+                    429, "Daily generation quota exceeded", headers={"Retry-After": str(retry)}
+                )
+            row.requests += 1
+            row.tokens += tokens
 
     async def session_for_token(self, token: str | None) -> Session | None:
         if not token or not 40 <= len(token) <= 128:
@@ -180,7 +212,9 @@ class Database:
                 "offset": offset,
             }
 
-    async def reserve(self, owner: UUID, identity: UUID, turn) -> tuple[UUID, dict]:
+    async def reserve(
+        self, owner: UUID, identity: UUID, turn, *, quota_ip=None, limits=None
+    ) -> tuple[UUID, dict]:
         async with self.sessions.begin() as db:
             conversation = await self._owned(db, owner, identity, lock=True)
             if await db.scalar(
@@ -213,6 +247,8 @@ class Database:
                 raise HTTPException(
                     422, "Saved conversation exceeds context input limits; start a new conversation"
                 ) from exc
+            if quota_ip is not None:
+                await self.reserve_quota(db, owner, quota_ip, turn.max_tokens, limits)
             request = InferenceRequest(
                 conversation_id=identity, **turn.model_dump(exclude={"content"})
             )
@@ -312,13 +348,13 @@ class Database:
                 )
             return len(identities)
 
-    async def cancel_unfinished(self, identity: UUID) -> None:
+    async def cancel_unfinished(self, identity: UUID) -> str | None:
         async with self.sessions.begin() as db:
             request = await db.scalar(
                 select(InferenceRequest).where(InferenceRequest.id == identity).with_for_update()
             )
             if request is None or request.status != "running":
-                return
+                return request.status if request is not None else None
             request.status, request.finished_at = "cancelled", now()
             request.error_code = "client_disconnected"
             request.latency_seconds = max(0.0, (now() - request.started_at).total_seconds())
@@ -327,6 +363,7 @@ class Database:
                 .where(Message.request_id == identity, Message.role == "assistant")
                 .values(status="cancelled", updated_at=now())
             )
+        return "cancelled"
 
     async def retain(self, days: int = 30, apply: bool = False) -> dict:
         if days < 1:
@@ -381,6 +418,7 @@ class Database:
             if apply:
                 await db.execute(delete(Conversation).where(Conversation.id.in_(conversations)))
                 await db.execute(delete(Session).where(Session.id.in_(sessions)))
+                await db.execute(delete(DailyQuota).where(DailyQuota.day < cutoff.date()))
             return {
                 "conversations": len(conversations),
                 "sessions": len(sessions),

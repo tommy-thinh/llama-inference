@@ -2,7 +2,7 @@
 
 The browser holds a random 256-bit session cookie, and PostgreSQL stores only its
 hash. It is HttpOnly, SameSite=Lax, scoped to `/api`, with a 30-day lifetime.
-Secure cookies are configurable for future HTTPS; local HTTP uses Secure=false.
+The prepared public HTTPS profile requires Secure=true; local HTTP uses Secure=false.
 Losing the cookie loses access to that anonymous session; no accounts are added.
 
 ## Persistent API contract
@@ -31,9 +31,10 @@ Losing the cookie loses access to that anonymous session; no accounts are added.
   metadata with request/conversation IDs, then ordinary text/usage events. Durable
   successful completion precedes `[DONE]`. Terminal errors use the existing safe
   SSE error contract; persistence failures use `persistence_error`.
-- The earlier `/api/chat` remains an explicit transient endpoint for compatibility
+- The earlier `/api/chat` remains a local-profile transient endpoint for compatibility
   and existing inference tests. It does not read or write saved conversations.
-  The browser uses only the persistent endpoint.
+  The browser uses only the persistent endpoint. The public profile disables
+  transient chat so it cannot bypass quotas and session ownership.
 - With no database configured, transient inference remains available; persistent
   endpoints return safe 503 errors. There is no silent in-memory persistence fallback.
 

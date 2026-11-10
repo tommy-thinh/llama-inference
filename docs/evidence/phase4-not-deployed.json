@@ -1,0 +1,11 @@
+{
+  "scope": "Read-only post-test check; no deployment",
+  "credential_mode": "0o600",
+  "application_migration": "0001",
+  "application_quota_table_present": false,
+  "postgresql_listen_addresses": "127.0.0.1",
+  "installed_phase4_unit_files": {
+    "llama-backend.service": false,
+    "llama-inference.service": false
+  }
+}

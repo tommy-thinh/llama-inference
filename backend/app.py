@@ -5,7 +5,7 @@ from contextlib import asynccontextmanager
 from pathlib import Path
 
 import httpx
-from fastapi import FastAPI, Request
+from fastapi import FastAPI, HTTPException, Request
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import FileResponse, JSONResponse, StreamingResponse
 from fastapi.staticfiles import StaticFiles
@@ -15,8 +15,10 @@ from backend.config import Settings
 from backend.conversations import router
 from backend.database import Database
 from backend.inference import stream_chat
+from backend.resources import Admission, RateLimiter
 from backend.responses import ChatStreamingResponse
 from backend.schemas import ChatRequest
+from backend.security import SecurityMiddleware
 
 FRONTEND = Path(__file__).resolve().parents[1] / "frontend"
 
@@ -50,8 +52,17 @@ def create_app(
                 if app.state.database:
                     await app.state.database.close()
 
-    app = FastAPI(title="Local Llama chat", lifespan=lifespan)
+    app = FastAPI(
+        title="Llama chat",
+        lifespan=lifespan,
+        docs_url=None if selected.public_origin else "/docs",
+        redoc_url=None if selected.public_origin else "/redoc",
+        openapi_url=None if selected.public_origin else "/openapi.json",
+    )
     app.state.settings = selected
+    app.state.limiter = RateLimiter()
+    app.state.admission = Admission(selected.queue_size, selected.queue_wait_timeout)
+    app.add_middleware(SecurityMiddleware, settings=selected, limiter=app.state.limiter)
     app.include_router(router)
 
     @app.exception_handler(SQLAlchemyError)
@@ -61,6 +72,7 @@ def create_app(
         )
 
     app.mount("/static", StaticFiles(directory=FRONTEND), name="static")
+    app.mount("/legal", StaticFiles(directory=FRONTEND.parent / "legal"), name="legal")
 
     @app.exception_handler(RequestValidationError)
     async def invalid_request(request: Request, exc: RequestValidationError):
@@ -82,8 +94,27 @@ def create_app(
     async def health():
         return {"status": "ok"}
 
+    @app.get("/ready")
+    async def ready(request: Request):
+        try:
+            async with asyncio.timeout(2):
+                db = request.app.state.database
+                if db is None or not await db.ping():
+                    raise ValueError("Database unavailable")
+                upstream = await request.app.state.client.get("/health")
+                try:
+                    if not upstream.is_success or upstream.json().get("status") != "ok":
+                        raise ValueError("Inference unavailable")
+                finally:
+                    await upstream.aclose()
+        except (SQLAlchemyError, httpx.HTTPError, TimeoutError, ValueError, AttributeError):
+            return JSONResponse(status_code=503, content={"status": "not_ready"})
+        return {"status": "ready"}
+
     @app.post("/api/chat", response_class=StreamingResponse)
     async def chat(payload: ChatRequest, request: Request):
+        if selected.public_origin:
+            raise HTTPException(404, "Not found")
         return ChatStreamingResponse(
             stream_chat(request.app.state.client, payload.upstream_payload(), selected),
             total_timeout=selected.total_timeout,

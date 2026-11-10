@@ -5,8 +5,11 @@ intuition before details, explain why decisions work, and use concrete examples.
 Keep chat updates concise; put detailed teaching material in `docs/`.
 
 - Follow `PROJECT_SPEC.md`. Implement only the phase explicitly authorized.
-- Phases 1 and 2 are committed as `de5b6b5` and `e9afd64`. Tommy authorized
-  Phase 3 on 2026-11-09. Complete PostgreSQL persistence, then stop before Phase 4.
+- Phases 1–3 are committed as `de5b6b5`, `e9afd64`, and `bbae986`. Tommy authorized
+  Phase 4 preparation on 2026-11-09 and explicitly said **do not deploy yet**.
+  Implement/test locally and provide manual deployment instructions. Leave public
+  DNS, firewall, certificates, installed services, and application migrations untouched.
+  Stop before Phase 5.
 - Read `docs/project-status.md` before continuing work in a later session.
 - Use CPU-only llama.cpp and the exact Meta Llama 3.2 1B Instruct model in the
   active configuration; never substitute silently. Keep the former Qwen model
@@ -32,6 +35,10 @@ Keep chat updates concise; put detailed teaching material in `docs/`.
   database, with isolated schemas. Never run tests against application data.
 - Local credentials are in ignored `.runtime/database.env` (mode 0600). Never
   print or commit them. Retention defaults to dry run; `--apply` deletes rows.
+- Before public-profile, proxy, service, quota, or recovery changes, read
+  `docs/09-deployment-guide.md`, `docs/10-security-and-resource-management.md`,
+  and `docs/11-operations-and-troubleshooting.md`. Public mode requires one worker,
+  Secure cookies, an exact HTTPS origin, and the explicitly migrated quota schema.
 - For implementation changes, delegate test design and test changes to an
   independent tester subagent. Have it derive expected behavior from the spec,
   documentation, and any architecture/class diagrams before reading implementation.

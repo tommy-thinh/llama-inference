@@ -1,0 +1,52 @@
+{
+  "date": "2026-11-09",
+  "scope": "Real public profile tested through certificate-verified HTTPS on loopback only; no deployment",
+  "requirements": [
+    "PROJECT_SPEC.md Phase 4",
+    "docs/09-deployment-guide.md",
+    "docs/10-security-and-resource-management.md",
+    "docs/11-operations-and-troubleshooting.md"
+  ],
+  "command": "pytest tests/test_public_stack.py -q --run-database --run-inference --basetemp=.runtime/public-stack-tests --junitxml=docs/evidence/phase4-public-stack-tests.xml",
+  "environment": "llama Conda environment, pinned CPU Meta Llama 3.2 1B Instruct, PostgreSQL 18.6, staged Ubuntu Caddy 2.6.2",
+  "result": {"passed": 1, "failed": 0, "skipped": 0, "seconds": 7.40},
+  "ordinary_result": {"passed": 0, "failed": 0, "skipped": 1, "reason": "Requires explicit database and inference flags"},
+  "tls": {
+    "certificate": "One-day self-signed certificate generated in the ignored test directory with IP SAN 127.0.0.1",
+    "verification": "HTTPX SSLContext trusts only the temporary certificate; hostname verification enabled",
+    "system_ca_changes": false,
+    "acme": false,
+    "admin_api": false,
+    "listener": "Explicit Caddy bind 127.0.0.1 on a random unprivileged port"
+  },
+  "executed_checks": [
+    "Production Caddy template adapted and validated with only local HTTPS/listener/upstream substitutions",
+    "Real backend subprocess configured for public origin, Secure cookies, isolated migrated *_test schema, and real native upstream",
+    "Public readiness and Built with Llama frontend",
+    "HTTPS session bootstrap sets Secure, HttpOnly, SameSite=Lax, and /api cookie scope",
+    "Cookie-owned persistent arithmetic generation returns 4 and successful SSE terminator",
+    "Actual prompt/completion usage and TTFT stored with completed request",
+    "Durable session and IP quota rows each charge one request and 16 reserved tokens",
+    "Forged Origin returns 403 and transient chat returns 404",
+    "Real backend process shutdown/restart preserves identical messages for the existing HTTPS cookie jar",
+    "Disconnect after three visible text chunks finalizes cancelled state with nonempty saved partial text",
+    "Next real arithmetic turn succeeds, proving admission and native cancellation cleanup",
+    "Session and IP quota rows each finish at three requests and 288 reserved tokens; cancellation remains charged"
+  ],
+  "test_config": "docs/evidence/phase4-public-stack-Caddyfile",
+  "test_config_note": "Exact successful Caddy config; contains only paths to temporary certificate/key, never key bytes or credentials",
+  "source_sha256": {
+    "tests/test_public_stack.py": "cf8db1d00410daa37d9a9a7f2e8b17957185f3d6b93ebbe6796d285547312147",
+    "deploy/Caddyfile": "e0709f657def33a5c83388548c935551127ae984eb4db44cce21a491d2178f47"
+  },
+  "failure_classification": [
+    "Initial test parser attempted to join the valid initial native content:null delta; test defect corrected to ignore empty deltas before the passing run"
+  ],
+  "cleanup": "Owned Caddy/backend/native processes stopped and reaped; isolated schema dropped; no caddy or llama-server processes found afterward",
+  "not_executed": [
+    "Public DNS, public listeners, ACME or public certificate issuance",
+    "Firewall, installed service changes, or system CA trust changes",
+    "Application database migrations or application data writes",
+    "Installed systemd restart/recovery or production restore"
+  ]
+}

@@ -1,0 +1,124 @@
+{
+  "date": "2026-11-09",
+  "scope": "Phase4 code, tests, deployment templates and manual instructions only; no deployment or Phase5",
+  "base_commit": "bbae9868f12b16db067dc53905c3180f76eef9d2",
+  "environment": "llama Conda Python3.11; direct dependencies unchanged from Phase3",
+  "commands": [
+    {
+      "command": "ruff check .",
+      "exit_code": 0
+    },
+    {
+      "command": "ruff format --check .",
+      "exit_code": 0,
+      "files": 77
+    },
+    {
+      "command": "pytest -q --junitxml=docs/evidence/phase4-ordinary-tests.xml",
+      "exit_code": 0
+    },
+    {
+      "command": "pytest -q --run-database --run-inference --junitxml=docs/evidence/phase4-live-tests.xml",
+      "exit_code": 0
+    }
+  ],
+  "execution": "Commands executed through conda run -n llama; final tests allowed temporary loopback sockets. LLAMA_DATABASE_URL unset; LLAMA_TEST_DATABASE_URL supplied privately.",
+  "suites": {
+    "ordinary": {
+      "tests": 369,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 51,
+      "passed": 318,
+      "seconds": 10.226
+    },
+    "live": {
+      "tests": 369,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "passed": 369,
+      "seconds": 59.177
+    }
+  },
+  "independent_roles": {
+    "backend_tester": "GPT-6.1-Sol high",
+    "deployment_implementer": "GPT-6.1-Sol high",
+    "deployment_tester": "GPT-6.1-Sol high",
+    "reviewer": "GPT-6.1-Sol high, ponytail-review, Ship local preparation"
+  },
+  "verification_artifacts": [
+    "phase4-deployment-verification.json",
+    "phase4-public-stack-verification.json",
+    "phase4-not-deployed.json"
+  ],
+  "resolved_failures": [
+    "Permit promotion/cancellation race reproduced independently and fixed without weakening regressions",
+    "Uvicorn request-count exit removed because Restart=on-failure does not restart normal exit",
+    "Readiness now checks required quota schema; isolated downgrade/upgrade regression passes",
+    "Frontend asset URL integration mismatch fixed in Caddy and actual HTML/import URL regression added",
+    "Initial proxy/systemd test errors were restricted-sandbox socket denials; unchanged tests pass with approved loopback access",
+    "Readiness mock response and deque assertions corrected as test-fixture mismatches",
+    "Initial real-stack test parser corrected to ignore valid null-content native role events"
+  ],
+  "not_deployed": {
+    "application_migration": "0001",
+    "application_daily_quotas_exists": false,
+    "public_services_installed": false,
+    "public_DNS_firewall_ACME_changed": false,
+    "no_system_CA_trust_change": true,
+    "caddy_package": "extracted only under ignored .runtime, never installed"
+  },
+  "preserved": "Exact model weights/runtime pins, historical Qwen, existing benchmarks and application data. No changes under inference/, benchmarks/, environment.yml or pyproject.toml.",
+  "remaining_deployment_checks": [
+    "real domain, ACME email and monitored abuse contact",
+    "stage reviewed release and private production Conda prefix",
+    "backup then explicitly migrate application to0002 and grant runtime privileges",
+    "install and validate future units/Caddy",
+    "public DNS, firewall and CA-issued HTTPS",
+    "installed systemd restart/recovery and production restore rehearsal"
+  ],
+  "source_sha256": {
+    ".env.example": "92c38acf640d75bcc4ec35edf99db6f5234a7ef00523e927c75d22ab7aa2e010",
+    "AGENTS.md": "dae03ef999688775e293c700c6c30807f1809ef5a762109012edc06c1c59699d",
+    "PROJECT_SPEC.md": "51bd403462da87a66d8f5e8d28b95e5b1c8658eee82388c09f692b40c587fa1e",
+    "README.md": "4d1ec3d1062dc47b62ccc59e3a6f8d47a5924061a8e144148a3e1eb5484ef696",
+    "backend/__main__.py": "c72e6373bb118723b7c869877d310b966f792af633210a7b7e153e40638e6ab6",
+    "backend/app.py": "d97e35a975c66fcc04fc00d28f2d0869a8ae79160f3eeecfe7d9bd472451dfa2",
+    "backend/config.py": "f6800833882ce47dc04d26d945852852a59a88a936b8ddb7de1fcd2937641050",
+    "backend/conversations.py": "d281eb5002dc5a6e8999e157a2095220ee17f9c722630cce8609e29f1803cf07",
+    "backend/database.py": "b2e26430e9e64d7511f2e739ab300eeee9b978a966464de2c3ca1ac248d82cd2",
+    "backend/migrations/versions/0002_durable_daily_inference_quotas.py": "d73dcc5a36c96f64c0cd1fd4685909cecdc07557037a01efefd8194d6e285a37",
+    "backend/models.py": "6714e934fb63c89281a7c5deaaa0eeaade6b0f7d58749b1f0cc9c5eb004eb919",
+    "backend/persistent_chat.py": "d65176d0f4a9eb3dbe1042a7f5c7fc6c256d45d1f4ee6c265015a3708a3ad4b0",
+    "backend/resources.py": "c734d8ad6fa808159ed1452094df052e49f7f3f2cbde4d01abc7072a79b8af6a",
+    "backend/security.py": "04344255f09491afa638aa08e6f333f3adaf9664592b0cafff4fcc9048f92f3a",
+    "deploy/Caddyfile": "e0709f657def33a5c83388548c935551127ae984eb4db44cce21a491d2178f47",
+    "deploy/backend.env.example": "11d586a5a0c461d7da59769929bd638e583171e13ba7dd714ce4dc577f8aac6d",
+    "deploy/backup-database.sh": "b3bef628d1df0a0e36f1f07649eb0ebef0b677cd35ed6246f61aabcab559a824",
+    "deploy/caddy.env.example": "66e76bde1af097ca4d03fb6fb559b0e1a22090203587600bd4d8017a82359b22",
+    "deploy/inference.env.example": "3f9d349a1a8f33db827be4477448339d4506ad8112bfcfe6d05eea1e6a82010c",
+    "deploy/runtime-grants.sql": "3461567aad9e70c2a1b9bc1494b3e61b6e1469345f5c2fbc628c1337e23024ad",
+    "deploy/systemd/caddy-llama.conf": "adef4a61418f3b9af16605f3c44d6b5ca6d0d8547cdd1b4c01ed4d75fac6d117",
+    "deploy/systemd/llama-backend.service": "bea39b6e4a9c3931e91fcebaad4e966deab469103980766270da354dd5d3959a",
+    "deploy/systemd/llama-inference.service": "f25c080cdce814b5231819835ae83bcd6437788cae868242169e831fb4a3c5d1",
+    "docs/04-fastapi-architecture.md": "f720a32187ca4142b630d8742fe3d79c98ceee34f8e8fd9d1b9d4d0114fab1fb",
+    "docs/07-database-design.md": "87351ca58a4a7e5fd33e4073042efceb8c577c3750ac09ddf5bd51ddd15a4faa",
+    "docs/08-sessions-and-persistence.md": "bcfac75dfdb69251ca1d63becd7083e1b14280e110db55ce26b52314244a7cc3",
+    "docs/09-deployment-guide.md": "7cb5aea879428b953ea990f613e073b74c989a121760d39e063bce4a418dc9f1",
+    "docs/10-security-and-resource-management.md": "992303d9f78314be8fab50152fa8c52994ea95e512b0dbe3c51d437970f002fc",
+    "docs/11-operations-and-troubleshooting.md": "974fe208ee5977d60612336df6a57df25e379351f72c2cc12882f0c39af290db",
+    "docs/phase4-review-2026-11-09.md": "27de7dda9e9135a88fefb16d5ed9bb9c3a533435dfe4ad5e1c8a5a42f32c3a90",
+    "docs/project-status.md": "ddaf5925ec8962b0a2bbc2481d6f9b31769f4aa9afc5731cea7bb0c6a2ad0bb9",
+    "frontend/index.html": "b1b4050c6a3344c20ea7b252d88030d1e95af338a7c192a30546c5353eb4d834",
+    "legal/LLAMA-3.2-LICENSE.txt": "8cc15535a8a34b41888f644b339a1a9eb428af793a4f5e24df58a3e5b1487d74",
+    "legal/LLAMA-3.2-USE-POLICY.md": "40e2777d7faa6beaf98400654170f414d8ab29b921b5163ad4ea0a1d39894201",
+    "legal/NOTICE": "3bc2d1a6b360a03d172058198631b931c9aadf01650892fb0d25b93c6b8f0025",
+    "legal/README.md": "850e8bbb9dc0ca3969e121aeacfa5c565661c495de6d2573f0711c0c2921ef27",
+    "legal/sources.json": "8a13b34a3302c0aab475d3f604e960bcd18ee6ea0ef6f7d9be88089b3b2db41f",
+    "tests/test_deployment.py": "746658a0085b55ba250cc541067d7ad116abb589fe9026b77fbacdca31b13305",
+    "tests/test_public_persistence.py": "495cb0c4a2206ffeb9422afc00a6c478ef6ab8c2a8fa917732b2825a828fdb64",
+    "tests/test_public_stack.py": "cf8db1d00410daa37d9a9a7f2e8b17957185f3d6b93ebbe6796d285547312147",
+    "tests/test_security.py": "74a9868608e8b1149a279afef5c81af39237085a869f2fe3cc1c57ba88f6c8ef"
+  }
+}

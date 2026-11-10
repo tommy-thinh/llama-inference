@@ -1,0 +1,70 @@
+{
+	email {$LLAMA_ACME_EMAIL}
+	admin 127.0.0.1:2019
+	servers {
+		timeouts {
+			read_header 5s
+			read_body 10s
+			write 150s
+			idle 30s
+		}
+		max_header_size 16KB
+	}
+}
+
+{$LLAMA_DOMAIN} {
+	header {
+		Strict-Transport-Security "max-age=31536000"
+		Content-Security-Policy "default-src 'none'; script-src 'self'; style-src 'self'; connect-src 'self'; img-src 'self' data:; base-uri 'none'; frame-ancestors 'none'; form-action 'self'"
+		X-Content-Type-Options nosniff
+		X-Frame-Options DENY
+		Referrer-Policy no-referrer
+		Permissions-Policy "camera=(), microphone=(), geolocation=()"
+		-Server
+	}
+
+	@legacy path /api/chat /api/chat/*
+	handle @legacy {
+		respond "Not found" 404
+	}
+
+	@backend path /api/* /health /ready
+	handle @backend {
+		request_body {
+			max_size 65536
+		}
+		reverse_proxy 127.0.0.1:8000 {
+			header_up X-Real-IP {remote_host}
+			header_up -Forwarded
+			header_up -X-Forwarded-For
+			header_up -X-Forwarded-Host
+			header_up -X-Forwarded-Proto
+			# text/event-stream flushes immediately by default. A negative
+			# flush_interval would prevent early disconnect cancellation.
+			transport http {
+				dial_timeout 3s
+				response_header_timeout 135s
+				read_timeout 135s
+				write_timeout 10s
+			}
+		}
+	}
+
+	@legal path /legal/LLAMA-3.2-LICENSE.txt /legal/LLAMA-3.2-USE-POLICY.md /legal/NOTICE
+	handle @legal {
+		uri strip_prefix /legal
+		root * {$LLAMA_LEGAL_ROOT}
+		file_server
+	}
+
+	@frontend path / /index.html /static/app.mjs /static/stream.mjs /static/style.css
+	handle @frontend {
+		uri strip_prefix /static
+		root * {$LLAMA_STATIC_ROOT}
+		file_server
+	}
+
+	handle {
+		respond "Not found" 404
+	}
+}

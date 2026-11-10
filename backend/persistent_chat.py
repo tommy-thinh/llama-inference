@@ -22,6 +22,7 @@ class Finalization:
         self.database = database
         self.identity = identity
         self.deadline = None
+        self.outcome = "running"
 
     async def write(self, operation, *args):
         if self.deadline is None:
@@ -29,13 +30,19 @@ class Finalization:
         with anyio.CancelScope(shield=True):
             try:
                 async with asyncio.timeout(max(0, self.deadline - time.monotonic())):
-                    await operation(self.identity, *args)
+                    return await operation(self.identity, *args)
             except TimeoutError as exc:
                 raise PersistenceTimeout from exc
 
+    async def finish(self, status, content, metrics, code=None):
+        await self.write(self.database.finish, status, content, metrics, code)
+        self.outcome = status
+
     async def cancel_unfinished(self):
         try:
-            await self.write(self.database.cancel_unfinished)
+            outcome = await self.write(self.database.cancel_unfinished)
+            if outcome:
+                self.outcome = outcome
         except (SQLAlchemyError, PersistenceTimeout):
             pass  # Recovery resolves the last durable checkpoint on restart.
 
@@ -56,7 +63,7 @@ async def persistent_events(
     async def finish(status, code=None):
         nonlocal terminal
         metrics["latency_seconds"] = max(0.0, time.monotonic() - started)
-        await finalization.write(database.finish, status, output, metrics, code)
+        await finalization.finish(status, output, metrics, code)
         terminal = True
 
     try:
@@ -153,8 +160,7 @@ async def persistent_events(
             await upstream.aclose()
             if not terminal:
                 try:
-                    await finalization.write(
-                        database.finish,
+                    await finalization.finish(
                         "failed" if failure_code else "cancelled",
                         output,
                         {**metrics, "latency_seconds": max(0.0, time.monotonic() - started)},

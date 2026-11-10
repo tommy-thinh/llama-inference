@@ -75,7 +75,8 @@ native runtime and benchmark modules keep their Phase 1 responsibilities.
 Start llama-server in one terminal and the backend in another. Both bind only
 loopback. Remote testing uses SSH port forwarding to backend port 8000; the
 browser needs no direct inference-server access. Explicit resource admission,
-quotas, Caddy/HTTPS, backups, and public exposure belong to Phase 4. PostgreSQL
+quotas and security controls are prepared with Caddy/systemd/backup templates
+in [Phase 4](09-deployment-guide.md); actual public exposure is deferred. PostgreSQL
 is local and provisioned in Phase 3; run only one backend worker.
 
 FastAPI, Uvicorn, and Pydantic are Conda packages. Node.js is a development-only
