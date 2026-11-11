@@ -46,7 +46,7 @@ Defaults are four inference threads, one native slot, 4,096 context tokens, f16 
 
 ## Performance
 
-Measured on a six-vCPU Intel Xeon Platinum 8272CL VPS with 16 GB RAM, using the pinned CPU runtime and fixed synthetic prompts. The native sweep included 18 profiles and 232 successful requests (58 warm-ups and 174 measured). These comparisons use experimental configurations, not all application defaults.
+Measured on a six-vCPU Intel Xeon Platinum 8272CL VPS with 16 GB RAM, using the pinned CPU runtime and fixed synthetic prompts. The native sweep included 18 profiles and 232 successful requests (58 warm-ups and 174 measured).
 
 | Comparison | Observation |
 | --- | --- |
@@ -119,9 +119,3 @@ pytest --run-database --run-inference
 ```
 
 Ordinary tests do not load model weights or use PostgreSQL; real inference and database tests are opt-in. Proxy tests may skip if Caddy is unavailable. Live tests require verified local assets and a dedicated test database; database fixtures use isolated schemas. The [benchmark guide](docs/benchmarks.md) provides experiment commands, configuration, and interpretation.
-
-## Limitations and license
-
-The measurements use one host, fixed prompts, small sample sizes and warm OS pages; the four-thread control drifted 13.5% across the sweep. Toy exact-match scores do not establish general model quality. Systemd CPU ceilings and internet latency were not included in the measurements; remeasure under actual deployment constraints. Anonymous cookie sessions have no account recovery, and clearing the cookie loses access. One backend worker is required for queue and recovery ownership.
-
-Review the [Llama 3.2 Community License](legal/LLAMA-3.2-LICENSE.txt), [Acceptable Use Policy](legal/LLAMA-3.2-USE-POLICY.md), and attribution requirements before use or distribution.
