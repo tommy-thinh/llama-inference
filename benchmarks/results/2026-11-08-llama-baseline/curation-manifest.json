@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "scope": "Curated Llama measurement evidence; original raw measurement records and historical verification records are immutable.",
+  "current_files_sha256": {
+    "decode-speed.svg": "827a09303723509e9921bca91015f4a82c3bcdb5f6240cf708191e26f09c00de",
+    "raw.json": "65feca3a8e7d28c495dd3ca0a226a85ad2de82eadd5b2710a0ca9de8e69a0914",
+    "source.tar.gz": "882b38eb6d1148d96b00426df325db41473d26b0011ee1fe86c6bbc9abb43835",
+    "summary.md": "16f5a45445b357c44b3cba668bdc7f7ddf2cfda1933bc9854085945f89aa60fb",
+    "verification.json": "f8f311201985d085be7377aada7bce29ed9c46dd5ba273b97faa28de6f7bfa4a"
+  },
+  "original_verification_semantics": "verification.json records the measurement-time source/result tree, not the current repository layout. See this manifest for retained-file hashes.",
+  "differences_from_measurement_time_result_tree": {},
+  "development_archive": {
+    "repository": "https://github.com/tommy-thinh/llama",
+    "ref": "7e683a6623b2996214f9b588984fc0d762a6c247",
+    "path": "benchmarks/results/2026-11-08-llama-baseline"
+  },
+  "omitted_artifacts": "Standalone historical test XML and environmental-failure reports are retained in the development archive."
+}

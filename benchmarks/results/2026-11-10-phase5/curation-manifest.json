@@ -1,0 +1,52 @@
+{
+  "schema_version": 1,
+  "scope": "Curated Llama measurement evidence; original raw measurement records and historical verification records are immutable.",
+  "current_files_sha256": {
+    "README.md": "a4a80f5ccde790b43a9a01e91e051038bc9e0768daabb4e3a4b9f1adf3abb2c2",
+    "allocation-startup.txt": "37d76ea6766e7769b712d041c601bc7c93d5f3fef938874c5f551282a77265f4",
+    "allocation.json": "ca84cf31b5af32f6043a5230ffda64093434286264e17b936ac83315969634f7",
+    "kv-allocation.svg": "ae09769f3c473175c083f5ef3cc32d7d93523ffb275e58f055e800d93cd5c8f7",
+    "native-report/mean_decode_tokens_per_second.svg": "46887defc2eb51876ce66802ed3fc8f7cf7c576a27f83de15d2194174b4fb2f2",
+    "native-report/median_ttft_seconds.svg": "7152a0c7ae36e1df8582cd8051070c1e2bdf1dd6ebd52249da6864698d4022b2",
+    "native-report/quality-summary.json": "0d3d271c443f5ea165a3e3b56a3d7e32a2e5c7fcbf420e5c17fb8c5fed2e9d55",
+    "native-report/summary.json": "31a15409ebd2a4218f9c6e18f7b5ae2eb88324424a450514119401b2b1bc1eed",
+    "native-report/summary.md": "ecf2f02f3722527a36de5581d736fe33aaa66bd0d05fb84404502f665b100cd8",
+    "native-report/throughput_tokens_per_second.svg": "6108c1015f02638d76ba9ba9891eae241c6ed8e3ca3a7e85d6f8072fd8c84a1a",
+    "native.json": "1932a533fa0b39b1da13ee7395e2f4e39642da8fb6ef6f0e682f12d37ee742e0",
+    "prefix-report/mean_decode_tokens_per_second.svg": "8b7a3bc8ec8e3b81c527884f59e0a470e359db038ac850167f02be70436651e2",
+    "prefix-report/median_ttft_seconds.svg": "658448fc31a347e37d9a8a35b923b1ef3aac67588302c01ffd6fc4a3a5bd4a28",
+    "prefix-report/quality-summary.json": "f33e020228c0b21700be1c5f4d2c31bff1ef238035beb7d425453b5c00812c18",
+    "prefix-report/summary.json": "fb433c5fdaf5b120a2e669b017c6029e139d8a932c3abb51e2f35b7871ae858e",
+    "prefix-report/summary.md": "b05aa7da73e7f991a89eb1edeaebc27e4cb70358986d03cf4bfd5eedddf802e2",
+    "prefix-report/throughput_tokens_per_second.svg": "cef991382fe8bda8c0974422e22e4be07d5a4d0897f7eaabe4d044dd7736f4e7",
+    "prefix.json": "1ace47aa0ed7edf24aa2881f2c1bf95a3f832627ff19fc581ee3f05f87ed7809",
+    "q8-source-metadata.json": "20d9a95fab8d21b56990e81ff42d00d7a6694f619c731ebf9326fe4774f82084",
+    "q8-verification.json": "f43cb311a371bd7d9935ad79f019616916f8f6e39885bbeb36aa635434e50be3",
+    "source/experiment_artifacts.py.txt": "e6f2612e998f07fb79e33ca63b1040b2be9dd3b0b069603bdb344c1f918d6d51",
+    "source/experiments.py.txt": "b7e5c286f229429d99e712b2c386a5e9c3207c08276999c32a7e826a7b411da2",
+    "source/metrics.py.txt": "8d55d948bc970730c943ad2440e46af81a5e98763bd1380fdba39288eb690869",
+    "stack-report/stack-rejection_rate.svg": "de48e0c2714a8119a8e165167d899c9ceb6ae2bd76de5045cc4e1f8b084bf806",
+    "stack-report/stack-successful_requests_per_second.svg": "a05e84bfa73b13ca46da6759876c2b69a4ecfd8a7f53e7fed3097c6f39aa3d26",
+    "stack-report/stack-summary.json": "9450f2ea4139bd60a73274183c4f595629ac0e550838a01eb3b135b58a16d37b",
+    "stack-report/stack-summary.md": "5afe1cb40a890c70f39dfddb22b1e909ff14c8e6486b1b229a6613183ce742af",
+    "stack.json": "d9adc92e41934e42036af5fec05b166a1c19435fb1f25fdc057986b3c613b0a8",
+    "verification.json": "825d099975182244ed43d13828ecb7504db54b3c8e24154e18c6a29654c25e38"
+  },
+  "original_verification_semantics": "verification.json records the measurement-time source/result tree, not the current repository layout. See this manifest for retained-file hashes.",
+  "differences_from_measurement_time_result_tree": {
+    "README.md": {
+      "measurement_time_sha256": "c7f7a721a84dc1e69c6ba52dff8da79b46989311a384288ec77bd42739be562c",
+      "current_sha256": "a4a80f5ccde790b43a9a01e91e051038bc9e0768daabb4e3a4b9f1adf3abb2c2"
+    },
+    "stack-sandbox-failed.json": {
+      "measurement_time_sha256": "a4a85aa6867586e73d23fd0a4ff18ee90a89d6053a5fee85f5a218c3bd7acd3d",
+      "current_sha256": null
+    }
+  },
+  "development_archive": {
+    "repository": "https://github.com/tommy-thinh/llama",
+    "ref": "7e683a6623b2996214f9b588984fc0d762a6c247",
+    "path": "benchmarks/results/2026-11-10-phase5"
+  },
+  "omitted_artifacts": "Standalone historical test XML and environmental-failure reports are retained in the development archive."
+}

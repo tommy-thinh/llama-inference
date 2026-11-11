@@ -1,0 +1,10 @@
+[
+  {"id":"addition","prompt":"What is 2 + 2? Reply with only the integer.","pattern":"^4[.!]?$"},
+  {"id":"multiplication","prompt":"What is 7 times 8? Reply with only the integer.","pattern":"^56[.!]?$"},
+  {"id":"extract-age","prompt":"Record: Name=Mei; Age=21; City=Hue. Extract Age. Reply with only the integer.","pattern":"^21[.!]?$"},
+  {"id":"python-length","prompt":"What does Python print for print(len([2, 4, 6]))? Reply with only the integer.","pattern":"^3[.!]?$"},
+  {"id":"binary-unit","prompt":"How many bytes are in one KiB (kibibyte)? Reply with only the integer, without commas.","pattern":"^1024[.!]?$"},
+  {"id":"logic","prompt":"All roses are flowers. Does that imply all flowers are roses? Reply with only yes or no.","pattern":"(?i)^no[.!]?$"},
+  {"id":"translation","prompt":"Translate the English animal name cat into Spanish. Reply with only one lowercase word.","pattern":"^gato[.!]?$"},
+  {"id":"sequence","prompt":"Complete this sequence: 2, 4, 6, 8, __. Reply with only the next integer.","pattern":"^10[.!]?$"}
+]

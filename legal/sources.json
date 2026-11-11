@@ -1,0 +1,16 @@
+{
+  "fetched_on": "2026-11-09",
+  "revision": "8d29d93fa5700a60532e0061a02ffa89d0acd3fc",
+  "files": [
+    {
+      "file": "LLAMA-3.2-LICENSE.txt",
+      "source": "https://raw.githubusercontent.com/meta-llama/llama-models/8d29d93fa5700a60532e0061a02ffa89d0acd3fc/models/llama3_2/LICENSE",
+      "sha256": "8cc15535a8a34b41888f644b339a1a9eb428af793a4f5e24df58a3e5b1487d74"
+    },
+    {
+      "file": "LLAMA-3.2-USE-POLICY.md",
+      "source": "https://raw.githubusercontent.com/meta-llama/llama-models/8d29d93fa5700a60532e0061a02ffa89d0acd3fc/models/llama3_2/USE_POLICY.md",
+      "sha256": "40e2777d7faa6beaf98400654170f414d8ab29b921b5163ad4ea0a1d39894201"
+    }
+  ]
+}

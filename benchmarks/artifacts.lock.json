@@ -1,0 +1,102 @@
+{
+  "selected_date": "2026-11-10",
+  "purpose": "Additional Phase 5 experiment artifacts; active inference defaults remain in inference/artifacts.lock.json",
+  "runtime": {
+    "repository": "https://github.com/ggml-org/llama.cpp.git",
+    "tag": "v0.7.0",
+    "commit": "620d2225cc436ab0b001e3200e590e3b286ef9ab",
+    "cmake_options": [
+      "-DCMAKE_BUILD_TYPE=Release",
+      "-DGGML_NATIVE=ON",
+      "-DGGML_CUDA=OFF",
+      "-DGGML_VULKAN=OFF",
+      "-DGGML_BLAS=OFF",
+      "-DLLAMA_OPENSSL=OFF",
+      "-DLLAMA_BUILD_TESTS=OFF",
+      "-DLLAMA_BUILD_EXAMPLES=OFF",
+      "-DLLAMA_BUILD_APP=OFF",
+      "-DLLAMA_BUILD_UI=OFF",
+      "-DLLAMA_USE_PREBUILT_UI=OFF"
+    ]
+  },
+  "source_metadata_url": "https://huggingface.co/api/models/bartowski/Llama-3.2-1B-Instruct-GGUF/revision/067b946cf014b7c697f3654f621d577a3e3afd1c?blobs=true",
+  "q8_lfs_blob_id": "f7635420e39fb1506598e68c2b60342588020f93",
+  "models": {
+    "q4": {
+      "upstream": "meta-llama/Llama-3.2-1B-Instruct",
+      "upstream_revision": "9213176726f574b556790deb65791e0c5aa438b6",
+      "upstream_access": "manual-gated",
+      "repository": "bartowski/Llama-3.2-1B-Instruct-GGUF",
+      "revision": "067b946cf014b7c697f3654f621d577a3e3afd1c",
+      "quantized_by": "bartowski",
+      "quantizer": "llama.cpp b3821 with imatrix",
+      "filename": "Llama-3.2-1B-Instruct-Q4_K_M.gguf",
+      "sha256": "6f85a640a97cf2bf5b8e764087b1e83da0fdb51d7c9fab7d0fece9385611df83",
+      "size_bytes": 807694464,
+      "quantization": "Q4_K_M",
+      "architecture": "llama",
+      "license": "llama3.2",
+      "license_name": "Llama 3.2 Community License",
+      "license_url": "https://dev.meta.ai/llama/llama3_2/license",
+      "access_url": "https://huggingface.co/meta-llama/Llama-3.2-1B-Instruct",
+      "chat_template_source": "official upstream tokenizer_config.json as exposed by Hugging Face model metadata; cross-checked against the conversion card's Llama 3 prompt format",
+      "gguf_metadata": {
+        "general.file_type": 15,
+        "llama.block_count": 16,
+        "llama.embedding_length": 2048,
+        "llama.attention.head_count": 32,
+        "llama.attention.head_count_kv": 8,
+        "tokenizer.ggml.model": "gpt2",
+        "tokenizer.ggml.pre": "llama-bpe",
+        "tokenizer.ggml.bos_token_id": 128000,
+        "tokenizer.ggml.eos_token_id": 128009
+      },
+      "chat_template_markers": [
+        "<|begin_of_text|>",
+        "<|start_header_id|>",
+        "<|end_header_id|>",
+        "<|eot_id|>"
+      ],
+      "tensor_count": 147,
+      "chat_template_sha256": "5816fce10444e03c2e9ee1ef8a4a1ea61ae7e69e438613f3b17b69d0426223a4"
+    },
+    "q8": {
+      "upstream": "meta-llama/Llama-3.2-1B-Instruct",
+      "upstream_revision": "9213176726f574b556790deb65791e0c5aa438b6",
+      "upstream_access": "manual-gated",
+      "repository": "bartowski/Llama-3.2-1B-Instruct-GGUF",
+      "revision": "067b946cf014b7c697f3654f621d577a3e3afd1c",
+      "quantized_by": "bartowski",
+      "quantizer": "llama.cpp b3821 with imatrix",
+      "filename": "Llama-3.2-1B-Instruct-Q8_0.gguf",
+      "sha256": "432f310a77f4650a88d0fd59ecdd7cebed8d684bafea53cbff0473542964f0c3",
+      "size_bytes": 1321083008,
+      "quantization": "Q8_0",
+      "architecture": "llama",
+      "license": "llama3.2",
+      "license_name": "Llama 3.2 Community License",
+      "license_url": "https://dev.meta.ai/llama/llama3_2/license",
+      "access_url": "https://huggingface.co/meta-llama/Llama-3.2-1B-Instruct",
+      "chat_template_source": "official upstream tokenizer_config.json as exposed by Hugging Face model metadata; cross-checked against the conversion card's Llama 3 prompt format",
+      "gguf_metadata": {
+        "general.file_type": 7,
+        "llama.block_count": 16,
+        "llama.embedding_length": 2048,
+        "llama.attention.head_count": 32,
+        "llama.attention.head_count_kv": 8,
+        "tokenizer.ggml.model": "gpt2",
+        "tokenizer.ggml.pre": "llama-bpe",
+        "tokenizer.ggml.bos_token_id": 128000,
+        "tokenizer.ggml.eos_token_id": 128009
+      },
+      "chat_template_markers": [
+        "<|begin_of_text|>",
+        "<|start_header_id|>",
+        "<|end_header_id|>",
+        "<|eot_id|>"
+      ],
+      "tensor_count": 147,
+      "chat_template_sha256": "5816fce10444e03c2e9ee1ef8a4a1ea61ae7e69e438613f3b17b69d0426223a4"
+    }
+  }
+}

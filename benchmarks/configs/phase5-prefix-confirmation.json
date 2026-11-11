@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "warmups": 1,
+  "repetitions": 3,
+  "profiles": [
+    {
+      "name": "cache-control"
+    },
+    {
+      "name": "prefix-confirmed",
+      "cache_prompt": true
+    }
+  ],
+  "prompts": [
+    {
+      "id": "short",
+      "text": "In about 150 words explain why contiguous array access can improve CPU cache locality."
+    },
+    {
+      "id": "long",
+      "text": "A CPU-only language-model server stores weights in RAM and reads them during each decoding step. Grouped-query attention shares key and value heads. Prefix caching avoids recomputing identical prompt tokens but consumes memory and needs session isolation. More threads can increase synchronization and memory-bandwidth contention. A context window holds prompt and generated tokens together. A CPU-only language-model server stores weights in RAM and reads them during each decoding step. Grouped-query attention shares key and value heads. Prefix caching avoids recomputing identical prompt tokens but consumes memory and needs session isolation. More threads can increase synchronization and memory-bandwidth contention. A context window holds prompt and generated tokens together. A CPU-only language-model server stores weights in RAM and reads them during each decoding step. Grouped-query attention shares key and value heads. Prefix caching avoids recomputing identical prompt tokens but consumes memory and needs session isolation. More threads can increase synchronization and memory-bandwidth contention. A context window holds prompt and generated tokens together. A CPU-only language-model server stores weights in RAM and reads them during each decoding step. Grouped-query attention shares key and value heads. Prefix caching avoids recomputing identical prompt tokens but consumes memory and needs session isolation. More threads can increase synchronization and memory-bandwidth contention. A context window holds prompt and generated tokens together. Explain these engineering trade-offs in about 150 words."
+    }
+  ],
+  "quality": [
+    {
+      "id": "addition",
+      "prompt": "What is 2 + 2? Reply with only the integer.",
+      "pattern": "^4[.!]?$"
+    },
+    {
+      "id": "multiplication",
+      "prompt": "What is 7 times 8? Reply with only the integer.",
+      "pattern": "^56[.!]?$"
+    },
+    {
+      "id": "extract-age",
+      "prompt": "Record: Name=Mei; Age=21; City=Hue. Extract Age. Reply with only the integer.",
+      "pattern": "^21[.!]?$"
+    },
+    {
+      "id": "python-length",
+      "prompt": "What does Python print for print(len([2, 4, 6]))? Reply with only the integer.",
+      "pattern": "^3[.!]?$"
+    },
+    {
+      "id": "binary-unit",
+      "prompt": "How many bytes are in one KiB (kibibyte)? Reply with only the integer, without commas.",
+      "pattern": "^1024[.!]?$"
+    },
+    {
+      "id": "logic",
+      "prompt": "All roses are flowers. Does that imply all flowers are roses? Reply with only yes or no.",
+      "pattern": "(?i)^no[.!]?$"
+    },
+    {
+      "id": "translation",
+      "prompt": "Translate the English animal name cat into Spanish. Reply with only one lowercase word.",
+      "pattern": "^gato[.!]?$"
+    },
+    {
+      "id": "sequence",
+      "prompt": "Complete this sequence: 2, 4, 6, 8, __. Reply with only the next integer.",
+      "pattern": "^10[.!]?$"
+    }
+  ]
+}
