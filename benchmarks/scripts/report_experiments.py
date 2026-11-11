@@ -5,7 +5,8 @@ import json
 import math
 from pathlib import Path
 from statistics import mean, median
-from xml.etree.ElementTree import Element, SubElement, tostring
+
+from benchmarks.scripts.charts import comparison
 
 
 def percentile(values, quantile=0.95):
@@ -84,50 +85,7 @@ def summarize(report):
 
 
 def chart(rows, field, label):
-    data = [row for row in rows if row.get(field) is not None]
-    root = Element(
-        "svg",
-        {
-            "xmlns": "http://www.w3.org/2000/svg",
-            "viewBox": f"0 0 1060 {100 + len(data) * 28}",
-            "role": "img",
-        },
-    )
-    SubElement(root, "title").text = label
-    SubElement(root, "rect", {"width": "100%", "height": "100%", "fill": "white"})
-    SubElement(
-        root, "text", {"x": "20", "y": "30", "font-family": "sans-serif", "font-size": "19"}
-    ).text = label
-    maximum = max([float(row[field]) for row in data] + [1e-9])
-    for index, row in enumerate(data):
-        y = 65 + index * 28
-        name = (
-            row.get("profile", row.get("strategy", ""))
-            + " / "
-            + row.get("prompt_id", str(row.get("clients", "")))
-        )
-        SubElement(
-            root,
-            "text",
-            {"x": "12", "y": str(y + 14), "font-family": "sans-serif", "font-size": "12"},
-        ).text = name
-        length = 650 * row[field] / maximum
-        SubElement(
-            root,
-            "rect",
-            {"x": "295", "y": str(y), "width": str(length), "height": "19", "fill": "#2563eb"},
-        )
-        SubElement(
-            root,
-            "text",
-            {
-                "x": str(300 + length),
-                "y": str(y + 14),
-                "font-family": "sans-serif",
-                "font-size": "12",
-            },
-        ).text = f"{row[field]:.3f}"
-    return tostring(root, encoding="unicode") + "\n"
+    return comparison(rows, field, label)
 
 
 def fmt(value):

@@ -31,7 +31,11 @@ def test_report_preserves_measured_values_and_produces_valid_svg() -> None:
     root = fromstring(render_chart(rows))
     assert root.attrib["role"] == "img"
     labels = " ".join(root.itertext())
-    assert "threads-4 / short" in labels
+    metadata = root.find("{http://www.w3.org/2000/svg}metadata[@id='benchmark-data']")
+    assert metadata is not None and metadata.text
+    assert json.loads(metadata.text)["records"] == [
+        {"profile": "threads-4", "prompt_id": "short", "value": 12.34}
+    ]
     assert "12.34" in labels
 
 
@@ -44,10 +48,10 @@ def test_chart_preserves_a_valid_zero_decode_measurement() -> None:
         }
     ]
     chart = fromstring(render_chart(rows))
-    bars = chart.findall("{http://www.w3.org/2000/svg}rect")[1:]
-    assert len(bars) == 1
-    assert float(bars[0].attrib["width"]) == 0
-    assert "0.00" in " ".join(chart.itertext())
+    text = " ".join(chart.itertext())
+    assert "one-token" in text
+    assert "arithmetic" in text
+    assert "0.00" in text
 
 
 def test_failed_run_cannot_be_presented_as_complete(tmp_path: Path) -> None:

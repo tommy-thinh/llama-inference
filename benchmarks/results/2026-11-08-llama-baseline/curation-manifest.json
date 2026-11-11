@@ -2,7 +2,7 @@
   "schema_version": 1,
   "scope": "Curated Llama measurement evidence; original raw measurement records and historical verification records are immutable.",
   "current_files_sha256": {
-    "decode-speed.svg": "827a09303723509e9921bca91015f4a82c3bcdb5f6240cf708191e26f09c00de",
+    "decode-speed.svg": "5d3a0c1dbf514295c4c5034a3aee7c6973bf89c893ecabdf4d92b14990534eb3",
     "raw.json": "65feca3a8e7d28c495dd3ca0a226a85ad2de82eadd5b2710a0ca9de8e69a0914",
     "source.tar.gz": "882b38eb6d1148d96b00426df325db41473d26b0011ee1fe86c6bbc9abb43835",
     "summary.md": "16f5a45445b357c44b3cba668bdc7f7ddf2cfda1933bc9854085945f89aa60fb",

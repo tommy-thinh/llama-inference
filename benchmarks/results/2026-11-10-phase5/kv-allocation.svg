@@ -1,1 +1,268 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1060 268" role="img"><title>Actual native KV buffer allocation (MiB), separate startup probes</title><rect width="100%" height="100%" fill="white" /><text x="20" y="30" font-family="sans-serif" font-size="19">Actual native KV buffer allocation (MiB), separate startup probes</text><text x="12" y="79" font-family="sans-serif" font-size="12">f16 / 1024 ctx, 1 slots</text><rect x="295" y="65" width="81.25" height="19" fill="#2563eb" /><text x="381.25" y="79" font-family="sans-serif" font-size="12">32.000</text><text x="12" y="107" font-family="sans-serif" font-size="12">f16 / 2048 ctx, 1 slots</text><rect x="295" y="93" width="162.5" height="19" fill="#2563eb" /><text x="462.5" y="107" font-family="sans-serif" font-size="12">64.000</text><text x="12" y="135" font-family="sans-serif" font-size="12">f16 / 4096 ctx, 1 slots</text><rect x="295" y="121" width="325.0" height="19" fill="#2563eb" /><text x="625.0" y="135" font-family="sans-serif" font-size="12">128.000</text><text x="12" y="163" font-family="sans-serif" font-size="12">q8_0 / 2048 ctx, 1 slots</text><rect x="295" y="149" width="86.328125" height="19" fill="#2563eb" /><text x="386.328125" y="163" font-family="sans-serif" font-size="12">34.000</text><text x="12" y="191" font-family="sans-serif" font-size="12">q4_0 / 2048 ctx, 1 slots</text><rect x="295" y="177" width="45.703125" height="19" fill="#2563eb" /><text x="345.703125" y="191" font-family="sans-serif" font-size="12">18.000</text><text x="12" y="219" font-family="sans-serif" font-size="12">f16 / 2048 ctx, 4 slots</text><rect x="295" y="205" width="650.0" height="19" fill="#2563eb" /><text x="950.0" y="219" font-family="sans-serif" font-size="12">256.000</text></svg>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:ns2="http://creativecommons.org/ns#" xmlns:ns4="http://www.w3.org/1999/xlink" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" width="653.51952pt" height="253.91952pt" viewBox="0 0 653.51952 253.91952" version="1.1" role="img" aria-labelledby="chart-title chart-description">
+ <metadata>
+  <rdf:RDF>
+   <ns2:Work>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+    <dc:title>KV-cache memory allocation</dc:title>
+    <dc:format>image/svg+xml</dc:format>
+    <dc:creator>
+     <ns2:Agent>
+      <dc:title>Llama Inference</dc:title>
+     </ns2:Agent>
+    </dc:creator>
+   </ns2:Work>
+  </rdf:RDF>
+ </metadata>
+ <defs>
+  <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style>
+ </defs>
+ <g id="figure_1">
+  <g id="patch_1">
+   <path d="M 0 253.91952  L 653.51952 253.91952  L 653.51952 0  L 0 0  z " style="fill: #ffffff" />
+  </g>
+  <g id="axes_1">
+   <g id="patch_2">
+    <path d="M 40.916562 213.335458  L 307.220854 213.335458  L 307.220854 60.272824  L 40.916562 60.272824  z " style="fill: #ffffff" />
+   </g>
+   <g id="matplotlib.axis_1">
+    <g id="xtick_1">
+     <g id="line2d_1">
+      <path d="M 40.916562 213.335458  L 40.916562 60.272824  " clip-path="url(#pfc7fb23653)" style="fill: none; stroke: #e4e9ee; stroke-width: 0.7; stroke-linecap: square" />
+     </g>
+     <g id="line2d_2">
+      <defs>
+       <path id="m0740955a48" d="M 0 0  L 0 3  " style="stroke: #53606d; stroke-width: 0.8" />
+      </defs>
+      <g>
+       <use ns4:href="#m0740955a48" x="40.916562" y="213.335458" style="fill: #53606d; stroke: #53606d; stroke-width: 0.8" />
+      </g>
+     </g>
+     <g id="text_1">
+      <text style="font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #53606d" x="40.916562" y="227.433895" transform="rotate(-0 40.916562 227.433895)">0</text>
+     </g>
+    </g>
+    <g id="xtick_2">
+     <g id="line2d_3">
+      <path d="M 119.723467 213.335458  L 119.723467 60.272824  " clip-path="url(#pfc7fb23653)" style="fill: none; stroke: #e4e9ee; stroke-width: 0.7; stroke-linecap: square" />
+     </g>
+     <g id="line2d_4">
+      <g>
+       <use ns4:href="#m0740955a48" x="119.723467" y="213.335458" style="fill: #53606d; stroke: #53606d; stroke-width: 0.8" />
+      </g>
+     </g>
+     <g id="text_2">
+      <text style="font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #53606d" x="119.723467" y="227.433895" transform="rotate(-0 119.723467 227.433895)">25</text>
+     </g>
+    </g>
+    <g id="xtick_3">
+     <g id="line2d_5">
+      <path d="M 198.530371 213.335458  L 198.530371 60.272824  " clip-path="url(#pfc7fb23653)" style="fill: none; stroke: #e4e9ee; stroke-width: 0.7; stroke-linecap: square" />
+     </g>
+     <g id="line2d_6">
+      <g>
+       <use ns4:href="#m0740955a48" x="198.530371" y="213.335458" style="fill: #53606d; stroke: #53606d; stroke-width: 0.8" />
+      </g>
+     </g>
+     <g id="text_3">
+      <text style="font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #53606d" x="198.530371" y="227.433895" transform="rotate(-0 198.530371 227.433895)">50</text>
+     </g>
+    </g>
+    <g id="xtick_4">
+     <g id="line2d_7">
+      <path d="M 277.337276 213.335458  L 277.337276 60.272824  " clip-path="url(#pfc7fb23653)" style="fill: none; stroke: #e4e9ee; stroke-width: 0.7; stroke-linecap: square" />
+     </g>
+     <g id="line2d_8">
+      <g>
+       <use ns4:href="#m0740955a48" x="277.337276" y="213.335458" style="fill: #53606d; stroke: #53606d; stroke-width: 0.8" />
+      </g>
+     </g>
+     <g id="text_4">
+      <text style="font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #53606d" x="277.337276" y="227.433895" transform="rotate(-0 277.337276 227.433895)">75</text>
+     </g>
+    </g>
+    <g id="text_5">
+     <text style="font-size: 11px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #202c39" x="174.068708" y="245.871864" transform="rotate(-0 174.068708 245.871864)">KV memory (MiB)</text>
+    </g>
+   </g>
+   <g id="matplotlib.axis_2">
+    <g id="ytick_1">
+     <g id="line2d_9" />
+     <g id="text_6">
+      <text style="font-size: 11px; font-family: 'DejaVu Sans'; text-anchor: end; fill: #202c39" x="33.916562" y="97.419301" transform="rotate(-0 33.916562 97.419301)">FP16</text>
+     </g>
+    </g>
+    <g id="ytick_2">
+     <g id="line2d_10" />
+     <g id="text_7">
+      <text style="font-size: 11px; font-family: 'DejaVu Sans'; text-anchor: end; fill: #202c39" x="33.916562" y="144.418386" transform="rotate(-0 33.916562 144.418386)">Q8_0</text>
+     </g>
+    </g>
+    <g id="ytick_3">
+     <g id="line2d_11" />
+     <g id="text_8">
+      <text style="font-size: 11px; font-family: 'DejaVu Sans'; text-anchor: end; fill: #202c39" x="33.916562" y="191.514582" transform="rotate(-0 33.916562 191.514582)">Q4_0</text>
+     </g>
+    </g>
+   </g>
+   <g id="patch_3">
+    <path d="M 40.916562 80.99515  L 242.662238 80.99515  L 242.662238 105.485171  L 40.916562 105.485171  z " clip-path="url(#pfc7fb23653)" style="fill: #34699a" />
+   </g>
+   <g id="patch_4">
+    <path d="M 40.916562 128.091345  L 148.093952 128.091345  L 148.093952 152.581366  L 40.916562 152.581366  z " clip-path="url(#pfc7fb23653)" style="fill: #48a5a0" />
+   </g>
+   <g id="patch_5">
+    <path d="M 40.916562 175.18754  L 97.657534 175.18754  L 97.657534 199.677561  L 40.916562 199.677561  z " clip-path="url(#pfc7fb23653)" style="fill: #148579" />
+   </g>
+   <g id="patch_6">
+    <path d="M 40.916562 213.335458  L 307.220854 213.335458  " style="fill: none; stroke: #a4aeb8; stroke-width: 0.7; stroke-linejoin: miter; stroke-linecap: square" />
+   </g>
+   <g id="text_9">
+    <text style="font-size: 11px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #202c39" x="247.662238" y="96.275473" transform="rotate(-0 247.662238 96.275473)">64 MiB</text>
+   </g>
+   <g id="text_10">
+    <text style="font-size: 11px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #202c39" x="153.093952" y="143.371668" transform="rotate(-0 153.093952 143.371668)">34 MiB</text>
+   </g>
+   <g id="text_11">
+    <text style="font-size: 11px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #202c39" x="102.657534" y="190.467863" transform="rotate(-0 102.657534 190.467863)">18 MiB</text>
+   </g>
+   <g id="text_12">
+    <text style="font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #5d6976" x="40.916562" y="54.150318" transform="rotate(-0 40.916562 54.150318)">2,048 tokens · one slot</text>
+   </g>
+   <g id="text_13">
+    <text style="font-weight: 700; font-size: 13px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #202c39" x="40.916562" y="36.272824" transform="rotate(-0 40.916562 36.272824)">Cache precision</text>
+   </g>
+  </g>
+  <g id="axes_2">
+   <g id="patch_7">
+    <path d="M 381.455229 213.335458  L 647.75952 213.335458  L 647.75952 60.272824  L 381.455229 60.272824  z " style="fill: #ffffff" />
+   </g>
+   <g id="matplotlib.axis_3">
+    <g id="xtick_5">
+     <g id="line2d_12">
+      <path d="M 381.455229 213.335458  L 381.455229 60.272824  " clip-path="url(#pb2be2cdd76)" style="fill: none; stroke: #e4e9ee; stroke-width: 0.7; stroke-linecap: square" />
+     </g>
+     <g id="line2d_13">
+      <g>
+       <use ns4:href="#m0740955a48" x="381.455229" y="213.335458" style="fill: #53606d; stroke: #53606d; stroke-width: 0.8" />
+      </g>
+     </g>
+     <g id="text_14">
+      <text style="font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #53606d" x="381.455229" y="227.433895" transform="rotate(-0 381.455229 227.433895)">0</text>
+     </g>
+    </g>
+    <g id="xtick_6">
+     <g id="line2d_14">
+      <path d="M 460.262133 213.335458  L 460.262133 60.272824  " clip-path="url(#pb2be2cdd76)" style="fill: none; stroke: #e4e9ee; stroke-width: 0.7; stroke-linecap: square" />
+     </g>
+     <g id="line2d_15">
+      <g>
+       <use ns4:href="#m0740955a48" x="460.262133" y="213.335458" style="fill: #53606d; stroke: #53606d; stroke-width: 0.8" />
+      </g>
+     </g>
+     <g id="text_15">
+      <text style="font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #53606d" x="460.262133" y="227.433895" transform="rotate(-0 460.262133 227.433895)">100</text>
+     </g>
+    </g>
+    <g id="xtick_7">
+     <g id="line2d_16">
+      <path d="M 539.069037 213.335458  L 539.069037 60.272824  " clip-path="url(#pb2be2cdd76)" style="fill: none; stroke: #e4e9ee; stroke-width: 0.7; stroke-linecap: square" />
+     </g>
+     <g id="line2d_17">
+      <g>
+       <use ns4:href="#m0740955a48" x="539.069037" y="213.335458" style="fill: #53606d; stroke: #53606d; stroke-width: 0.8" />
+      </g>
+     </g>
+     <g id="text_16">
+      <text style="font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #53606d" x="539.069037" y="227.433895" transform="rotate(-0 539.069037 227.433895)">200</text>
+     </g>
+    </g>
+    <g id="xtick_8">
+     <g id="line2d_18">
+      <path d="M 617.875942 213.335458  L 617.875942 60.272824  " clip-path="url(#pb2be2cdd76)" style="fill: none; stroke: #e4e9ee; stroke-width: 0.7; stroke-linecap: square" />
+     </g>
+     <g id="line2d_19">
+      <g>
+       <use ns4:href="#m0740955a48" x="617.875942" y="213.335458" style="fill: #53606d; stroke: #53606d; stroke-width: 0.8" />
+      </g>
+     </g>
+     <g id="text_17">
+      <text style="font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #53606d" x="617.875942" y="227.433895" transform="rotate(-0 617.875942 227.433895)">300</text>
+     </g>
+    </g>
+    <g id="text_18">
+     <text style="font-size: 11px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #202c39" x="514.607374" y="245.871864" transform="rotate(-0 514.607374 245.871864)">KV memory (MiB)</text>
+    </g>
+   </g>
+   <g id="matplotlib.axis_4">
+    <g id="ytick_4">
+     <g id="line2d_20" />
+     <g id="text_19">
+      <text style="font-size: 11px; font-family: 'DejaVu Sans'; text-anchor: end; fill: #202c39" x="374.455229" y="89.662281" transform="rotate(-0 374.455229 89.662281)">1K · 1 slot</text>
+     </g>
+    </g>
+    <g id="ytick_5">
+     <g id="line2d_21" />
+     <g id="text_20">
+      <text style="font-size: 11px; font-family: 'DejaVu Sans'; text-anchor: end; fill: #202c39" x="374.455229" y="125.677018" transform="rotate(-0 374.455229 125.677018)">2K · 1 slot</text>
+     </g>
+    </g>
+    <g id="ytick_6">
+     <g id="line2d_22" />
+     <g id="text_21">
+      <text style="font-size: 11px; font-family: 'DejaVu Sans'; text-anchor: end; fill: #202c39" x="374.455229" y="161.691755" transform="rotate(-0 374.455229 161.691755)">4K · 1 slot</text>
+     </g>
+    </g>
+    <g id="ytick_7">
+     <g id="line2d_23" />
+     <g id="text_22">
+      <text style="font-size: 11px; font-family: 'DejaVu Sans'; text-anchor: end; fill: #202c39" x="374.455229" y="197.706493" transform="rotate(-0 374.455229 197.706493)">2K · 4 slots</text>
+     </g>
+    </g>
+   </g>
+   <g id="patch_8">
+    <path d="M 381.455229 76.119308  L 406.673438 76.119308  L 406.673438 94.846972  L 381.455229 94.846972  z " clip-path="url(#pb2be2cdd76)" style="fill: #34699a" />
+   </g>
+   <g id="patch_9">
+    <path d="M 381.455229 112.134046  L 431.891648 112.134046  L 431.891648 130.861709  L 381.455229 130.861709  z " clip-path="url(#pb2be2cdd76)" style="fill: #34699a" />
+   </g>
+   <g id="patch_10">
+    <path d="M 381.455229 148.148783  L 482.328066 148.148783  L 482.328066 166.876446  L 381.455229 166.876446  z " clip-path="url(#pb2be2cdd76)" style="fill: #34699a" />
+   </g>
+   <g id="patch_11">
+    <path d="M 381.455229 184.16352  L 583.200904 184.16352  L 583.200904 202.891184  L 381.455229 202.891184  z " clip-path="url(#pb2be2cdd76)" style="fill: #34699a" />
+   </g>
+   <g id="patch_12">
+    <path d="M 381.455229 213.335458  L 647.75952 213.335458  " style="fill: none; stroke: #a4aeb8; stroke-width: 0.7; stroke-linejoin: miter; stroke-linecap: square" />
+   </g>
+   <g id="text_23">
+    <text style="font-size: 11px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #202c39" x="411.673438" y="88.518452" transform="rotate(-0 411.673438 88.518452)">32 MiB</text>
+   </g>
+   <g id="text_24">
+    <text style="font-size: 11px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #202c39" x="436.891648" y="124.53319" transform="rotate(-0 436.891648 124.53319)">64 MiB</text>
+   </g>
+   <g id="text_25">
+    <text style="font-size: 11px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #202c39" x="487.328066" y="160.547927" transform="rotate(-0 487.328066 160.547927)">128 MiB</text>
+   </g>
+   <g id="text_26">
+    <text style="font-size: 11px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #202c39" x="588.200904" y="196.562664" transform="rotate(-0 588.200904 196.562664)">256 MiB</text>
+   </g>
+   <g id="text_27">
+    <text style="font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #5d6976" x="381.455229" y="54.150318" transform="rotate(-0 381.455229 54.150318)">Context per slot × active capacity</text>
+   </g>
+   <g id="text_28">
+    <text style="font-weight: 700; font-size: 13px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #202c39" x="381.455229" y="36.272824" transform="rotate(-0 381.455229 36.272824)">FP16 capacity scaling</text>
+   </g>
+  </g>
+  <g id="text_29">
+   <text style="font-weight: 700; font-size: 15px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #202c39" x="9.23976" y="17.157656" transform="rotate(-0 9.23976 17.157656)">KV-cache memory allocation</text>
+  </g>
+ </g>
+ <defs>
+  <clipPath id="pfc7fb23653">
+   <rect x="40.916562" y="60.272824" width="266.304291" height="153.062634" />
+  </clipPath>
+  <clipPath id="pb2be2cdd76">
+   <rect x="381.455229" y="60.272824" width="266.304291" height="153.062634" />
+  </clipPath>
+ </defs>
+<title id="chart-title">KV-cache memory allocation</title><desc id="chart-description">Measured runtime KV-buffer allocation in MiB. Left: compare cache precision at 2,048 tokens and one slot. Right: FP16 context and slot capacity; the shared 64 MiB reference is repeated. Panels use separately labeled, zero-based linear axes. Process RSS is not shown.</desc><metadata id="benchmark-data">{"metric":"allocated_mib","unit":"MiB","scale":"linear","records":[{"kv_type":"f16","context_per_slot":1024,"parallel":1,"value":32.0},{"kv_type":"f16","context_per_slot":2048,"parallel":1,"value":64.0},{"kv_type":"f16","context_per_slot":4096,"parallel":1,"value":128.0},{"kv_type":"q8_0","context_per_slot":2048,"parallel":1,"value":34.0},{"kv_type":"q4_0","context_per_slot":2048,"parallel":1,"value":18.0},{"kv_type":"f16","context_per_slot":2048,"parallel":4,"value":256.0}]}</metadata></svg>

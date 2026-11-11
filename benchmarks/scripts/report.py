@@ -2,11 +2,10 @@
 
 import argparse
 import json
-import math
 from pathlib import Path
 from typing import Any
-from xml.etree.ElementTree import Element, SubElement, tostring
 
+from benchmarks.scripts.charts import comparison
 from benchmarks.scripts.metrics import summarize
 
 
@@ -34,75 +33,7 @@ def render_chart(
 ) -> str:
     if not rows or any(row["mean_runtime_decode_tokens_per_second"] is None for row in rows):
         raise ValueError("A chart requires actual runtime decode measurements")
-    width, left, top, step, plot_width = 1000, 235, 100, 30, 650
-    height = top + len(rows) * step + 60
-    root = Element(
-        "svg",
-        {
-            "xmlns": "http://www.w3.org/2000/svg",
-            "viewBox": f"0 0 {width} {height}",
-            "role": "img",
-            "aria-labelledby": "title description",
-        },
-    )
-    SubElement(root, "title", {"id": "title"}).text = "CPU baseline: runtime decode speed"
-    SubElement(root, "desc", {"id": "description"}).text = (
-        "Mean tokens per second for each configuration and prompt. Warm-up requests are excluded. "
-        "This chart measures decode speed, not end-to-end request throughput."
-    )
-    SubElement(root, "rect", {"width": str(width), "height": str(height), "fill": "#ffffff"})
-
-    def label(x: float, y: float, value: str, size: int = 14, **attributes: str) -> None:
-        SubElement(
-            root,
-            "text",
-            {
-                "x": str(x),
-                "y": str(y),
-                "fill": "#172033",
-                "font-family": "sans-serif",
-                "font-size": str(size),
-                **attributes,
-            },
-        ).text = value
-
-    label(24, 32, model_label, 22)
-    label(24, 58, "Runtime decode tokens/s (mean); serial requests; warm-ups excluded", 14)
-    maximum = max(
-        5, math.ceil(max(row["mean_runtime_decode_tokens_per_second"] for row in rows) / 5) * 5
-    )
-    for tick in range(0, maximum + 1, 5):
-        x = left + tick / maximum * plot_width
-        SubElement(
-            root,
-            "line",
-            {
-                "x1": str(x),
-                "x2": str(x),
-                "y1": str(top - 15),
-                "y2": str(height - 50),
-                "stroke": "#e2e8f0",
-            },
-        )
-        label(x, height - 24, str(tick), **{"text-anchor": "middle"})
-    for index, row in enumerate(rows):
-        y = top + index * step
-        speed = row["mean_runtime_decode_tokens_per_second"]
-        label(left - 12, y + 14, f"{row['profile']} / {row['prompt_id']}", **{"text-anchor": "end"})
-        SubElement(
-            root,
-            "rect",
-            {
-                "x": str(left),
-                "y": str(y),
-                "width": str(speed / maximum * plot_width),
-                "height": "20",
-                "rx": "3",
-                "fill": "#2563eb" if row["prompt_id"] == "short" else "#d97706",
-            },
-        )
-        label(left + speed / maximum * plot_width + 6, y + 15, f"{speed:.2f}")
-    return tostring(root, encoding="unicode") + "\n"
+    return comparison(rows, "mean_runtime_decode_tokens_per_second", model_label)
 
 
 def generate_report(raw_path: Path, output_directory: Path) -> None:

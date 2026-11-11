@@ -22,4 +22,5 @@ def test_conda_environment_manifest_contract() -> None:
         "  - alembic=1.20.1",
         "  - psycopg=3.3.8",
         "  - nodejs=24.22.1",
+        "  - matplotlib-base=3.10.7",
     ]
