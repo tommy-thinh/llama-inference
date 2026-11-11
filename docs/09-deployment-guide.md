@@ -5,7 +5,8 @@ and deployment instructions, explicitly postponing deployment. The files in
 `deploy/` are templates. No production systemd units, public listeners, DNS,
 firewall rules, ACME certificates, or Caddy installation were changed. Phase 4's
 public-access completion criterion remains pending until the later go-live checks
-below pass. Phase 5 is not authorized.
+below pass. Phase5 local experiments are authorized as the final implementation
+milestone; Dockerization is removed, and public deployment remains deferred.
 
 The intended topology is:
 
@@ -285,3 +286,15 @@ Expect 200 from health/ready and legal files after dependencies are ready;
 unknown/private/docs/legacy paths must be 404. Confirm HSTS, CSP, nosniff,
 frame denial, referrer policy, and permissions policy on HTTPS responses.
 HSTS is host-only; the template does not preload or cover unrelated subdomains.
+
+
+## Phase5 findings and deployment ceilings
+
+[The performance report](16-performance-findings.md) records unthrottled local
+CPU experiments. Its fastest native profiles are not automatically deployment
+defaults. These systemd examples still cap inference at300% CPU, while several
+benchmarks used about400% and experimental six-thread runs can use more. Recheck
+performance under the installed ceilings before promising a public capacity/SLO.
+Active Q4, f16 KV, four threads, one native slot and one active backend generation
+remain unchanged. Prefix caching remains disabled for anonymous application turns.
+There is no Docker/Compose deployment path in the current final scope.

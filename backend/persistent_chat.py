@@ -48,7 +48,14 @@ class Finalization:
 
 
 async def persistent_events(
-    database, identity, payload, client, settings, conversation_id, finalization
+    database,
+    identity,
+    payload,
+    client,
+    settings,
+    conversation_id,
+    finalization,
+    queue_wait_seconds=0.0,
 ):
     output = ""
     metrics = {}
@@ -69,7 +76,13 @@ async def persistent_events(
     try:
         yield (
             "event: metadata\ndata: "
-            + json.dumps({"request_id": str(identity), "conversation_id": str(conversation_id)})
+            + json.dumps(
+                {
+                    "request_id": str(identity),
+                    "conversation_id": str(conversation_id),
+                    "queue_wait_seconds": queue_wait_seconds,
+                }
+            )
             + "\n\n"
         ).encode()
         async for frame in upstream:

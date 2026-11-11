@@ -1,0 +1,28 @@
+{
+  "schema_version": 1,
+  "kind": "public_https_stack",
+  "status": "failed",
+  "started_at": "2026-11-10T02:38:06.912013+00:00",
+  "configuration": {
+    "schema_version": 1,
+    "warmups": 1,
+    "repetitions": 3,
+    "clients": [
+      1,
+      2,
+      4
+    ],
+    "strategies": {
+      "fifo": 2,
+      "reject": 0
+    },
+    "max_tokens": 32,
+    "prompt": "Write a detailed 64-word explanation of why CPU inference benefits from efficient memory access."
+  },
+  "configuration_sha256": "f5eb392455ad332145c2b625f8d7e73b81ac6bf7f30705c6cfc8d340e524caa6",
+  "waves": [],
+  "processes": [],
+  "summary": [],
+  "error": "PermissionError",
+  "finished_at": "2026-11-10T02:38:06.912601+00:00"
+}

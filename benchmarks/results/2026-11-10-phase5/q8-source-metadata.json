@@ -1,0 +1,26 @@
+{
+  "sha": "067b946cf014b7c697f3654f621d577a3e3afd1c",
+  "source_url": "https://huggingface.co/api/models/bartowski/Llama-3.2-1B-Instruct-GGUF/revision/067b946cf014b7c697f3654f621d577a3e3afd1c?blobs=true",
+  "siblings": [
+    {
+      "rfilename": "Llama-3.2-1B-Instruct-Q4_K_M.gguf",
+      "blobId": "ca7732416a22ac248814aadae1fb22505e475a92",
+      "size": 807694464,
+      "lfs": {
+        "sha256": "6f85a640a97cf2bf5b8e764087b1e83da0fdb51d7c9fab7d0fece9385611df83",
+        "size": 807694464,
+        "pointerSize": 134
+      }
+    },
+    {
+      "rfilename": "Llama-3.2-1B-Instruct-Q8_0.gguf",
+      "blobId": "f7635420e39fb1506598e68c2b60342588020f93",
+      "size": 1321083008,
+      "lfs": {
+        "sha256": "432f310a77f4650a88d0fd59ecdd7cebed8d684bafea53cbff0473542964f0c3",
+        "size": 1321083008,
+        "pointerSize": 135
+      }
+    }
+  ]
+}

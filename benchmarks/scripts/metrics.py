@@ -59,43 +59,57 @@ def stream_chat(client: httpx.Client, base_url: str, payload: dict[str, Any]) ->
     usage: dict[str, Any] = {}
     timings: dict[str, Any] = {}
     finish = None
-    with client.stream("POST", base_url + "/v1/chat/completions", json=payload) as response:
-        response.raise_for_status()
-        if "text/event-stream" not in response.headers.get("content-type", ""):
-            raise StreamProtocolError("Expected text/event-stream")
-        for event in iter_sse_json(response.iter_lines()):
-            if event.get("usage"):
-                usage = event["usage"]
-            if event.get("timings"):
-                timings = event["timings"]
-            for choice in event.get("choices", []):
-                content = choice.get("delta", {}).get("content")
-                if content:
-                    if ttft is None:
-                        ttft = perf_counter() - start
-                    pieces.append(content)
-                if choice.get("finish_reason") is not None:
-                    finish = choice["finish_reason"]
-    elapsed = perf_counter() - start
-    tokens = usage.get("completion_tokens")
-    prompt_tokens = usage.get("prompt_tokens")
-    if ttft is None or not pieces or finish is None:
-        raise StreamProtocolError("Stream must contain visible text and a finish reason")
-    if not isinstance(tokens, int) or not 0 < tokens <= payload["max_tokens"]:
-        raise StreamProtocolError("Missing or invalid completion token count")
-    if not isinstance(prompt_tokens, int) or prompt_tokens <= 0:
-        raise StreamProtocolError("Missing or invalid prompt token count")
-    return RequestMeasurement(
-        output="".join(pieces),
-        ttft_seconds=ttft,
-        total_seconds=elapsed,
-        content_chunks=len(pieces),
-        prompt_tokens=prompt_tokens,
-        completion_tokens=tokens,
-        finish_reason=finish,
-        effective_tokens_per_second=tokens / elapsed,
-        timings=timings,
-    )
+    http_status = None
+    try:
+        with client.stream("POST", base_url + "/v1/chat/completions", json=payload) as response:
+            http_status = response.status_code
+            response.raise_for_status()
+            if "text/event-stream" not in response.headers.get("content-type", ""):
+                raise StreamProtocolError("Expected text/event-stream")
+            for event in iter_sse_json(response.iter_lines()):
+                if event.get("usage"):
+                    usage = event["usage"]
+                if event.get("timings"):
+                    timings = event["timings"]
+                for choice in event.get("choices", []):
+                    content = (choice.get("delta") or {}).get("content")
+                    if content:
+                        if ttft is None:
+                            ttft = perf_counter() - start
+                        pieces.append(content)
+                    if choice.get("finish_reason") is not None:
+                        finish = choice["finish_reason"]
+        elapsed = perf_counter() - start
+        tokens = usage.get("completion_tokens")
+        prompt_tokens = usage.get("prompt_tokens")
+        if ttft is None or not pieces or finish is None:
+            raise StreamProtocolError("Stream must contain visible text and a finish reason")
+        if type(tokens) is not int or not 0 < tokens <= payload["max_tokens"]:
+            raise StreamProtocolError("Missing or invalid completion token count")
+        if type(prompt_tokens) is not int or prompt_tokens <= 0:
+            raise StreamProtocolError("Missing or invalid prompt token count")
+        return RequestMeasurement(
+            output="".join(pieces),
+            ttft_seconds=ttft,
+            total_seconds=elapsed,
+            content_chunks=len(pieces),
+            prompt_tokens=prompt_tokens,
+            completion_tokens=tokens,
+            finish_reason=finish,
+            effective_tokens_per_second=tokens / elapsed,
+            timings=timings,
+        )
+
+    except (httpx.HTTPError, ValueError, TypeError, AttributeError) as exc:
+        exc.partial_measurement = {
+            "output": "".join(piece for piece in pieces if isinstance(piece, str)),
+            "ttft_seconds": ttft,
+            "total_seconds": max(0.0, perf_counter() - start),
+            "http_status": http_status,
+            "usage": usage,
+            "timings": timings,
+        }
+        raise
 
 
 def summarize(rows: list[dict[str, Any]]) -> list[dict[str, Any]]:

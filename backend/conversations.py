@@ -3,6 +3,7 @@
 import asyncio
 import json
 import logging
+import time
 from uuid import UUID
 
 from fastapi import APIRouter, HTTPException, Query, Request, Response
@@ -110,6 +111,7 @@ async def chat(request: Request, identity: UUID, body: TurnRequest):
 
     finalization = Finalization(db, request_id)
     permit = None
+    admission_started = time.monotonic()
     try:
         if settings.public_origin:
             permit = await request.app.state.admission.for_request(request)
@@ -122,6 +124,7 @@ async def chat(request: Request, identity: UUID, body: TurnRequest):
             except Exception:
                 pass  # Startup recovery preserves the reservation if persistence is unavailable.
         raise
+    queue_wait_seconds = max(0.0, time.monotonic() - admission_started)
 
     async def cleanup():
         try:
@@ -148,6 +151,7 @@ async def chat(request: Request, identity: UUID, body: TurnRequest):
             request.app.state.settings,
             identity,
             finalization,
+            queue_wait_seconds=queue_wait_seconds,
         ),
         # Headers can fail before the generator starts, so cleanup also belongs
         # to the response lifecycle. Closing an unstarted generator runs no finally.

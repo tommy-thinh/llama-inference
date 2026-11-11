@@ -1,0 +1,12 @@
+{
+  "date": "2026-11-10",
+  "scope": "Read-only after local Phase5 experiments/tests; no deployment",
+  "application_revision": "0001",
+  "application_quota_table_present": false,
+  "postgresql_listen_addresses": "127.0.0.1",
+  "installed_new_units": {
+    "llama-backend.service": false,
+    "llama-inference.service": false
+  },
+  "credential_file_mode": "0o600"
+}

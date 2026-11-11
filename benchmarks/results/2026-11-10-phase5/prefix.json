@@ -1,0 +1,2191 @@
+{
+  "schema_version": 2,
+  "kind": "native",
+  "status": "complete",
+  "started_at": "2026-11-10T02:36:26.557821+00:00",
+  "configuration": {
+    "schema_version": 1,
+    "warmups": 1,
+    "repetitions": 3,
+    "profiles": [
+      {
+        "model": "q4",
+        "threads": 4,
+        "ctx_size": 2048,
+        "max_tokens": 32,
+        "kv_type": "f16",
+        "parallel": 1,
+        "batch_size": 256,
+        "ubatch_size": 128,
+        "flash_attn": true,
+        "cont_batching": true,
+        "cache_prompt": false,
+        "clients": 1,
+        "name": "cache-control"
+      },
+      {
+        "model": "q4",
+        "threads": 4,
+        "ctx_size": 2048,
+        "max_tokens": 32,
+        "kv_type": "f16",
+        "parallel": 1,
+        "batch_size": 256,
+        "ubatch_size": 128,
+        "flash_attn": true,
+        "cont_batching": true,
+        "cache_prompt": true,
+        "clients": 1,
+        "name": "prefix-confirmed"
+      }
+    ],
+    "prompts": [
+      {
+        "id": "short",
+        "text": "In about 150 words explain why contiguous array access can improve CPU cache locality."
+      },
+      {
+        "id": "long",
+        "text": "A CPU-only language-model server stores weights in RAM and reads them during each decoding step. Grouped-query attention shares key and value heads. Prefix caching avoids recomputing identical prompt tokens but consumes memory and needs session isolation. More threads can increase synchronization and memory-bandwidth contention. A context window holds prompt and generated tokens together. A CPU-only language-model server stores weights in RAM and reads them during each decoding step. Grouped-query attention shares key and value heads. Prefix caching avoids recomputing identical prompt tokens but consumes memory and needs session isolation. More threads can increase synchronization and memory-bandwidth contention. A context window holds prompt and generated tokens together. A CPU-only language-model server stores weights in RAM and reads them during each decoding step. Grouped-query attention shares key and value heads. Prefix caching avoids recomputing identical prompt tokens but consumes memory and needs session isolation. More threads can increase synchronization and memory-bandwidth contention. A context window holds prompt and generated tokens together. A CPU-only language-model server stores weights in RAM and reads them during each decoding step. Grouped-query attention shares key and value heads. Prefix caching avoids recomputing identical prompt tokens but consumes memory and needs session isolation. More threads can increase synchronization and memory-bandwidth contention. A context window holds prompt and generated tokens together. Explain these engineering trade-offs in about 150 words."
+      }
+    ],
+    "quality": [
+      {
+        "id": "addition",
+        "prompt": "What is 2 + 2? Reply with only the integer.",
+        "pattern": "^4[.!]?$"
+      },
+      {
+        "id": "multiplication",
+        "prompt": "What is 7 times 8? Reply with only the integer.",
+        "pattern": "^56[.!]?$"
+      },
+      {
+        "id": "extract-age",
+        "prompt": "Record: Name=Mei; Age=21; City=Hue. Extract Age. Reply with only the integer.",
+        "pattern": "^21[.!]?$"
+      },
+      {
+        "id": "python-length",
+        "prompt": "What does Python print for print(len([2, 4, 6]))? Reply with only the integer.",
+        "pattern": "^3[.!]?$"
+      },
+      {
+        "id": "binary-unit",
+        "prompt": "How many bytes are in one KiB (kibibyte)? Reply with only the integer, without commas.",
+        "pattern": "^1024[.!]?$"
+      },
+      {
+        "id": "logic",
+        "prompt": "All roses are flowers. Does that imply all flowers are roses? Reply with only yes or no.",
+        "pattern": "(?i)^no[.!]?$"
+      },
+      {
+        "id": "translation",
+        "prompt": "Translate the English animal name cat into Spanish. Reply with only one lowercase word.",
+        "pattern": "^gato[.!]?$"
+      },
+      {
+        "id": "sequence",
+        "prompt": "Complete this sequence: 2, 4, 6, 8, __. Reply with only the next integer.",
+        "pattern": "^10[.!]?$"
+      }
+    ]
+  },
+  "configuration_sha256": "681c26afff8eb70f056ac2c18c4f3abddd764f7c8c305a761785de00892d9cd2",
+  "models": {
+    "q4": {
+      "path": "/root/llama/.runtime/models/Llama-3.2-1B-Instruct-Q4_K_M.gguf",
+      "size_bytes": 807694464,
+      "sha256": "6f85a640a97cf2bf5b8e764087b1e83da0fdb51d7c9fab7d0fece9385611df83",
+      "gguf_version": 3,
+      "tensor_count": 147,
+      "metadata": {
+        "general.architecture": "llama",
+        "general.type": "model",
+        "general.name": "Llama 3.2 1B Instruct",
+        "general.finetune": "Instruct",
+        "general.basename": "Llama-3.2",
+        "general.size_label": "1B",
+        "general.license": "llama3.2",
+        "general.tags": [
+          "facebook",
+          "meta",
+          "pytorch",
+          "llama",
+          "llama-3",
+          "text-generation"
+        ],
+        "general.languages": [
+          "en",
+          "de",
+          "fr",
+          "it",
+          "pt",
+          "hi",
+          "es",
+          "th"
+        ],
+        "llama.block_count": 16,
+        "llama.context_length": 131072,
+        "llama.embedding_length": 2048,
+        "llama.feed_forward_length": 8192,
+        "llama.attention.head_count": 32,
+        "llama.attention.head_count_kv": 8,
+        "llama.rope.freq_base": 500000.0,
+        "llama.attention.layer_norm_rms_epsilon": 9.999999747378752e-06,
+        "llama.attention.key_length": 64,
+        "llama.attention.value_length": 64,
+        "general.file_type": 15,
+        "llama.vocab_size": 128256,
+        "llama.rope.dimension_count": 64,
+        "tokenizer.ggml.model": "gpt2",
+        "tokenizer.ggml.pre": "llama-bpe",
+        "tokenizer.ggml.tokens": {
+          "element_type": 8,
+          "length": 128256,
+          "special_tokens": [
+            "<|begin_of_text|>",
+            "<|start_header_id|>",
+            "<|end_header_id|>",
+            "<|eot_id|>"
+          ]
+        },
+        "tokenizer.ggml.token_type": {
+          "element_type": 5,
+          "length": 128256
+        },
+        "tokenizer.ggml.merges": {
+          "element_type": 8,
+          "length": 280147
+        },
+        "tokenizer.ggml.bos_token_id": 128000,
+        "tokenizer.ggml.eos_token_id": 128009,
+        "tokenizer.chat_template": "{{- bos_token }}\n{%- if custom_tools is defined %}\n    {%- set tools = custom_tools %}\n{%- endif %}\n{%- if not tools_in_user_message is defined %}\n    {%- set tools_in_user_message = true %}\n{%- endif %}\n{%- if not date_string is defined %}\n    {%- if strftime_now is defined %}\n        {%- set date_string = strftime_now(\"%d %b %Y\") %}\n    {%- else %}\n        {%- set date_string = \"26 Jul 2024\" %}\n    {%- endif %}\n{%- endif %}\n{%- if not tools is defined %}\n    {%- set tools = none %}\n{%- endif %}\n\n{#- This block extracts the system message, so we can slot it into the right place. #}\n{%- if messages[0]['role'] == 'system' %}\n    {%- set system_message = messages[0]['content']|trim %}\n    {%- set messages = messages[1:] %}\n{%- else %}\n    {%- set system_message = \"\" %}\n{%- endif %}\n\n{#- System message #}\n{{- \"<|start_header_id|>system<|end_header_id|>\\n\\n\" }}\n{%- if tools is not none %}\n    {{- \"Environment: ipython\\n\" }}\n{%- endif %}\n{{- \"Cutting Knowledge Date: December 2023\\n\" }}\n{{- \"Today Date: \" + date_string + \"\\n\\n\" }}\n{%- if tools is not none and not tools_in_user_message %}\n    {{- \"You have access to the following functions. To call a function, please respond with JSON for a function call.\" }}\n    {{- 'Respond in the format {\"name\": function name, \"parameters\": dictionary of argument name and its value}.' }}\n    {{- \"Do not use variables.\\n\\n\" }}\n    {%- for t in tools %}\n        {{- t | tojson(indent=4) }}\n        {{- \"\\n\\n\" }}\n    {%- endfor %}\n{%- endif %}\n{{- system_message }}\n{{- \"<|eot_id|>\" }}\n\n{#- Custom tools are passed in a user message with some extra guidance #}\n{%- if tools_in_user_message and not tools is none %}\n    {#- Extract the first user message so we can plug it in here #}\n    {%- if messages | length != 0 %}\n        {%- set first_user_message = messages[0]['content']|trim %}\n        {%- set messages = messages[1:] %}\n    {%- else %}\n        {{- raise_exception(\"Cannot put tools in the first user message when there's no first user message!\") }}\n{%- endif %}\n    {{- '<|start_header_id|>user<|end_header_id|>\\n\\n' -}}\n    {{- \"Given the following functions, please respond with a JSON for a function call \" }}\n    {{- \"with its proper arguments that best answers the given prompt.\\n\\n\" }}\n    {{- 'Respond in the format {\"name\": function name, \"parameters\": dictionary of argument name and its value}.' }}\n    {{- \"Do not use variables.\\n\\n\" }}\n    {%- for t in tools %}\n        {{- t | tojson(indent=4) }}\n        {{- \"\\n\\n\" }}\n    {%- endfor %}\n    {{- first_user_message + \"<|eot_id|>\"}}\n{%- endif %}\n\n{%- for message in messages %}\n    {%- if not (message.role == 'ipython' or message.role == 'tool' or 'tool_calls' in message) %}\n        {{- '<|start_header_id|>' + message['role'] + '<|end_header_id|>\\n\\n'+ message['content'] | trim + '<|eot_id|>' }}\n    {%- elif 'tool_calls' in message %}\n        {%- if not message.tool_calls|length == 1 %}\n            {{- raise_exception(\"This model only supports single tool-calls at once!\") }}\n        {%- endif %}\n        {%- set tool_call = message.tool_calls[0].function %}\n        {{- '<|start_header_id|>assistant<|end_header_id|>\\n\\n' -}}\n        {{- '{\"name\": \"' + tool_call.name + '\", ' }}\n        {{- '\"parameters\": ' }}\n        {{- tool_call.arguments | tojson }}\n        {{- \"}\" }}\n        {{- \"<|eot_id|>\" }}\n    {%- elif message.role == \"tool\" or message.role == \"ipython\" %}\n        {{- \"<|start_header_id|>ipython<|end_header_id|>\\n\\n\" }}\n        {%- if message.content is mapping or message.content is iterable %}\n            {{- message.content | tojson }}\n        {%- else %}\n            {{- message.content }}\n        {%- endif %}\n        {{- \"<|eot_id|>\" }}\n    {%- endif %}\n{%- endfor %}\n{%- if add_generation_prompt %}\n    {{- '<|start_header_id|>assistant<|end_header_id|>\\n\\n' }}\n{%- endif %}\n",
+        "general.quantization_version": 2,
+        "quantize.imatrix.file": "/models_out/Llama-3.2-1B-Instruct-GGUF/Llama-3.2-1B-Instruct.imatrix",
+        "quantize.imatrix.dataset": "/training_dir/calibration_datav3.txt",
+        "quantize.imatrix.entries_count": 112,
+        "quantize.imatrix.chunks_count": 125
+      }
+    }
+  },
+  "profiles": [
+    {
+      "name": "cache-control",
+      "command": [
+        "/root/llama/.runtime/llama.cpp/build/bin/llama-server",
+        "--model",
+        "/root/llama/.runtime/models/Llama-3.2-1B-Instruct-Q4_K_M.gguf",
+        "--alias",
+        "llama-3.2-1b-instruct",
+        "--host",
+        "127.0.0.1",
+        "--port",
+        "51991",
+        "--n-gpu-layers",
+        "0",
+        "--threads",
+        "4",
+        "--threads-batch",
+        "4",
+        "--threads-http",
+        "2",
+        "--ctx-size",
+        "2048",
+        "--parallel",
+        "1",
+        "--batch-size",
+        "256",
+        "--ubatch-size",
+        "128",
+        "--n-predict",
+        "32",
+        "--cache-type-k",
+        "f16",
+        "--cache-type-v",
+        "f16",
+        "--cache-ram",
+        "0",
+        "--no-cache-idle-slots",
+        "--ctx-checkpoints",
+        "0",
+        "--flash-attn",
+        "on",
+        "--fit",
+        "off",
+        "--jinja",
+        "--reasoning",
+        "off",
+        "--no-context-shift",
+        "--no-webui",
+        "--offline",
+        "--perf",
+        "--cont-batching"
+      ],
+      "settings": {
+        "binary": "/root/llama/.runtime/llama.cpp/build/bin/llama-server",
+        "model": "/root/llama/.runtime/models/Llama-3.2-1B-Instruct-Q4_K_M.gguf",
+        "threads": 4,
+        "ctx_size": 2048,
+        "max_tokens": 32,
+        "port": 51991,
+        "kv_type": "f16",
+        "parallel": 1,
+        "batch_size": 256,
+        "ubatch_size": 128,
+        "flash_attn": true,
+        "cont_batching": true
+      },
+      "status": "complete",
+      "startup_seconds": 1.47739655605983,
+      "memory_after_startup": {
+        "peak_rss_bytes": 1411215360,
+        "rss_bytes": 1411215360
+      },
+      "server_props": {
+        "default_generation_settings": {
+          "params": {
+            "seed": 4294967295,
+            "temperature": 0.800000011920929,
+            "dynatemp_range": 0.0,
+            "dynatemp_exponent": 1.0,
+            "top_k": 40,
+            "top_p": 0.949999988079071,
+            "min_p": 0.05000000074505806,
+            "top_n_sigma": -1.0,
+            "xtc_probability": 0.0,
+            "xtc_threshold": 0.10000000149011612,
+            "typical_p": 1.0,
+            "repeat_last_n": 64,
+            "repeat_penalty": 1.0,
+            "presence_penalty": 0.0,
+            "frequency_penalty": 0.0,
+            "dry_multiplier": 0.0,
+            "dry_base": 1.75,
+            "dry_allowed_length": 2,
+            "dry_penalty_last_n": 64,
+            "mirostat": 0,
+            "mirostat_tau": 5.0,
+            "mirostat_eta": 0.10000000149011612,
+            "adaptive_target": -1.0,
+            "adaptive_decay": 0.8999999761581421,
+            "max_tokens": -1,
+            "n_predict": -1,
+            "n_keep": 0,
+            "n_discard": 0,
+            "ignore_eos": false,
+            "stream": false,
+            "n_probs": 0,
+            "min_keep": 0,
+            "chat_format": "Content-only",
+            "reasoning_format": "none",
+            "reasoning_in_content": false,
+            "generation_prompt": "",
+            "samplers": [
+              "penalties",
+              "dry",
+              "top_n_sigma",
+              "top_k",
+              "typ_p",
+              "top_p",
+              "min_p",
+              "xtc",
+              "temperature"
+            ],
+            "speculative.types": "none",
+            "timings_per_token": false,
+            "post_sampling_probs": false,
+            "backend_sampling": false,
+            "lora": []
+          },
+          "n_ctx": 2048
+        },
+        "total_slots": 1,
+        "model_alias": "llama-3.2-1b-instruct",
+        "model_ftype": "Q4_K - Medium",
+        "model_path": "/root/llama/.runtime/models/Llama-3.2-1B-Instruct-Q4_K_M.gguf",
+        "modalities": {
+          "vision": false,
+          "video": false,
+          "audio": false
+        },
+        "media_marker": "<__media_bcuWzlyEmZx8Pm35yr5UxghM23me6S56__>",
+        "endpoint_slots": true,
+        "endpoint_props": false,
+        "endpoint_metrics": false,
+        "ui": false,
+        "ui_settings": {},
+        "chat_template": "{{- bos_token }}\n{%- if custom_tools is defined %}\n    {%- set tools = custom_tools %}\n{%- endif %}\n{%- if not tools_in_user_message is defined %}\n    {%- set tools_in_user_message = true %}\n{%- endif %}\n{%- if not date_string is defined %}\n    {%- if strftime_now is defined %}\n        {%- set date_string = strftime_now(\"%d %b %Y\") %}\n    {%- else %}\n        {%- set date_string = \"26 Jul 2024\" %}\n    {%- endif %}\n{%- endif %}\n{%- if not tools is defined %}\n    {%- set tools = none %}\n{%- endif %}\n\n{#- This block extracts the system message, so we can slot it into the right place. #}\n{%- if messages[0]['role'] == 'system' %}\n    {%- set system_message = messages[0]['content']|trim %}\n    {%- set messages = messages[1:] %}\n{%- else %}\n    {%- set system_message = \"\" %}\n{%- endif %}\n\n{#- System message #}\n{{- \"<|start_header_id|>system<|end_header_id|>\\n\\n\" }}\n{%- if tools is not none %}\n    {{- \"Environment: ipython\\n\" }}\n{%- endif %}\n{{- \"Cutting Knowledge Date: December 2023\\n\" }}\n{{- \"Today Date: \" + date_string + \"\\n\\n\" }}\n{%- if tools is not none and not tools_in_user_message %}\n    {{- \"You have access to the following functions. To call a function, please respond with JSON for a function call.\" }}\n    {{- 'Respond in the format {\"name\": function name, \"parameters\": dictionary of argument name and its value}.' }}\n    {{- \"Do not use variables.\\n\\n\" }}\n    {%- for t in tools %}\n        {{- t | tojson(indent=4) }}\n        {{- \"\\n\\n\" }}\n    {%- endfor %}\n{%- endif %}\n{{- system_message }}\n{{- \"<|eot_id|>\" }}\n\n{#- Custom tools are passed in a user message with some extra guidance #}\n{%- if tools_in_user_message and not tools is none %}\n    {#- Extract the first user message so we can plug it in here #}\n    {%- if messages | length != 0 %}\n        {%- set first_user_message = messages[0]['content']|trim %}\n        {%- set messages = messages[1:] %}\n    {%- else %}\n        {{- raise_exception(\"Cannot put tools in the first user message when there's no first user message!\") }}\n{%- endif %}\n    {{- '<|start_header_id|>user<|end_header_id|>\\n\\n' -}}\n    {{- \"Given the following functions, please respond with a JSON for a function call \" }}\n    {{- \"with its proper arguments that best answers the given prompt.\\n\\n\" }}\n    {{- 'Respond in the format {\"name\": function name, \"parameters\": dictionary of argument name and its value}.' }}\n    {{- \"Do not use variables.\\n\\n\" }}\n    {%- for t in tools %}\n        {{- t | tojson(indent=4) }}\n        {{- \"\\n\\n\" }}\n    {%- endfor %}\n    {{- first_user_message + \"<|eot_id|>\"}}\n{%- endif %}\n\n{%- for message in messages %}\n    {%- if not (message.role == 'ipython' or message.role == 'tool' or 'tool_calls' in message) %}\n        {{- '<|start_header_id|>' + message['role'] + '<|end_header_id|>\\n\\n'+ message['content'] | trim + '<|eot_id|>' }}\n    {%- elif 'tool_calls' in message %}\n        {%- if not message.tool_calls|length == 1 %}\n            {{- raise_exception(\"This model only supports single tool-calls at once!\") }}\n        {%- endif %}\n        {%- set tool_call = message.tool_calls[0].function %}\n        {{- '<|start_header_id|>assistant<|end_header_id|>\\n\\n' -}}\n        {{- '{\"name\": \"' + tool_call.name + '\", ' }}\n        {{- '\"parameters\": ' }}\n        {{- tool_call.arguments | tojson }}\n        {{- \"}\" }}\n        {{- \"<|eot_id|>\" }}\n    {%- elif message.role == \"tool\" or message.role == \"ipython\" %}\n        {{- \"<|start_header_id|>ipython<|end_header_id|>\\n\\n\" }}\n        {%- if message.content is mapping or message.content is iterable %}\n            {{- message.content | tojson }}\n        {%- else %}\n            {{- message.content }}\n        {%- endif %}\n        {{- \"<|eot_id|>\" }}\n    {%- endif %}\n{%- endfor %}\n{%- if add_generation_prompt %}\n    {{- '<|start_header_id|>assistant<|end_header_id|>\\n\\n' }}\n{%- endif %}",
+        "chat_template_caps": {
+          "supports_object_arguments": true,
+          "supports_parallel_tool_calls": false,
+          "supports_preserve_reasoning": false,
+          "supports_reasoning_effort": false,
+          "supports_string_content": true,
+          "supports_system_role": true,
+          "supports_tool_calls": true,
+          "supports_tools": true,
+          "supports_typed_content": false
+        },
+        "bos_token": "<|begin_of_text|>",
+        "eos_token": "<|eot_id|>",
+        "build_info": "b1-620d222",
+        "is_sleeping": false,
+        "cors_proxy_enabled": false
+      },
+      "memory_after_requests": {
+        "peak_rss_bytes": 1432858624,
+        "rss_bytes": 1432858624
+      },
+      "cache_allocation": {
+        "runtime_log_lines": [],
+        "buffer_mib": []
+      },
+      "server_exit_code": 0
+    },
+    {
+      "name": "prefix-confirmed",
+      "command": [
+        "/root/llama/.runtime/llama.cpp/build/bin/llama-server",
+        "--model",
+        "/root/llama/.runtime/models/Llama-3.2-1B-Instruct-Q4_K_M.gguf",
+        "--alias",
+        "llama-3.2-1b-instruct",
+        "--host",
+        "127.0.0.1",
+        "--port",
+        "37913",
+        "--n-gpu-layers",
+        "0",
+        "--threads",
+        "4",
+        "--threads-batch",
+        "4",
+        "--threads-http",
+        "2",
+        "--ctx-size",
+        "2048",
+        "--parallel",
+        "1",
+        "--batch-size",
+        "256",
+        "--ubatch-size",
+        "128",
+        "--n-predict",
+        "32",
+        "--cache-type-k",
+        "f16",
+        "--cache-type-v",
+        "f16",
+        "--cache-ram",
+        "0",
+        "--no-cache-idle-slots",
+        "--ctx-checkpoints",
+        "0",
+        "--flash-attn",
+        "on",
+        "--fit",
+        "off",
+        "--jinja",
+        "--reasoning",
+        "off",
+        "--no-context-shift",
+        "--no-webui",
+        "--offline",
+        "--perf",
+        "--cont-batching"
+      ],
+      "settings": {
+        "binary": "/root/llama/.runtime/llama.cpp/build/bin/llama-server",
+        "model": "/root/llama/.runtime/models/Llama-3.2-1B-Instruct-Q4_K_M.gguf",
+        "threads": 4,
+        "ctx_size": 2048,
+        "max_tokens": 32,
+        "port": 37913,
+        "kv_type": "f16",
+        "parallel": 1,
+        "batch_size": 256,
+        "ubatch_size": 128,
+        "flash_attn": true,
+        "cont_batching": true
+      },
+      "status": "complete",
+      "startup_seconds": 1.334676243015565,
+      "memory_after_startup": {
+        "peak_rss_bytes": 1411223552,
+        "rss_bytes": 1411223552
+      },
+      "server_props": {
+        "default_generation_settings": {
+          "params": {
+            "seed": 4294967295,
+            "temperature": 0.800000011920929,
+            "dynatemp_range": 0.0,
+            "dynatemp_exponent": 1.0,
+            "top_k": 40,
+            "top_p": 0.949999988079071,
+            "min_p": 0.05000000074505806,
+            "top_n_sigma": -1.0,
+            "xtc_probability": 0.0,
+            "xtc_threshold": 0.10000000149011612,
+            "typical_p": 1.0,
+            "repeat_last_n": 64,
+            "repeat_penalty": 1.0,
+            "presence_penalty": 0.0,
+            "frequency_penalty": 0.0,
+            "dry_multiplier": 0.0,
+            "dry_base": 1.75,
+            "dry_allowed_length": 2,
+            "dry_penalty_last_n": 64,
+            "mirostat": 0,
+            "mirostat_tau": 5.0,
+            "mirostat_eta": 0.10000000149011612,
+            "adaptive_target": -1.0,
+            "adaptive_decay": 0.8999999761581421,
+            "max_tokens": -1,
+            "n_predict": -1,
+            "n_keep": 0,
+            "n_discard": 0,
+            "ignore_eos": false,
+            "stream": false,
+            "n_probs": 0,
+            "min_keep": 0,
+            "chat_format": "Content-only",
+            "reasoning_format": "none",
+            "reasoning_in_content": false,
+            "generation_prompt": "",
+            "samplers": [
+              "penalties",
+              "dry",
+              "top_n_sigma",
+              "top_k",
+              "typ_p",
+              "top_p",
+              "min_p",
+              "xtc",
+              "temperature"
+            ],
+            "speculative.types": "none",
+            "timings_per_token": false,
+            "post_sampling_probs": false,
+            "backend_sampling": false,
+            "lora": []
+          },
+          "n_ctx": 2048
+        },
+        "total_slots": 1,
+        "model_alias": "llama-3.2-1b-instruct",
+        "model_ftype": "Q4_K - Medium",
+        "model_path": "/root/llama/.runtime/models/Llama-3.2-1B-Instruct-Q4_K_M.gguf",
+        "modalities": {
+          "vision": false,
+          "video": false,
+          "audio": false
+        },
+        "media_marker": "<__media_43zBbMAYwzIJN4KiCv7YKKwlydVWKx6H__>",
+        "endpoint_slots": true,
+        "endpoint_props": false,
+        "endpoint_metrics": false,
+        "ui": false,
+        "ui_settings": {},
+        "chat_template": "{{- bos_token }}\n{%- if custom_tools is defined %}\n    {%- set tools = custom_tools %}\n{%- endif %}\n{%- if not tools_in_user_message is defined %}\n    {%- set tools_in_user_message = true %}\n{%- endif %}\n{%- if not date_string is defined %}\n    {%- if strftime_now is defined %}\n        {%- set date_string = strftime_now(\"%d %b %Y\") %}\n    {%- else %}\n        {%- set date_string = \"26 Jul 2024\" %}\n    {%- endif %}\n{%- endif %}\n{%- if not tools is defined %}\n    {%- set tools = none %}\n{%- endif %}\n\n{#- This block extracts the system message, so we can slot it into the right place. #}\n{%- if messages[0]['role'] == 'system' %}\n    {%- set system_message = messages[0]['content']|trim %}\n    {%- set messages = messages[1:] %}\n{%- else %}\n    {%- set system_message = \"\" %}\n{%- endif %}\n\n{#- System message #}\n{{- \"<|start_header_id|>system<|end_header_id|>\\n\\n\" }}\n{%- if tools is not none %}\n    {{- \"Environment: ipython\\n\" }}\n{%- endif %}\n{{- \"Cutting Knowledge Date: December 2023\\n\" }}\n{{- \"Today Date: \" + date_string + \"\\n\\n\" }}\n{%- if tools is not none and not tools_in_user_message %}\n    {{- \"You have access to the following functions. To call a function, please respond with JSON for a function call.\" }}\n    {{- 'Respond in the format {\"name\": function name, \"parameters\": dictionary of argument name and its value}.' }}\n    {{- \"Do not use variables.\\n\\n\" }}\n    {%- for t in tools %}\n        {{- t | tojson(indent=4) }}\n        {{- \"\\n\\n\" }}\n    {%- endfor %}\n{%- endif %}\n{{- system_message }}\n{{- \"<|eot_id|>\" }}\n\n{#- Custom tools are passed in a user message with some extra guidance #}\n{%- if tools_in_user_message and not tools is none %}\n    {#- Extract the first user message so we can plug it in here #}\n    {%- if messages | length != 0 %}\n        {%- set first_user_message = messages[0]['content']|trim %}\n        {%- set messages = messages[1:] %}\n    {%- else %}\n        {{- raise_exception(\"Cannot put tools in the first user message when there's no first user message!\") }}\n{%- endif %}\n    {{- '<|start_header_id|>user<|end_header_id|>\\n\\n' -}}\n    {{- \"Given the following functions, please respond with a JSON for a function call \" }}\n    {{- \"with its proper arguments that best answers the given prompt.\\n\\n\" }}\n    {{- 'Respond in the format {\"name\": function name, \"parameters\": dictionary of argument name and its value}.' }}\n    {{- \"Do not use variables.\\n\\n\" }}\n    {%- for t in tools %}\n        {{- t | tojson(indent=4) }}\n        {{- \"\\n\\n\" }}\n    {%- endfor %}\n    {{- first_user_message + \"<|eot_id|>\"}}\n{%- endif %}\n\n{%- for message in messages %}\n    {%- if not (message.role == 'ipython' or message.role == 'tool' or 'tool_calls' in message) %}\n        {{- '<|start_header_id|>' + message['role'] + '<|end_header_id|>\\n\\n'+ message['content'] | trim + '<|eot_id|>' }}\n    {%- elif 'tool_calls' in message %}\n        {%- if not message.tool_calls|length == 1 %}\n            {{- raise_exception(\"This model only supports single tool-calls at once!\") }}\n        {%- endif %}\n        {%- set tool_call = message.tool_calls[0].function %}\n        {{- '<|start_header_id|>assistant<|end_header_id|>\\n\\n' -}}\n        {{- '{\"name\": \"' + tool_call.name + '\", ' }}\n        {{- '\"parameters\": ' }}\n        {{- tool_call.arguments | tojson }}\n        {{- \"}\" }}\n        {{- \"<|eot_id|>\" }}\n    {%- elif message.role == \"tool\" or message.role == \"ipython\" %}\n        {{- \"<|start_header_id|>ipython<|end_header_id|>\\n\\n\" }}\n        {%- if message.content is mapping or message.content is iterable %}\n            {{- message.content | tojson }}\n        {%- else %}\n            {{- message.content }}\n        {%- endif %}\n        {{- \"<|eot_id|>\" }}\n    {%- endif %}\n{%- endfor %}\n{%- if add_generation_prompt %}\n    {{- '<|start_header_id|>assistant<|end_header_id|>\\n\\n' }}\n{%- endif %}",
+        "chat_template_caps": {
+          "supports_object_arguments": true,
+          "supports_parallel_tool_calls": false,
+          "supports_preserve_reasoning": false,
+          "supports_reasoning_effort": false,
+          "supports_string_content": true,
+          "supports_system_role": true,
+          "supports_tool_calls": true,
+          "supports_tools": true,
+          "supports_typed_content": false
+        },
+        "bos_token": "<|begin_of_text|>",
+        "eos_token": "<|eot_id|>",
+        "build_info": "b1-620d222",
+        "is_sleeping": false,
+        "cors_proxy_enabled": false
+      },
+      "memory_after_requests": {
+        "peak_rss_bytes": 1432858624,
+        "rss_bytes": 1432858624
+      },
+      "cache_allocation": {
+        "runtime_log_lines": [],
+        "buffer_mib": []
+      },
+      "server_exit_code": 0
+    }
+  ],
+  "requests": [
+    {
+      "profile": "cache-control",
+      "prompt_id": "short",
+      "clients": 1,
+      "phase": "warmup",
+      "repeat": 0,
+      "wave_id": 0,
+      "payload": {
+        "model": "llama-3.2-1b-instruct",
+        "messages": [
+          {
+            "role": "user",
+            "content": "In about 150 words explain why contiguous array access can improve CPU cache locality."
+          }
+        ],
+        "temperature": 0,
+        "seed": 42,
+        "max_tokens": 32,
+        "stream": true,
+        "stream_options": {
+          "include_usage": true
+        },
+        "cache_prompt": false
+      },
+      "success": true,
+      "output": "Contiguous array access can improve CPU cache locality by reducing the number of cache misses. When data is stored in contiguous blocks, the CPU can access adjacent memory locations",
+      "ttft_seconds": 0.4176377640105784,
+      "total_seconds": 1.760661285952665,
+      "content_chunks": 32,
+      "prompt_tokens": 51,
+      "completion_tokens": 32,
+      "finish_reason": "length",
+      "effective_tokens_per_second": 18.174989281192335,
+      "timings": {
+        "cache_n": 0,
+        "prompt_n": 51,
+        "prompt_ms": 414.195,
+        "prompt_per_token_ms": 8.121470588235294,
+        "prompt_per_second": 123.13040958968601,
+        "predicted_n": 32,
+        "predicted_ms": 1342.642,
+        "predicted_per_token_ms": 43.311032258064515,
+        "predicted_per_second": 23.088805504371233
+      }
+    },
+    {
+      "profile": "cache-control",
+      "prompt_id": "short",
+      "clients": 1,
+      "phase": "measured",
+      "repeat": 0,
+      "wave_id": 1,
+      "payload": {
+        "model": "llama-3.2-1b-instruct",
+        "messages": [
+          {
+            "role": "user",
+            "content": "In about 150 words explain why contiguous array access can improve CPU cache locality."
+          }
+        ],
+        "temperature": 0,
+        "seed": 42,
+        "max_tokens": 32,
+        "stream": true,
+        "stream_options": {
+          "include_usage": true
+        },
+        "cache_prompt": false
+      },
+      "success": true,
+      "output": "Contiguous array access can improve CPU cache locality by reducing the number of cache misses. When data is stored in contiguous blocks, the CPU can access adjacent memory locations",
+      "ttft_seconds": 0.4071119340369478,
+      "total_seconds": 1.7705233650049195,
+      "content_chunks": 32,
+      "prompt_tokens": 51,
+      "completion_tokens": 32,
+      "finish_reason": "length",
+      "effective_tokens_per_second": 18.073751881783885,
+      "timings": {
+        "cache_n": 0,
+        "prompt_n": 51,
+        "prompt_ms": 404.287,
+        "prompt_per_token_ms": 7.927196078431372,
+        "prompt_per_second": 126.14800871658005,
+        "predicted_n": 32,
+        "predicted_ms": 1362.731,
+        "predicted_per_token_ms": 43.95906451612903,
+        "predicted_per_second": 22.748436778792
+      }
+    },
+    {
+      "profile": "cache-control",
+      "prompt_id": "short",
+      "clients": 1,
+      "phase": "measured",
+      "repeat": 1,
+      "wave_id": 2,
+      "payload": {
+        "model": "llama-3.2-1b-instruct",
+        "messages": [
+          {
+            "role": "user",
+            "content": "In about 150 words explain why contiguous array access can improve CPU cache locality."
+          }
+        ],
+        "temperature": 0,
+        "seed": 42,
+        "max_tokens": 32,
+        "stream": true,
+        "stream_options": {
+          "include_usage": true
+        },
+        "cache_prompt": false
+      },
+      "success": true,
+      "output": "Contiguous array access can improve CPU cache locality by reducing the number of cache misses. When data is stored in contiguous blocks, the CPU can access adjacent memory locations",
+      "ttft_seconds": 0.398456912022084,
+      "total_seconds": 1.786990866996348,
+      "content_chunks": 32,
+      "prompt_tokens": 51,
+      "completion_tokens": 32,
+      "finish_reason": "length",
+      "effective_tokens_per_second": 17.907198403194414,
+      "timings": {
+        "cache_n": 0,
+        "prompt_n": 51,
+        "prompt_ms": 395.176,
+        "prompt_per_token_ms": 7.748549019607843,
+        "prompt_per_second": 129.05642043039052,
+        "predicted_n": 32,
+        "predicted_ms": 1388.161,
+        "predicted_per_token_ms": 44.779387096774194,
+        "predicted_per_second": 22.33170359922228
+      }
+    },
+    {
+      "profile": "cache-control",
+      "prompt_id": "short",
+      "clients": 1,
+      "phase": "measured",
+      "repeat": 2,
+      "wave_id": 3,
+      "payload": {
+        "model": "llama-3.2-1b-instruct",
+        "messages": [
+          {
+            "role": "user",
+            "content": "In about 150 words explain why contiguous array access can improve CPU cache locality."
+          }
+        ],
+        "temperature": 0,
+        "seed": 42,
+        "max_tokens": 32,
+        "stream": true,
+        "stream_options": {
+          "include_usage": true
+        },
+        "cache_prompt": false
+      },
+      "success": true,
+      "output": "Contiguous array access can improve CPU cache locality by reducing the number of cache misses. When data is stored in contiguous blocks, the CPU can access adjacent memory locations",
+      "ttft_seconds": 0.3825683220056817,
+      "total_seconds": 1.7327270170208067,
+      "content_chunks": 32,
+      "prompt_tokens": 51,
+      "completion_tokens": 32,
+      "finish_reason": "length",
+      "effective_tokens_per_second": 18.467998528134995,
+      "timings": {
+        "cache_n": 0,
+        "prompt_n": 51,
+        "prompt_ms": 379.286,
+        "prompt_per_token_ms": 7.436980392156863,
+        "prompt_per_second": 134.46317554563046,
+        "predicted_n": 32,
+        "predicted_ms": 1349.795,
+        "predicted_per_token_ms": 43.54177419354839,
+        "predicted_per_second": 22.966450460995926
+      }
+    },
+    {
+      "profile": "cache-control",
+      "prompt_id": "long",
+      "clients": 1,
+      "phase": "warmup",
+      "repeat": 0,
+      "wave_id": 4,
+      "payload": {
+        "model": "llama-3.2-1b-instruct",
+        "messages": [
+          {
+            "role": "user",
+            "content": "A CPU-only language-model server stores weights in RAM and reads them during each decoding step. Grouped-query attention shares key and value heads. Prefix caching avoids recomputing identical prompt tokens but consumes memory and needs session isolation. More threads can increase synchronization and memory-bandwidth contention. A context window holds prompt and generated tokens together. A CPU-only language-model server stores weights in RAM and reads them during each decoding step. Grouped-query attention shares key and value heads. Prefix caching avoids recomputing identical prompt tokens but consumes memory and needs session isolation. More threads can increase synchronization and memory-bandwidth contention. A context window holds prompt and generated tokens together. A CPU-only language-model server stores weights in RAM and reads them during each decoding step. Grouped-query attention shares key and value heads. Prefix caching avoids recomputing identical prompt tokens but consumes memory and needs session isolation. More threads can increase synchronization and memory-bandwidth contention. A context window holds prompt and generated tokens together. A CPU-only language-model server stores weights in RAM and reads them during each decoding step. Grouped-query attention shares key and value heads. Prefix caching avoids recomputing identical prompt tokens but consumes memory and needs session isolation. More threads can increase synchronization and memory-bandwidth contention. A context window holds prompt and generated tokens together. Explain these engineering trade-offs in about 150 words."
+          }
+        ],
+        "temperature": 0,
+        "seed": 42,
+        "max_tokens": 32,
+        "stream": true,
+        "stream_options": {
+          "include_usage": true
+        },
+        "cache_prompt": false
+      },
+      "success": true,
+      "output": "The engineering trade-offs in a CPU-only language-model server revolve around memory management, synchronization, and session isolation. Grouped-query attention and prefix caching are used",
+      "ttft_seconds": 2.2462446610443294,
+      "total_seconds": 3.8084413290489465,
+      "content_chunks": 32,
+      "prompt_tokens": 310,
+      "completion_tokens": 32,
+      "finish_reason": "length",
+      "effective_tokens_per_second": 8.402387547871486,
+      "timings": {
+        "cache_n": 0,
+        "prompt_n": 310,
+        "prompt_ms": 2243.162,
+        "prompt_per_token_ms": 7.236006451612902,
+        "prompt_per_second": 138.1977761748817,
+        "predicted_n": 32,
+        "predicted_ms": 1561.59,
+        "predicted_per_token_ms": 50.37387096774193,
+        "predicted_per_second": 19.851561549446398
+      }
+    },
+    {
+      "profile": "cache-control",
+      "prompt_id": "long",
+      "clients": 1,
+      "phase": "measured",
+      "repeat": 0,
+      "wave_id": 5,
+      "payload": {
+        "model": "llama-3.2-1b-instruct",
+        "messages": [
+          {
+            "role": "user",
+            "content": "A CPU-only language-model server stores weights in RAM and reads them during each decoding step. Grouped-query attention shares key and value heads. Prefix caching avoids recomputing identical prompt tokens but consumes memory and needs session isolation. More threads can increase synchronization and memory-bandwidth contention. A context window holds prompt and generated tokens together. A CPU-only language-model server stores weights in RAM and reads them during each decoding step. Grouped-query attention shares key and value heads. Prefix caching avoids recomputing identical prompt tokens but consumes memory and needs session isolation. More threads can increase synchronization and memory-bandwidth contention. A context window holds prompt and generated tokens together. A CPU-only language-model server stores weights in RAM and reads them during each decoding step. Grouped-query attention shares key and value heads. Prefix caching avoids recomputing identical prompt tokens but consumes memory and needs session isolation. More threads can increase synchronization and memory-bandwidth contention. A context window holds prompt and generated tokens together. A CPU-only language-model server stores weights in RAM and reads them during each decoding step. Grouped-query attention shares key and value heads. Prefix caching avoids recomputing identical prompt tokens but consumes memory and needs session isolation. More threads can increase synchronization and memory-bandwidth contention. A context window holds prompt and generated tokens together. Explain these engineering trade-offs in about 150 words."
+          }
+        ],
+        "temperature": 0,
+        "seed": 42,
+        "max_tokens": 32,
+        "stream": true,
+        "stream_options": {
+          "include_usage": true
+        },
+        "cache_prompt": false
+      },
+      "success": true,
+      "output": "The engineering trade-offs in a CPU-only language-model server revolve around memory management, synchronization, and session isolation. Grouped-query attention and prefix caching are used",
+      "ttft_seconds": 2.273447621962987,
+      "total_seconds": 3.7396362400613725,
+      "content_chunks": 32,
+      "prompt_tokens": 310,
+      "completion_tokens": 32,
+      "finish_reason": "length",
+      "effective_tokens_per_second": 8.55698200193793,
+      "timings": {
+        "cache_n": 0,
+        "prompt_n": 310,
+        "prompt_ms": 2269.58,
+        "prompt_per_token_ms": 7.321225806451612,
+        "prompt_per_second": 136.58914865305474,
+        "predicted_n": 32,
+        "predicted_ms": 1465.529,
+        "predicted_per_token_ms": 47.275129032258064,
+        "predicted_per_second": 21.152771456586667
+      }
+    },
+    {
+      "profile": "cache-control",
+      "prompt_id": "long",
+      "clients": 1,
+      "phase": "measured",
+      "repeat": 1,
+      "wave_id": 6,
+      "payload": {
+        "model": "llama-3.2-1b-instruct",
+        "messages": [
+          {
+            "role": "user",
+            "content": "A CPU-only language-model server stores weights in RAM and reads them during each decoding step. Grouped-query attention shares key and value heads. Prefix caching avoids recomputing identical prompt tokens but consumes memory and needs session isolation. More threads can increase synchronization and memory-bandwidth contention. A context window holds prompt and generated tokens together. A CPU-only language-model server stores weights in RAM and reads them during each decoding step. Grouped-query attention shares key and value heads. Prefix caching avoids recomputing identical prompt tokens but consumes memory and needs session isolation. More threads can increase synchronization and memory-bandwidth contention. A context window holds prompt and generated tokens together. A CPU-only language-model server stores weights in RAM and reads them during each decoding step. Grouped-query attention shares key and value heads. Prefix caching avoids recomputing identical prompt tokens but consumes memory and needs session isolation. More threads can increase synchronization and memory-bandwidth contention. A context window holds prompt and generated tokens together. A CPU-only language-model server stores weights in RAM and reads them during each decoding step. Grouped-query attention shares key and value heads. Prefix caching avoids recomputing identical prompt tokens but consumes memory and needs session isolation. More threads can increase synchronization and memory-bandwidth contention. A context window holds prompt and generated tokens together. Explain these engineering trade-offs in about 150 words."
+          }
+        ],
+        "temperature": 0,
+        "seed": 42,
+        "max_tokens": 32,
+        "stream": true,
+        "stream_options": {
+          "include_usage": true
+        },
+        "cache_prompt": false
+      },
+      "success": true,
+      "output": "The engineering trade-offs in a CPU-only language-model server revolve around memory management, synchronization, and session isolation. Grouped-query attention and prefix caching are used",
+      "ttft_seconds": 2.2478894249070436,
+      "total_seconds": 3.7515597549499944,
+      "content_chunks": 32,
+      "prompt_tokens": 310,
+      "completion_tokens": 32,
+      "finish_reason": "length",
+      "effective_tokens_per_second": 8.529785499958413,
+      "timings": {
+        "cache_n": 0,
+        "prompt_n": 310,
+        "prompt_ms": 2244.956,
+        "prompt_per_token_ms": 7.241793548387097,
+        "prompt_per_second": 138.08733890552867,
+        "predicted_n": 32,
+        "predicted_ms": 1503.289,
+        "predicted_per_token_ms": 48.4931935483871,
+        "predicted_per_second": 20.62145069910044
+      }
+    },
+    {
+      "profile": "cache-control",
+      "prompt_id": "long",
+      "clients": 1,
+      "phase": "measured",
+      "repeat": 2,
+      "wave_id": 7,
+      "payload": {
+        "model": "llama-3.2-1b-instruct",
+        "messages": [
+          {
+            "role": "user",
+            "content": "A CPU-only language-model server stores weights in RAM and reads them during each decoding step. Grouped-query attention shares key and value heads. Prefix caching avoids recomputing identical prompt tokens but consumes memory and needs session isolation. More threads can increase synchronization and memory-bandwidth contention. A context window holds prompt and generated tokens together. A CPU-only language-model server stores weights in RAM and reads them during each decoding step. Grouped-query attention shares key and value heads. Prefix caching avoids recomputing identical prompt tokens but consumes memory and needs session isolation. More threads can increase synchronization and memory-bandwidth contention. A context window holds prompt and generated tokens together. A CPU-only language-model server stores weights in RAM and reads them during each decoding step. Grouped-query attention shares key and value heads. Prefix caching avoids recomputing identical prompt tokens but consumes memory and needs session isolation. More threads can increase synchronization and memory-bandwidth contention. A context window holds prompt and generated tokens together. A CPU-only language-model server stores weights in RAM and reads them during each decoding step. Grouped-query attention shares key and value heads. Prefix caching avoids recomputing identical prompt tokens but consumes memory and needs session isolation. More threads can increase synchronization and memory-bandwidth contention. A context window holds prompt and generated tokens together. Explain these engineering trade-offs in about 150 words."
+          }
+        ],
+        "temperature": 0,
+        "seed": 42,
+        "max_tokens": 32,
+        "stream": true,
+        "stream_options": {
+          "include_usage": true
+        },
+        "cache_prompt": false
+      },
+      "success": true,
+      "output": "The engineering trade-offs in a CPU-only language-model server revolve around memory management, synchronization, and session isolation. Grouped-query attention and prefix caching are used",
+      "ttft_seconds": 2.346408830024302,
+      "total_seconds": 3.8316489190328866,
+      "content_chunks": 32,
+      "prompt_tokens": 310,
+      "completion_tokens": 32,
+      "finish_reason": "length",
+      "effective_tokens_per_second": 8.351495838005128,
+      "timings": {
+        "cache_n": 0,
+        "prompt_n": 310,
+        "prompt_ms": 2343.299,
+        "prompt_per_token_ms": 7.559029032258064,
+        "prompt_per_second": 132.2921231989601,
+        "predicted_n": 32,
+        "predicted_ms": 1484.856,
+        "predicted_per_token_ms": 47.89858064516129,
+        "predicted_per_second": 20.877445354970448
+      }
+    },
+    {
+      "profile": "prefix-confirmed",
+      "prompt_id": "short",
+      "clients": 1,
+      "phase": "warmup",
+      "repeat": 0,
+      "wave_id": 8,
+      "payload": {
+        "model": "llama-3.2-1b-instruct",
+        "messages": [
+          {
+            "role": "user",
+            "content": "In about 150 words explain why contiguous array access can improve CPU cache locality."
+          }
+        ],
+        "temperature": 0,
+        "seed": 42,
+        "max_tokens": 32,
+        "stream": true,
+        "stream_options": {
+          "include_usage": true
+        },
+        "cache_prompt": false
+      },
+      "success": true,
+      "output": "Contiguous array access can improve CPU cache locality by reducing the number of cache misses. When data is stored in contiguous blocks, the CPU can access adjacent memory locations",
+      "ttft_seconds": 0.4385638099629432,
+      "total_seconds": 1.8636701189680025,
+      "content_chunks": 32,
+      "prompt_tokens": 51,
+      "completion_tokens": 32,
+      "finish_reason": "length",
+      "effective_tokens_per_second": 17.170420706063492,
+      "timings": {
+        "cache_n": 0,
+        "prompt_n": 51,
+        "prompt_ms": 435.43,
+        "prompt_per_token_ms": 8.537843137254901,
+        "prompt_per_second": 117.12559998162736,
+        "predicted_n": 32,
+        "predicted_ms": 1424.812,
+        "predicted_per_token_ms": 45.961677419354835,
+        "predicted_per_second": 21.757256395931535
+      }
+    },
+    {
+      "profile": "prefix-confirmed",
+      "prompt_id": "short",
+      "clients": 1,
+      "phase": "measured",
+      "repeat": 0,
+      "wave_id": 9,
+      "payload": {
+        "model": "llama-3.2-1b-instruct",
+        "messages": [
+          {
+            "role": "user",
+            "content": "In about 150 words explain why contiguous array access can improve CPU cache locality."
+          }
+        ],
+        "temperature": 0,
+        "seed": 42,
+        "max_tokens": 32,
+        "stream": true,
+        "stream_options": {
+          "include_usage": true
+        },
+        "cache_prompt": true
+      },
+      "success": true,
+      "output": "Contiguous array access can improve CPU cache locality by reducing the number of cache misses. When data is stored in contiguous blocks, the CPU can access adjacent memory locations",
+      "ttft_seconds": 0.05262544297147542,
+      "total_seconds": 1.465842884965241,
+      "content_chunks": 32,
+      "prompt_tokens": 51,
+      "completion_tokens": 32,
+      "finish_reason": "length",
+      "effective_tokens_per_second": 21.830443308908105,
+      "timings": {
+        "cache_n": 50,
+        "prompt_n": 1,
+        "prompt_ms": 49.626,
+        "prompt_per_token_ms": 49.626,
+        "prompt_per_second": 20.15072744126063,
+        "predicted_n": 32,
+        "predicted_ms": 1412.567,
+        "predicted_per_token_ms": 45.56667741935484,
+        "predicted_per_second": 21.945861683021054
+      }
+    },
+    {
+      "profile": "prefix-confirmed",
+      "prompt_id": "short",
+      "clients": 1,
+      "phase": "measured",
+      "repeat": 1,
+      "wave_id": 10,
+      "payload": {
+        "model": "llama-3.2-1b-instruct",
+        "messages": [
+          {
+            "role": "user",
+            "content": "In about 150 words explain why contiguous array access can improve CPU cache locality."
+          }
+        ],
+        "temperature": 0,
+        "seed": 42,
+        "max_tokens": 32,
+        "stream": true,
+        "stream_options": {
+          "include_usage": true
+        },
+        "cache_prompt": true
+      },
+      "success": true,
+      "output": "Contiguous array access can improve CPU cache locality by reducing the number of cache misses. When data is stored in contiguous blocks, the CPU can access adjacent memory locations",
+      "ttft_seconds": 0.05285527906380594,
+      "total_seconds": 1.4367462270893157,
+      "content_chunks": 32,
+      "prompt_tokens": 51,
+      "completion_tokens": 32,
+      "finish_reason": "length",
+      "effective_tokens_per_second": 22.272548482572567,
+      "timings": {
+        "cache_n": 50,
+        "prompt_n": 1,
+        "prompt_ms": 49.801,
+        "prompt_per_token_ms": 49.801,
+        "prompt_per_second": 20.07991807393426,
+        "predicted_n": 32,
+        "predicted_ms": 1383.62,
+        "predicted_per_token_ms": 44.63290322580645,
+        "predicted_per_second": 22.404995591275064
+      }
+    },
+    {
+      "profile": "prefix-confirmed",
+      "prompt_id": "short",
+      "clients": 1,
+      "phase": "measured",
+      "repeat": 2,
+      "wave_id": 11,
+      "payload": {
+        "model": "llama-3.2-1b-instruct",
+        "messages": [
+          {
+            "role": "user",
+            "content": "In about 150 words explain why contiguous array access can improve CPU cache locality."
+          }
+        ],
+        "temperature": 0,
+        "seed": 42,
+        "max_tokens": 32,
+        "stream": true,
+        "stream_options": {
+          "include_usage": true
+        },
+        "cache_prompt": true
+      },
+      "success": true,
+      "output": "Contiguous array access can improve CPU cache locality by reducing the number of cache misses. When data is stored in contiguous blocks, the CPU can access adjacent memory locations",
+      "ttft_seconds": 0.0467309340601787,
+      "total_seconds": 1.416862879996188,
+      "content_chunks": 32,
+      "prompt_tokens": 51,
+      "completion_tokens": 32,
+      "finish_reason": "length",
+      "effective_tokens_per_second": 22.585107177122246,
+      "timings": {
+        "cache_n": 50,
+        "prompt_n": 1,
+        "prompt_ms": 44.259,
+        "prompt_per_token_ms": 44.259,
+        "prompt_per_second": 22.59427461081362,
+        "predicted_n": 32,
+        "predicted_ms": 1369.709,
+        "predicted_per_token_ms": 44.184161290322585,
+        "predicted_per_second": 22.63254457698679
+      }
+    },
+    {
+      "profile": "prefix-confirmed",
+      "prompt_id": "long",
+      "clients": 1,
+      "phase": "warmup",
+      "repeat": 0,
+      "wave_id": 12,
+      "payload": {
+        "model": "llama-3.2-1b-instruct",
+        "messages": [
+          {
+            "role": "user",
+            "content": "A CPU-only language-model server stores weights in RAM and reads them during each decoding step. Grouped-query attention shares key and value heads. Prefix caching avoids recomputing identical prompt tokens but consumes memory and needs session isolation. More threads can increase synchronization and memory-bandwidth contention. A context window holds prompt and generated tokens together. A CPU-only language-model server stores weights in RAM and reads them during each decoding step. Grouped-query attention shares key and value heads. Prefix caching avoids recomputing identical prompt tokens but consumes memory and needs session isolation. More threads can increase synchronization and memory-bandwidth contention. A context window holds prompt and generated tokens together. A CPU-only language-model server stores weights in RAM and reads them during each decoding step. Grouped-query attention shares key and value heads. Prefix caching avoids recomputing identical prompt tokens but consumes memory and needs session isolation. More threads can increase synchronization and memory-bandwidth contention. A context window holds prompt and generated tokens together. A CPU-only language-model server stores weights in RAM and reads them during each decoding step. Grouped-query attention shares key and value heads. Prefix caching avoids recomputing identical prompt tokens but consumes memory and needs session isolation. More threads can increase synchronization and memory-bandwidth contention. A context window holds prompt and generated tokens together. Explain these engineering trade-offs in about 150 words."
+          }
+        ],
+        "temperature": 0,
+        "seed": 42,
+        "max_tokens": 32,
+        "stream": true,
+        "stream_options": {
+          "include_usage": true
+        },
+        "cache_prompt": false
+      },
+      "success": true,
+      "output": "The engineering trade-offs in a CPU-only language-model server revolve around memory management, synchronization, and session isolation. Grouped-query attention and prefix caching are used",
+      "ttft_seconds": 2.1738499390194193,
+      "total_seconds": 3.6768822940066457,
+      "content_chunks": 32,
+      "prompt_tokens": 310,
+      "completion_tokens": 32,
+      "finish_reason": "length",
+      "effective_tokens_per_second": 8.703025400666297,
+      "timings": {
+        "cache_n": 0,
+        "prompt_n": 310,
+        "prompt_ms": 2170.359,
+        "prompt_per_token_ms": 7.001158064516129,
+        "prompt_per_second": 142.83351279673087,
+        "predicted_n": 32,
+        "predicted_ms": 1502.552,
+        "predicted_per_token_ms": 48.469419354838706,
+        "predicted_per_second": 20.631565496568506
+      }
+    },
+    {
+      "profile": "prefix-confirmed",
+      "prompt_id": "long",
+      "clients": 1,
+      "phase": "measured",
+      "repeat": 0,
+      "wave_id": 13,
+      "payload": {
+        "model": "llama-3.2-1b-instruct",
+        "messages": [
+          {
+            "role": "user",
+            "content": "A CPU-only language-model server stores weights in RAM and reads them during each decoding step. Grouped-query attention shares key and value heads. Prefix caching avoids recomputing identical prompt tokens but consumes memory and needs session isolation. More threads can increase synchronization and memory-bandwidth contention. A context window holds prompt and generated tokens together. A CPU-only language-model server stores weights in RAM and reads them during each decoding step. Grouped-query attention shares key and value heads. Prefix caching avoids recomputing identical prompt tokens but consumes memory and needs session isolation. More threads can increase synchronization and memory-bandwidth contention. A context window holds prompt and generated tokens together. A CPU-only language-model server stores weights in RAM and reads them during each decoding step. Grouped-query attention shares key and value heads. Prefix caching avoids recomputing identical prompt tokens but consumes memory and needs session isolation. More threads can increase synchronization and memory-bandwidth contention. A context window holds prompt and generated tokens together. A CPU-only language-model server stores weights in RAM and reads them during each decoding step. Grouped-query attention shares key and value heads. Prefix caching avoids recomputing identical prompt tokens but consumes memory and needs session isolation. More threads can increase synchronization and memory-bandwidth contention. A context window holds prompt and generated tokens together. Explain these engineering trade-offs in about 150 words."
+          }
+        ],
+        "temperature": 0,
+        "seed": 42,
+        "max_tokens": 32,
+        "stream": true,
+        "stream_options": {
+          "include_usage": true
+        },
+        "cache_prompt": true
+      },
+      "success": true,
+      "output": "The engineering trade-offs in a CPU-only language-model server revolve around memory management, synchronization, and session isolation. Grouped-query attention and prefix caching are used",
+      "ttft_seconds": 0.05625707807485014,
+      "total_seconds": 1.6850764399860054,
+      "content_chunks": 32,
+      "prompt_tokens": 310,
+      "completion_tokens": 32,
+      "finish_reason": "length",
+      "effective_tokens_per_second": 18.990236431212438,
+      "timings": {
+        "cache_n": 309,
+        "prompt_n": 1,
+        "prompt_ms": 52.961,
+        "prompt_per_token_ms": 52.961,
+        "prompt_per_second": 18.881818696776875,
+        "predicted_n": 32,
+        "predicted_ms": 1628.675,
+        "predicted_per_token_ms": 52.53790322580645,
+        "predicted_per_second": 19.03387723149186
+      }
+    },
+    {
+      "profile": "prefix-confirmed",
+      "prompt_id": "long",
+      "clients": 1,
+      "phase": "measured",
+      "repeat": 1,
+      "wave_id": 14,
+      "payload": {
+        "model": "llama-3.2-1b-instruct",
+        "messages": [
+          {
+            "role": "user",
+            "content": "A CPU-only language-model server stores weights in RAM and reads them during each decoding step. Grouped-query attention shares key and value heads. Prefix caching avoids recomputing identical prompt tokens but consumes memory and needs session isolation. More threads can increase synchronization and memory-bandwidth contention. A context window holds prompt and generated tokens together. A CPU-only language-model server stores weights in RAM and reads them during each decoding step. Grouped-query attention shares key and value heads. Prefix caching avoids recomputing identical prompt tokens but consumes memory and needs session isolation. More threads can increase synchronization and memory-bandwidth contention. A context window holds prompt and generated tokens together. A CPU-only language-model server stores weights in RAM and reads them during each decoding step. Grouped-query attention shares key and value heads. Prefix caching avoids recomputing identical prompt tokens but consumes memory and needs session isolation. More threads can increase synchronization and memory-bandwidth contention. A context window holds prompt and generated tokens together. A CPU-only language-model server stores weights in RAM and reads them during each decoding step. Grouped-query attention shares key and value heads. Prefix caching avoids recomputing identical prompt tokens but consumes memory and needs session isolation. More threads can increase synchronization and memory-bandwidth contention. A context window holds prompt and generated tokens together. Explain these engineering trade-offs in about 150 words."
+          }
+        ],
+        "temperature": 0,
+        "seed": 42,
+        "max_tokens": 32,
+        "stream": true,
+        "stream_options": {
+          "include_usage": true
+        },
+        "cache_prompt": true
+      },
+      "success": true,
+      "output": "The engineering trade-offs in a CPU-only language-model server revolve around memory management, synchronization, and session isolation. Grouped-query attention and prefix caching are used",
+      "ttft_seconds": 0.05172056797891855,
+      "total_seconds": 1.587544432026334,
+      "content_chunks": 32,
+      "prompt_tokens": 310,
+      "completion_tokens": 32,
+      "finish_reason": "length",
+      "effective_tokens_per_second": 20.156916149524932,
+      "timings": {
+        "cache_n": 309,
+        "prompt_n": 1,
+        "prompt_ms": 48.431,
+        "prompt_per_token_ms": 48.431,
+        "prompt_per_second": 20.647932109599225,
+        "predicted_n": 32,
+        "predicted_ms": 1535.473,
+        "predicted_per_token_ms": 49.53138709677419,
+        "predicted_per_second": 20.189218566526407
+      }
+    },
+    {
+      "profile": "prefix-confirmed",
+      "prompt_id": "long",
+      "clients": 1,
+      "phase": "measured",
+      "repeat": 2,
+      "wave_id": 15,
+      "payload": {
+        "model": "llama-3.2-1b-instruct",
+        "messages": [
+          {
+            "role": "user",
+            "content": "A CPU-only language-model server stores weights in RAM and reads them during each decoding step. Grouped-query attention shares key and value heads. Prefix caching avoids recomputing identical prompt tokens but consumes memory and needs session isolation. More threads can increase synchronization and memory-bandwidth contention. A context window holds prompt and generated tokens together. A CPU-only language-model server stores weights in RAM and reads them during each decoding step. Grouped-query attention shares key and value heads. Prefix caching avoids recomputing identical prompt tokens but consumes memory and needs session isolation. More threads can increase synchronization and memory-bandwidth contention. A context window holds prompt and generated tokens together. A CPU-only language-model server stores weights in RAM and reads them during each decoding step. Grouped-query attention shares key and value heads. Prefix caching avoids recomputing identical prompt tokens but consumes memory and needs session isolation. More threads can increase synchronization and memory-bandwidth contention. A context window holds prompt and generated tokens together. A CPU-only language-model server stores weights in RAM and reads them during each decoding step. Grouped-query attention shares key and value heads. Prefix caching avoids recomputing identical prompt tokens but consumes memory and needs session isolation. More threads can increase synchronization and memory-bandwidth contention. A context window holds prompt and generated tokens together. Explain these engineering trade-offs in about 150 words."
+          }
+        ],
+        "temperature": 0,
+        "seed": 42,
+        "max_tokens": 32,
+        "stream": true,
+        "stream_options": {
+          "include_usage": true
+        },
+        "cache_prompt": true
+      },
+      "success": true,
+      "output": "The engineering trade-offs in a CPU-only language-model server revolve around memory management, synchronization, and session isolation. Grouped-query attention and prefix caching are used",
+      "ttft_seconds": 0.05018354102503508,
+      "total_seconds": 1.4984368070727214,
+      "content_chunks": 32,
+      "prompt_tokens": 310,
+      "completion_tokens": 32,
+      "finish_reason": "length",
+      "effective_tokens_per_second": 21.35558860337511,
+      "timings": {
+        "cache_n": 309,
+        "prompt_n": 1,
+        "prompt_ms": 47.159,
+        "prompt_per_token_ms": 47.159,
+        "prompt_per_second": 21.204860153947287,
+        "predicted_n": 32,
+        "predicted_ms": 1448.115,
+        "predicted_per_token_ms": 46.71338709677419,
+        "predicted_per_second": 21.40713962634183
+      }
+    }
+  ],
+  "waves": [
+    {
+      "profile": "cache-control",
+      "prompt_id": "short",
+      "clients": 1,
+      "phase": "warmup",
+      "repeat": 0,
+      "wave_id": 0,
+      "wall_seconds": 1.7615463539259508,
+      "server_cpu_seconds_before": 1.8,
+      "server_cpu_seconds_after": 8.83,
+      "server_cpu_time_seconds": 7.03,
+      "server_cpu_percent": 399.08118139112656,
+      "memory": {
+        "peak_rss_bytes": 1421164544,
+        "rss_bytes": 1421164544
+      }
+    },
+    {
+      "profile": "cache-control",
+      "prompt_id": "short",
+      "clients": 1,
+      "phase": "measured",
+      "repeat": 0,
+      "wave_id": 1,
+      "wall_seconds": 1.7712602600222453,
+      "server_cpu_seconds_before": 8.83,
+      "server_cpu_seconds_after": 15.9,
+      "server_cpu_time_seconds": 7.07,
+      "server_cpu_percent": 399.1508283436115,
+      "memory": {
+        "peak_rss_bytes": 1421242368,
+        "rss_bytes": 1421242368
+      }
+    },
+    {
+      "profile": "cache-control",
+      "prompt_id": "short",
+      "clients": 1,
+      "phase": "measured",
+      "repeat": 1,
+      "wave_id": 2,
+      "wall_seconds": 1.7876349139260128,
+      "server_cpu_seconds_before": 15.9,
+      "server_cpu_seconds_after": 23.03,
+      "server_cpu_time_seconds": 7.130000000000001,
+      "server_cpu_percent": 398.85101507337754,
+      "memory": {
+        "peak_rss_bytes": 1421266944,
+        "rss_bytes": 1421266944
+      }
+    },
+    {
+      "profile": "cache-control",
+      "prompt_id": "short",
+      "clients": 1,
+      "phase": "measured",
+      "repeat": 2,
+      "wave_id": 3,
+      "wall_seconds": 1.733325548004359,
+      "server_cpu_seconds_before": 23.03,
+      "server_cpu_seconds_after": 29.96,
+      "server_cpu_time_seconds": 6.93,
+      "server_cpu_percent": 399.8094880663798,
+      "memory": {
+        "peak_rss_bytes": 1421291520,
+        "rss_bytes": 1421291520
+      }
+    },
+    {
+      "profile": "cache-control",
+      "prompt_id": "long",
+      "clients": 1,
+      "phase": "warmup",
+      "repeat": 0,
+      "wave_id": 4,
+      "wall_seconds": 3.809108617948368,
+      "server_cpu_seconds_before": 29.96,
+      "server_cpu_seconds_after": 45.06,
+      "server_cpu_time_seconds": 15.100000000000001,
+      "server_cpu_percent": 396.41820474347736,
+      "memory": {
+        "peak_rss_bytes": 1432776704,
+        "rss_bytes": 1432776704
+      }
+    },
+    {
+      "profile": "cache-control",
+      "prompt_id": "long",
+      "clients": 1,
+      "phase": "measured",
+      "repeat": 0,
+      "wave_id": 5,
+      "wall_seconds": 3.740164995077066,
+      "server_cpu_seconds_before": 45.06,
+      "server_cpu_seconds_after": 59.84,
+      "server_cpu_time_seconds": 14.780000000000001,
+      "server_cpu_percent": 395.16973233678044,
+      "memory": {
+        "peak_rss_bytes": 1432842240,
+        "rss_bytes": 1432842240
+      }
+    },
+    {
+      "profile": "cache-control",
+      "prompt_id": "long",
+      "clients": 1,
+      "phase": "measured",
+      "repeat": 1,
+      "wave_id": 6,
+      "wall_seconds": 3.7521659169578925,
+      "server_cpu_seconds_before": 59.84,
+      "server_cpu_seconds_after": 74.7,
+      "server_cpu_time_seconds": 14.86,
+      "server_cpu_percent": 396.03792393188996,
+      "memory": {
+        "peak_rss_bytes": 1432850432,
+        "rss_bytes": 1432850432
+      }
+    },
+    {
+      "profile": "cache-control",
+      "prompt_id": "long",
+      "clients": 1,
+      "phase": "measured",
+      "repeat": 2,
+      "wave_id": 7,
+      "wall_seconds": 3.832218638039194,
+      "server_cpu_seconds_before": 74.7,
+      "server_cpu_seconds_after": 89.89,
+      "server_cpu_time_seconds": 15.189999999999998,
+      "server_cpu_percent": 396.37613181100136,
+      "memory": {
+        "peak_rss_bytes": 1432858624,
+        "rss_bytes": 1432858624
+      }
+    },
+    {
+      "profile": "prefix-confirmed",
+      "prompt_id": "short",
+      "clients": 1,
+      "phase": "warmup",
+      "repeat": 0,
+      "wave_id": 8,
+      "wall_seconds": 1.8643354619853199,
+      "server_cpu_seconds_before": 1.69,
+      "server_cpu_seconds_after": 9.13,
+      "server_cpu_time_seconds": 7.440000000000001,
+      "server_cpu_percent": 399.0698107559027,
+      "memory": {
+        "peak_rss_bytes": 1421172736,
+        "rss_bytes": 1421172736
+      }
+    },
+    {
+      "profile": "prefix-confirmed",
+      "prompt_id": "short",
+      "clients": 1,
+      "phase": "measured",
+      "repeat": 0,
+      "wave_id": 9,
+      "wall_seconds": 1.4664318549912423,
+      "server_cpu_seconds_before": 9.13,
+      "server_cpu_seconds_after": 14.98,
+      "server_cpu_time_seconds": 5.85,
+      "server_cpu_percent": 398.9275042061151,
+      "memory": {
+        "peak_rss_bytes": 1421250560,
+        "rss_bytes": 1421250560
+      }
+    },
+    {
+      "profile": "prefix-confirmed",
+      "prompt_id": "short",
+      "clients": 1,
+      "phase": "measured",
+      "repeat": 1,
+      "wave_id": 10,
+      "wall_seconds": 1.4374387200223282,
+      "server_cpu_seconds_before": 14.98,
+      "server_cpu_seconds_after": 20.72,
+      "server_cpu_time_seconds": 5.739999999999998,
+      "server_cpu_percent": 399.3213707163,
+      "memory": {
+        "peak_rss_bytes": 1421271040,
+        "rss_bytes": 1421271040
+      }
+    },
+    {
+      "profile": "prefix-confirmed",
+      "prompt_id": "short",
+      "clients": 1,
+      "phase": "measured",
+      "repeat": 2,
+      "wave_id": 11,
+      "wall_seconds": 1.4174465499818325,
+      "server_cpu_seconds_before": 20.72,
+      "server_cpu_seconds_after": 26.37,
+      "server_cpu_time_seconds": 5.650000000000002,
+      "server_cpu_percent": 398.60409551756425,
+      "memory": {
+        "peak_rss_bytes": 1421291520,
+        "rss_bytes": 1421291520
+      }
+    },
+    {
+      "profile": "prefix-confirmed",
+      "prompt_id": "long",
+      "clients": 1,
+      "phase": "warmup",
+      "repeat": 0,
+      "wave_id": 12,
+      "wall_seconds": 3.6774939169408754,
+      "server_cpu_seconds_before": 26.37,
+      "server_cpu_seconds_after": 40.97,
+      "server_cpu_time_seconds": 14.599999999999998,
+      "server_cpu_percent": 397.00949423038105,
+      "memory": {
+        "peak_rss_bytes": 1432776704,
+        "rss_bytes": 1432776704
+      }
+    },
+    {
+      "profile": "prefix-confirmed",
+      "prompt_id": "long",
+      "clients": 1,
+      "phase": "measured",
+      "repeat": 0,
+      "wave_id": 13,
+      "wall_seconds": 1.6856257730396464,
+      "server_cpu_seconds_before": 40.97,
+      "server_cpu_seconds_after": 47.7,
+      "server_cpu_time_seconds": 6.730000000000004,
+      "server_cpu_percent": 399.2582521957982,
+      "memory": {
+        "peak_rss_bytes": 1432846336,
+        "rss_bytes": 1432846336
+      }
+    },
+    {
+      "profile": "prefix-confirmed",
+      "prompt_id": "long",
+      "clients": 1,
+      "phase": "measured",
+      "repeat": 1,
+      "wave_id": 14,
+      "wall_seconds": 1.5881272190017626,
+      "server_cpu_seconds_before": 47.7,
+      "server_cpu_seconds_after": 54.04,
+      "server_cpu_time_seconds": 6.339999999999996,
+      "server_cpu_percent": 399.2123505058419,
+      "memory": {
+        "peak_rss_bytes": 1432850432,
+        "rss_bytes": 1432850432
+      }
+    },
+    {
+      "profile": "prefix-confirmed",
+      "prompt_id": "long",
+      "clients": 1,
+      "phase": "measured",
+      "repeat": 2,
+      "wave_id": 15,
+      "wall_seconds": 1.4989714770345017,
+      "server_cpu_seconds_before": 54.04,
+      "server_cpu_seconds_after": 60.03,
+      "server_cpu_time_seconds": 5.990000000000002,
+      "server_cpu_percent": 399.6073368821101,
+      "memory": {
+        "peak_rss_bytes": 1432858624,
+        "rss_bytes": 1432858624
+      }
+    }
+  ],
+  "quality": [
+    {
+      "model": "q4",
+      "id": "addition",
+      "prompt": "What is 2 + 2? Reply with only the integer.",
+      "pattern": "^4[.!]?$",
+      "payload": {
+        "model": "llama-3.2-1b-instruct",
+        "messages": [
+          {
+            "role": "user",
+            "content": "What is 2 + 2? Reply with only the integer."
+          }
+        ],
+        "temperature": 0,
+        "seed": 42,
+        "max_tokens": 32,
+        "stream": true,
+        "stream_options": {
+          "include_usage": true
+        },
+        "cache_prompt": false
+      },
+      "output": "4",
+      "ttft_seconds": 0.3419440140714869,
+      "total_seconds": 0.382707090000622,
+      "content_chunks": 1,
+      "prompt_tokens": 49,
+      "completion_tokens": 2,
+      "finish_reason": "stop",
+      "effective_tokens_per_second": 5.225928790597398,
+      "timings": {
+        "cache_n": 0,
+        "prompt_n": 49,
+        "prompt_ms": 339.31,
+        "prompt_per_token_ms": 6.924693877551021,
+        "prompt_per_second": 144.41071586454862,
+        "predicted_n": 2,
+        "predicted_ms": 40.652,
+        "predicted_per_token_ms": 40.652,
+        "predicted_per_second": 24.59903571779986
+      },
+      "passed": true
+    },
+    {
+      "model": "q4",
+      "id": "multiplication",
+      "prompt": "What is 7 times 8? Reply with only the integer.",
+      "pattern": "^56[.!]?$",
+      "payload": {
+        "model": "llama-3.2-1b-instruct",
+        "messages": [
+          {
+            "role": "user",
+            "content": "What is 7 times 8? Reply with only the integer."
+          }
+        ],
+        "temperature": 0,
+        "seed": 42,
+        "max_tokens": 32,
+        "stream": true,
+        "stream_options": {
+          "include_usage": true
+        },
+        "cache_prompt": false
+      },
+      "output": "56",
+      "ttft_seconds": 0.37907623196952045,
+      "total_seconds": 0.4248773969011381,
+      "content_chunks": 1,
+      "prompt_tokens": 49,
+      "completion_tokens": 2,
+      "finish_reason": "stop",
+      "effective_tokens_per_second": 4.707240287638475,
+      "timings": {
+        "cache_n": 0,
+        "prompt_n": 49,
+        "prompt_ms": 376.219,
+        "prompt_per_token_ms": 7.677938775510204,
+        "prompt_per_second": 130.24328914807597,
+        "predicted_n": 2,
+        "predicted_ms": 45.475,
+        "predicted_per_token_ms": 45.475,
+        "predicted_per_second": 21.99010445299615
+      },
+      "passed": true
+    },
+    {
+      "model": "q4",
+      "id": "extract-age",
+      "prompt": "Record: Name=Mei; Age=21; City=Hue. Extract Age. Reply with only the integer.",
+      "pattern": "^21[.!]?$",
+      "payload": {
+        "model": "llama-3.2-1b-instruct",
+        "messages": [
+          {
+            "role": "user",
+            "content": "Record: Name=Mei; Age=21; City=Hue. Extract Age. Reply with only the integer."
+          }
+        ],
+        "temperature": 0,
+        "seed": 42,
+        "max_tokens": 32,
+        "stream": true,
+        "stream_options": {
+          "include_usage": true
+        },
+        "cache_prompt": false
+      },
+      "output": "21",
+      "ttft_seconds": 0.4894327550427988,
+      "total_seconds": 0.534729672013782,
+      "content_chunks": 1,
+      "prompt_tokens": 60,
+      "completion_tokens": 2,
+      "finish_reason": "stop",
+      "effective_tokens_per_second": 3.7402076313963226,
+      "timings": {
+        "cache_n": 0,
+        "prompt_n": 60,
+        "prompt_ms": 485.799,
+        "prompt_per_token_ms": 8.09665,
+        "prompt_per_second": 123.5078705390501,
+        "predicted_n": 2,
+        "predicted_ms": 44.904,
+        "predicted_per_token_ms": 44.904,
+        "predicted_per_second": 22.26973098164974
+      },
+      "passed": true
+    },
+    {
+      "model": "q4",
+      "id": "python-length",
+      "prompt": "What does Python print for print(len([2, 4, 6]))? Reply with only the integer.",
+      "pattern": "^3[.!]?$",
+      "payload": {
+        "model": "llama-3.2-1b-instruct",
+        "messages": [
+          {
+            "role": "user",
+            "content": "What does Python print for print(len([2, 4, 6]))? Reply with only the integer."
+          }
+        ],
+        "temperature": 0,
+        "seed": 42,
+        "max_tokens": 32,
+        "stream": true,
+        "stream_options": {
+          "include_usage": true
+        },
+        "cache_prompt": false
+      },
+      "output": "[2, 4, 6]",
+      "ttft_seconds": 0.46729596494697034,
+      "total_seconds": 0.8571334090083838,
+      "content_chunks": 9,
+      "prompt_tokens": 58,
+      "completion_tokens": 10,
+      "finish_reason": "stop",
+      "effective_tokens_per_second": 11.666795267692324,
+      "timings": {
+        "cache_n": 0,
+        "prompt_n": 58,
+        "prompt_ms": 464.352,
+        "prompt_per_token_ms": 8.00606896551724,
+        "prompt_per_second": 124.90524429742955,
+        "predicted_n": 10,
+        "predicted_ms": 389.717,
+        "predicted_per_token_ms": 43.30188888888889,
+        "predicted_per_second": 23.093680799143996
+      },
+      "passed": false
+    },
+    {
+      "model": "q4",
+      "id": "binary-unit",
+      "prompt": "How many bytes are in one KiB (kibibyte)? Reply with only the integer, without commas.",
+      "pattern": "^1024[.!]?$",
+      "payload": {
+        "model": "llama-3.2-1b-instruct",
+        "messages": [
+          {
+            "role": "user",
+            "content": "How many bytes are in one KiB (kibibyte)? Reply with only the integer, without commas."
+          }
+        ],
+        "temperature": 0,
+        "seed": 42,
+        "max_tokens": 32,
+        "stream": true,
+        "stream_options": {
+          "include_usage": true
+        },
+        "cache_prompt": false
+      },
+      "output": "1000",
+      "ttft_seconds": 0.4441936429357156,
+      "total_seconds": 0.5342200109735131,
+      "content_chunks": 2,
+      "prompt_tokens": 58,
+      "completion_tokens": 3,
+      "finish_reason": "stop",
+      "effective_tokens_per_second": 5.61566384331631,
+      "timings": {
+        "cache_n": 0,
+        "prompt_n": 58,
+        "prompt_ms": 441.432,
+        "prompt_per_token_ms": 7.610896551724138,
+        "prompt_per_second": 131.39056525127313,
+        "predicted_n": 3,
+        "predicted_ms": 89.553,
+        "predicted_per_token_ms": 44.7765,
+        "predicted_per_second": 22.33314350161357
+      },
+      "passed": false
+    },
+    {
+      "model": "q4",
+      "id": "logic",
+      "prompt": "All roses are flowers. Does that imply all flowers are roses? Reply with only yes or no.",
+      "pattern": "(?i)^no[.!]?$",
+      "payload": {
+        "model": "llama-3.2-1b-instruct",
+        "messages": [
+          {
+            "role": "user",
+            "content": "All roses are flowers. Does that imply all flowers are roses? Reply with only yes or no."
+          }
+        ],
+        "temperature": 0,
+        "seed": 42,
+        "max_tokens": 32,
+        "stream": true,
+        "stream_options": {
+          "include_usage": true
+        },
+        "cache_prompt": false
+      },
+      "output": "No.",
+      "ttft_seconds": 0.5081305799540132,
+      "total_seconds": 0.6114340169588104,
+      "content_chunks": 2,
+      "prompt_tokens": 55,
+      "completion_tokens": 3,
+      "finish_reason": "stop",
+      "effective_tokens_per_second": 4.906498357617706,
+      "timings": {
+        "cache_n": 0,
+        "prompt_n": 55,
+        "prompt_ms": 505.287,
+        "prompt_per_token_ms": 9.187036363636363,
+        "prompt_per_second": 108.84903035304689,
+        "predicted_n": 3,
+        "predicted_ms": 102.812,
+        "predicted_per_token_ms": 51.406,
+        "predicted_per_second": 19.452982142162394
+      },
+      "passed": true
+    },
+    {
+      "model": "q4",
+      "id": "translation",
+      "prompt": "Translate the English animal name cat into Spanish. Reply with only one lowercase word.",
+      "pattern": "^gato[.!]?$",
+      "payload": {
+        "model": "llama-3.2-1b-instruct",
+        "messages": [
+          {
+            "role": "user",
+            "content": "Translate the English animal name cat into Spanish. Reply with only one lowercase word."
+          }
+        ],
+        "temperature": 0,
+        "seed": 42,
+        "max_tokens": 32,
+        "stream": true,
+        "stream_options": {
+          "include_usage": true
+        },
+        "cache_prompt": false
+      },
+      "output": "cat",
+      "ttft_seconds": 0.4461593279847875,
+      "total_seconds": 0.4944968830095604,
+      "content_chunks": 1,
+      "prompt_tokens": 51,
+      "completion_tokens": 2,
+      "finish_reason": "stop",
+      "effective_tokens_per_second": 4.044514877076248,
+      "timings": {
+        "cache_n": 0,
+        "prompt_n": 51,
+        "prompt_ms": 442.885,
+        "prompt_per_token_ms": 8.684019607843137,
+        "prompt_per_second": 115.15404676157468,
+        "predicted_n": 2,
+        "predicted_ms": 47.914,
+        "predicted_per_token_ms": 47.914,
+        "predicted_per_second": 20.870726718704343
+      },
+      "passed": false
+    },
+    {
+      "model": "q4",
+      "id": "sequence",
+      "prompt": "Complete this sequence: 2, 4, 6, 8, __. Reply with only the next integer.",
+      "pattern": "^10[.!]?$",
+      "payload": {
+        "model": "llama-3.2-1b-instruct",
+        "messages": [
+          {
+            "role": "user",
+            "content": "Complete this sequence: 2, 4, 6, 8, __. Reply with only the next integer."
+          }
+        ],
+        "temperature": 0,
+        "seed": 42,
+        "max_tokens": 32,
+        "stream": true,
+        "stream_options": {
+          "include_usage": true
+        },
+        "cache_prompt": false
+      },
+      "output": "The pattern of the sequence is adding 2 to each number. \n\n2 + 2 = 4\n4 + 2 = 6\n6 +",
+      "ttft_seconds": 0.4821202880702913,
+      "total_seconds": 1.7999518250580877,
+      "content_chunks": 32,
+      "prompt_tokens": 60,
+      "completion_tokens": 32,
+      "finish_reason": "length",
+      "effective_tokens_per_second": 17.778253592407843,
+      "timings": {
+        "cache_n": 0,
+        "prompt_n": 60,
+        "prompt_ms": 479.432,
+        "prompt_per_token_ms": 7.9905333333333335,
+        "prompt_per_second": 125.1480919087587,
+        "predicted_n": 32,
+        "predicted_ms": 1317.239,
+        "predicted_per_token_ms": 42.49158064516129,
+        "predicted_per_second": 23.53407392280368
+      },
+      "passed": false
+    }
+  ],
+  "runtime_commit": "620d2225cc436ab0b001e3200e590e3b286ef9ab",
+  "runtime_version": "version: 0.7.0-dev (build 1, commit 620d222)\nbuilt with GNU 15.2.0 for Linux x86_64",
+  "runtime_binary_sha256": "658e4b951139ef30f55a18702f792b415de961f39f082176503e1e5f7f0aa61d",
+  "hardware": {
+    "platform": "Linux-7.0.0-38-generic-x86_64-with-glibc2.43",
+    "python": "3.11.18 (main, Oct 26 2026, 11:35:17) [GCC 15.3.0]",
+    "os_release": "PRETTY_NAME=\"Ubuntu 26.04.1 LTS\"\nNAME=\"Ubuntu\"\nVERSION_ID=\"26.04\"\nVERSION=\"26.04.1 LTS (Resolute Raccoon)\"\nVERSION_CODENAME=resolute\nID=ubuntu\nID_LIKE=debian\nHOME_URL=\"https://www.ubuntu.com/\"\nSUPPORT_URL=\"https://help.ubuntu.com/\"\nBUG_REPORT_URL=\"https://bugs.launchpad.net/ubuntu/\"\nPRIVACY_POLICY_URL=\"https://www.ubuntu.com/legal/terms-and-policies/privacy-policy\"\nUBUNTU_CODENAME=resolute\nLOGO=ubuntu-logo\n",
+    "lscpu": {
+      "lscpu": [
+        {
+          "field": "Architecture:",
+          "data": "x86_64"
+        },
+        {
+          "field": "CPU op-mode(s):",
+          "data": "32-bit, 64-bit"
+        },
+        {
+          "field": "Address sizes:",
+          "data": "46 bits physical, 48 bits virtual"
+        },
+        {
+          "field": "Byte Order:",
+          "data": "Little Endian"
+        },
+        {
+          "field": "CPU(s):",
+          "data": "6"
+        },
+        {
+          "field": "On-line CPU(s) list:",
+          "data": "0-5"
+        },
+        {
+          "field": "Vendor ID:",
+          "data": "GenuineIntel"
+        },
+        {
+          "field": "Model name:",
+          "data": "Intel(R) Xeon(R) Platinum 8272CL CPU @ 2.60GHz"
+        },
+        {
+          "field": "CPU family:",
+          "data": "6"
+        },
+        {
+          "field": "Model:",
+          "data": "85"
+        },
+        {
+          "field": "Thread(s) per core:",
+          "data": "1"
+        },
+        {
+          "field": "Core(s) per socket:",
+          "data": "6"
+        },
+        {
+          "field": "Socket(s):",
+          "data": "1"
+        },
+        {
+          "field": "Stepping:",
+          "data": "7"
+        },
+        {
+          "field": "BogoMIPS:",
+          "data": "5187.76"
+        },
+        {
+          "field": "Flags:",
+          "data": "fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 ss ht syscall nx pdpe1gb rdtscp lm arch_perfmon rep_good nopl xtopology cpuid tsc_known_freq pni pclmulqdq vmx ssse3 fma cx16 pdcm pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand hypervisor lahf_lm abm 3dnowprefetch cpuid_fault ssbd ibrs ibpb stibp ibrs_enhanced tpr_shadow flexpriority ept vpid ept_ad fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid mpx avx512f avx512dq rdseed adx smap clflushopt clwb avx512cd avx512bw avx512vl xsaveopt xsavec xgetbv1 xsaves arat vnmi umip pku ospke avx512_vnni md_clear flush_l1d arch_capabilities"
+        },
+        {
+          "field": "Virtualization:",
+          "data": "VT-x"
+        },
+        {
+          "field": "Hypervisor vendor:",
+          "data": "KVM"
+        },
+        {
+          "field": "Virtualization type:",
+          "data": "full"
+        },
+        {
+          "field": "L1d cache:",
+          "data": "192 KiB (6 instances)"
+        },
+        {
+          "field": "L1i cache:",
+          "data": "192 KiB (6 instances)"
+        },
+        {
+          "field": "L2 cache:",
+          "data": "24 MiB (6 instances)"
+        },
+        {
+          "field": "L3 cache:",
+          "data": "16 MiB (1 instance)"
+        },
+        {
+          "field": "NUMA node(s):",
+          "data": "1"
+        },
+        {
+          "field": "NUMA node0 CPU(s):",
+          "data": "0-5"
+        },
+        {
+          "field": "Vulnerability Gather data sampling:",
+          "data": "Unknown: Dependent on hypervisor status"
+        },
+        {
+          "field": "Vulnerability Ghostwrite:",
+          "data": "Not affected"
+        },
+        {
+          "field": "Vulnerability Indirect target selection:",
+          "data": "Mitigation; Aligned branch/return thunks"
+        },
+        {
+          "field": "Vulnerability Itlb multihit:",
+          "data": "Not affected"
+        },
+        {
+          "field": "Vulnerability L1tf:",
+          "data": "Not affected"
+        },
+        {
+          "field": "Vulnerability Mds:",
+          "data": "Not affected"
+        },
+        {
+          "field": "Vulnerability Meltdown:",
+          "data": "Not affected"
+        },
+        {
+          "field": "Vulnerability Mmio stale data:",
+          "data": "Mitigation; Clear CPU buffers; SMT Host state unknown"
+        },
+        {
+          "field": "Vulnerability Old microcode:",
+          "data": "Not affected"
+        },
+        {
+          "field": "Vulnerability Reg file data sampling:",
+          "data": "Not affected"
+        },
+        {
+          "field": "Vulnerability Retbleed:",
+          "data": "Mitigation; Enhanced IBRS"
+        },
+        {
+          "field": "Vulnerability Spec rstack overflow:",
+          "data": "Not affected"
+        },
+        {
+          "field": "Vulnerability Spec store bypass:",
+          "data": "Mitigation; Speculative Store Bypass disabled via prctl"
+        },
+        {
+          "field": "Vulnerability Spectre v1:",
+          "data": "Mitigation; usercopy/swapgs barriers and __user pointer sanitization"
+        },
+        {
+          "field": "Vulnerability Spectre v2:",
+          "data": "Mitigation; Enhanced / Automatic IBRS; IBPB conditional; PBRSB-eIBRS SW sequence; BHI SW loop, KVM SW loop"
+        },
+        {
+          "field": "Vulnerability Srbds:",
+          "data": "Not affected"
+        },
+        {
+          "field": "Vulnerability Tsa:",
+          "data": "Not affected"
+        },
+        {
+          "field": "Vulnerability Tsx async abort:",
+          "data": "Mitigation; TSX disabled"
+        },
+        {
+          "field": "Vulnerability Vmscape:",
+          "data": "Not affected"
+        }
+      ]
+    },
+    "meminfo": "MemTotal:       16368956 kB\nMemFree:         1103072 kB\nMemAvailable:   12006448 kB\nBuffers:          380000 kB\nCached:         11181304 kB\nSwapCached:            0 kB\nActive:          3931096 kB\nInactive:       10111840 kB\nActive(anon):    3305628 kB\nInactive(anon):    25332 kB\nActive(file):     625468 kB\nInactive(file): 10086508 kB\nUnevictable:        4000 kB\nMlocked:               0 kB\nSwapTotal:             0 kB\nSwapFree:              0 kB\nZswap:                 0 kB\nZswapped:              0 kB\nDirty:              2708 kB\nWriteback:             0 kB\nAnonPages:       2486216 kB\nMapped:           930692 kB\nShmem:            849564 kB\nKReclaimable:     529320 kB\nSlab:             706592 kB\nSReclaimable:     529320 kB\nSUnreclaim:       177272 kB\nKernelStack:        9544 kB\nPageTables:        50784 kB\nSecPageTables:         0 kB\nNFS_Unstable:          0 kB\nBounce:                0 kB\nWritebackTmp:          0 kB\nCommitLimit:     8184476 kB\nCommitted_AS:    5751476 kB\nVmallocTotal:   34359738367 kB\nVmallocUsed:       25208 kB\nVmallocChunk:          0 kB\nPercpu:            16768 kB\nHardwareCorrupted:     0 kB\nAnonHugePages:         0 kB\nShmemHugePages:        0 kB\nShmemPmdMapped:        0 kB\nFileHugePages:   1595392 kB\nFilePmdMapped:     12288 kB\nCmaTotal:              0 kB\nCmaFree:          266660 kB\nUnaccepted:            0 kB\nBalloon:               0 kB\nGPUActive:             0 kB\nGPUReclaim:            0 kB\nHugePages_Total:       0\nHugePages_Free:        0\nHugePages_Rsvd:        0\nHugePages_Surp:        0\nHugepagesize:       2048 kB\nHugetlb:               0 kB\nDirectMap4k:      122728 kB\nDirectMap2M:     6168576 kB\nDirectMap1G:    12582912 kB\n",
+    "load_average": [
+      2.3828125,
+      3.412109375,
+      2.32080078125
+    ],
+    "cpu_affinity": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "httpx": "0.28.1",
+    "disk_usage_bytes": {
+      "total": 105356316672,
+      "used": 19794739200,
+      "free": 80177004544
+    },
+    "compiler_version": "g++ (Ubuntu 15.2.0-16ubuntu1) 15.2.0\nCopyright (C) 2025 Free Software Foundation, Inc.\nThis is free software; see the source for copying conditions.  There is NO\nwarranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.",
+    "cmake_version": "cmake version 4.2.3\n\nCMake suite maintained and supported by Kitware (kitware.com/cmake).",
+    "python_environment": {
+      "conda_name": "llama",
+      "conda_prefix": "/root/miniconda3/envs/llama",
+      "python_prefix": "/root/miniconda3/envs/llama"
+    }
+  },
+  "artifact_manifest": {
+    "selected_date": "2026-11-10",
+    "purpose": "Additional Phase 5 experiment artifacts; active inference defaults remain in inference/artifacts.lock.json",
+    "runtime": {
+      "repository": "https://github.com/ggml-org/llama.cpp.git",
+      "tag": "v0.7.0",
+      "commit": "620d2225cc436ab0b001e3200e590e3b286ef9ab",
+      "cmake_options": [
+        "-DCMAKE_BUILD_TYPE=Release",
+        "-DGGML_NATIVE=ON",
+        "-DGGML_CUDA=OFF",
+        "-DGGML_VULKAN=OFF",
+        "-DGGML_BLAS=OFF",
+        "-DLLAMA_OPENSSL=OFF",
+        "-DLLAMA_BUILD_TESTS=OFF",
+        "-DLLAMA_BUILD_EXAMPLES=OFF",
+        "-DLLAMA_BUILD_APP=OFF",
+        "-DLLAMA_BUILD_UI=OFF",
+        "-DLLAMA_USE_PREBUILT_UI=OFF"
+      ]
+    },
+    "source_metadata_url": "https://huggingface.co/api/models/bartowski/Llama-3.2-1B-Instruct-GGUF/revision/067b946cf014b7c697f3654f621d577a3e3afd1c?blobs=true",
+    "q8_lfs_blob_id": "f7635420e39fb1506598e68c2b60342588020f93",
+    "models": {
+      "q4": {
+        "upstream": "meta-llama/Llama-3.2-1B-Instruct",
+        "upstream_revision": "9213176726f574b556790deb65791e0c5aa438b6",
+        "upstream_access": "manual-gated",
+        "repository": "bartowski/Llama-3.2-1B-Instruct-GGUF",
+        "revision": "067b946cf014b7c697f3654f621d577a3e3afd1c",
+        "quantized_by": "bartowski",
+        "quantizer": "llama.cpp b3821 with imatrix",
+        "filename": "Llama-3.2-1B-Instruct-Q4_K_M.gguf",
+        "sha256": "6f85a640a97cf2bf5b8e764087b1e83da0fdb51d7c9fab7d0fece9385611df83",
+        "size_bytes": 807694464,
+        "quantization": "Q4_K_M",
+        "architecture": "llama",
+        "license": "llama3.2",
+        "license_name": "Llama 3.2 Community License",
+        "license_url": "https://dev.meta.ai/llama/llama3_2/license",
+        "access_url": "https://huggingface.co/meta-llama/Llama-3.2-1B-Instruct",
+        "chat_template_source": "official upstream tokenizer_config.json as exposed by Hugging Face model metadata; cross-checked against the conversion card's Llama 3 prompt format",
+        "gguf_metadata": {
+          "general.file_type": 15,
+          "llama.block_count": 16,
+          "llama.embedding_length": 2048,
+          "llama.attention.head_count": 32,
+          "llama.attention.head_count_kv": 8,
+          "tokenizer.ggml.model": "gpt2",
+          "tokenizer.ggml.pre": "llama-bpe",
+          "tokenizer.ggml.bos_token_id": 128000,
+          "tokenizer.ggml.eos_token_id": 128009
+        },
+        "chat_template_markers": [
+          "<|begin_of_text|>",
+          "<|start_header_id|>",
+          "<|end_header_id|>",
+          "<|eot_id|>"
+        ],
+        "tensor_count": 147,
+        "chat_template_sha256": "5816fce10444e03c2e9ee1ef8a4a1ea61ae7e69e438613f3b17b69d0426223a4"
+      },
+      "q8": {
+        "upstream": "meta-llama/Llama-3.2-1B-Instruct",
+        "upstream_revision": "9213176726f574b556790deb65791e0c5aa438b6",
+        "upstream_access": "manual-gated",
+        "repository": "bartowski/Llama-3.2-1B-Instruct-GGUF",
+        "revision": "067b946cf014b7c697f3654f621d577a3e3afd1c",
+        "quantized_by": "bartowski",
+        "quantizer": "llama.cpp b3821 with imatrix",
+        "filename": "Llama-3.2-1B-Instruct-Q8_0.gguf",
+        "sha256": "432f310a77f4650a88d0fd59ecdd7cebed8d684bafea53cbff0473542964f0c3",
+        "size_bytes": 1321083008,
+        "quantization": "Q8_0",
+        "architecture": "llama",
+        "license": "llama3.2",
+        "license_name": "Llama 3.2 Community License",
+        "license_url": "https://dev.meta.ai/llama/llama3_2/license",
+        "access_url": "https://huggingface.co/meta-llama/Llama-3.2-1B-Instruct",
+        "chat_template_source": "official upstream tokenizer_config.json as exposed by Hugging Face model metadata; cross-checked against the conversion card's Llama 3 prompt format",
+        "gguf_metadata": {
+          "general.file_type": 7,
+          "llama.block_count": 16,
+          "llama.embedding_length": 2048,
+          "llama.attention.head_count": 32,
+          "llama.attention.head_count_kv": 8,
+          "tokenizer.ggml.model": "gpt2",
+          "tokenizer.ggml.pre": "llama-bpe",
+          "tokenizer.ggml.bos_token_id": 128000,
+          "tokenizer.ggml.eos_token_id": 128009
+        },
+        "chat_template_markers": [
+          "<|begin_of_text|>",
+          "<|start_header_id|>",
+          "<|end_header_id|>",
+          "<|eot_id|>"
+        ],
+        "tensor_count": 147,
+        "chat_template_sha256": "5816fce10444e03c2e9ee1ef8a4a1ea61ae7e69e438613f3b17b69d0426223a4"
+      }
+    }
+  },
+  "source_sha256": {
+    "benchmarks/scripts/__init__.py": "1cce119371d2a9ae2db99deeab17345c5a33840b7eafa9292e191fe3d2d229b7",
+    "benchmarks/scripts/experiment_artifacts.py": "e6f2612e998f07fb79e33ca63b1040b2be9dd3b0b069603bdb344c1f918d6d51",
+    "benchmarks/scripts/experiments.py": "35d5105cf1aad22d1d6e0e16d1666845c926ebfda226eea1624deac422c3618e",
+    "benchmarks/scripts/metrics.py": "338cb72a332f78dd2aacf50917ea5e205ed0a1036b82439e65432ef1f3728ff3",
+    "benchmarks/scripts/report.py": "79b1acbe3dd1d2dd9abe6ec1b2f06ab53d065ffc1900faffd19073c02676da5d",
+    "benchmarks/scripts/report_experiments.py": "3801a3f34b830050bb5a661e9d3e89cbae56702c61f4769ba5cfc9daf245d1f4",
+    "benchmarks/scripts/run.py": "a48896fbc2394fbca540c9451cdbd11c619b8378d639b75b00aa231047f42d1f",
+    "benchmarks/scripts/stack_experiment.py": "8a1f952dbc9d8b32889210e7ffc1be742fc5d9c67cec1d4762bd8ddf1511ce40"
+  },
+  "finished_at": "2026-11-10T02:37:15.252324+00:00"
+}

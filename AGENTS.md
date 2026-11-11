@@ -5,11 +5,14 @@ intuition before details, explain why decisions work, and use concrete examples.
 Keep chat updates concise; put detailed teaching material in `docs/`.
 
 - Follow `PROJECT_SPEC.md`. Implement only the phase explicitly authorized.
-- Phases 1–3 are committed as `de5b6b5`, `e9afd64`, and `bbae986`. Tommy authorized
-  Phase 4 preparation on 2026-11-09 and explicitly said **do not deploy yet**.
-  Implement/test locally and provide manual deployment instructions. Leave public
-  DNS, firewall, certificates, installed services, and application migrations untouched.
-  Stop before Phase 5.
+- Phases 1–4 are committed as `de5b6b5`, `e9afd64`, `bbae986`, and `8e0425b`.
+  Tommy authorized Phase 5 on 2026-11-10 as the final implementation milestone.
+  Dockerization/Phase 6 is removed from current scope. Run real optimization
+  experiments and test the whole stack locally; **do not deploy**. Preserve both
+  local-running and manual deployment instructions for an engineering/recruiter audience.
+- Before Phase 5 benchmark changes, read `docs/13-benchmark-methodology.md`.
+  Preserve active Q4 defaults, verify additional model artifacts, save real raw
+  measurements, and isolate full-stack experiments in a dedicated `_test` database.
 - Read `docs/project-status.md` before continuing work in a later session.
 - Use CPU-only llama.cpp and the exact Meta Llama 3.2 1B Instruct model in the
   active configuration; never substitute silently. Keep the former Qwen model
@@ -43,6 +46,8 @@ Keep chat updates concise; put detailed teaching material in `docs/`.
   independent tester subagent. Have it derive expected behavior from the spec,
   documentation, and any architecture/class diagrams before reading implementation.
   Do not give it the implementation author's reasoning as its test oracle.
+- Tommy requires all subagents to use GPT-6.1-Terra with high reasoning from
+  2026-11-10 onward. Use that explicit model/effort for delegated work.
 - Use a separate subagent with `ponytail-review` when a code review is requested.
   The reviewer reports findings without editing production code or tests.
 - When independent tests fail, the tester must report the input, expectation,

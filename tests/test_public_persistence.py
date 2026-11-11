@@ -7,6 +7,7 @@ per-test Alembic schema. Inference is mocked; no application data is touched.
 import asyncio
 import json
 import logging
+import math
 from contextlib import asynccontextmanager, suppress
 from datetime import UTC, datetime
 from types import SimpleNamespace
@@ -266,11 +267,24 @@ def test_one_active_two_fifo_waiters_and_saturation_never_calls_upstream(databas
                 assert rejected.status_code == 503
                 assert int(rejected.headers["retry-after"]) > 0
                 assert len(calls) == 1
+                # A held native request gives both waiters a known lower bound.
+                await asyncio.sleep(0.05)
                 release.set()
                 responses = await asyncio.wait_for(asyncio.gather(*tasks), 3)
                 assert all(response.status_code == 200 for response in responses)
                 observed = [response.text for response in responses]
                 assert all("[DONE]" in text for text in observed)
+                metadata = [
+                    json.loads(test_persistence.stream_events(response)[0])
+                    for response in responses
+                ]
+                assert [item["conversation_id"] for item in metadata] == identities[:3]
+                assert all(item["request_id"] for item in metadata)
+                assert all(
+                    math.isfinite(item["queue_wait_seconds"]) and item["queue_wait_seconds"] >= 0
+                    for item in metadata
+                )
+                assert all(item["queue_wait_seconds"] >= 0.05 for item in metadata[1:])
                 # Each upstream starts only after the previous turn durably finishes.
                 request_rows = rows(
                     database_schema, "SELECT * FROM inference_requests ORDER BY started_at"

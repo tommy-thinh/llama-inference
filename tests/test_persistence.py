@@ -7,6 +7,7 @@ migrates its own temporary schema and drops only that schema on completion.
 import asyncio
 import hashlib
 import json
+import math
 import os
 import subprocess
 import sys
@@ -233,6 +234,9 @@ def test_completion_is_durable_with_metrics_and_server_owned_history(database_sc
             metadata = json.loads(stream_events(response)[0])
             assert metadata["conversation_id"] == identifier
             assert metadata["request_id"]
+            assert type(metadata["queue_wait_seconds"]) in {int, float}
+            assert math.isfinite(metadata["queue_wait_seconds"])
+            assert metadata["queue_wait_seconds"] >= 0
             saved = (await client.get(path)).json()
             assert saved["title"] == "First prompt"
             assert [(m["role"], m["content"], m["status"]) for m in saved["messages"]] == [

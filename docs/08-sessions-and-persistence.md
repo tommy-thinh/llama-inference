@@ -28,7 +28,8 @@ Losing the cookie loses access to that anonymous session; no accounts are added.
   persisted turns; failed/cancelled turns remain visible but are excluded from
   future model input. Existing 16-message/8000-character bounds still apply.
 - A valid persisted request is committed before streaming starts. SSE includes
-  metadata with request/conversation IDs, then ordinary text/usage events. Durable
+  metadata with request/conversation IDs and `queue_wait_seconds` (the measured
+  monotonic admission interval), then ordinary text/usage events. Durable
   successful completion precedes `[DONE]`. Terminal errors use the existing safe
   SSE error contract; persistence failures use `persistence_error`.
 - The earlier `/api/chat` remains a local-profile transient endpoint for compatibility

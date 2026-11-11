@@ -1,0 +1,200 @@
+[
+  {
+    "strategy": "fifo",
+    "clients": 1,
+    "waves": 3,
+    "attempts": 3,
+    "successes": 3,
+    "rejections": 0,
+    "errors": 0,
+    "rejection_rate": 0.0,
+    "wall_seconds": 5.200155413127504,
+    "successful_requests_per_second": 0.5769058348576787,
+    "completion_tokens_per_second": 18.460986715445717,
+    "attempt_latency_seconds": {
+      "mean": 1.7330719440554578,
+      "median": 1.700356791028753,
+      "p95": 1.8172507920535281
+    },
+    "successful_latency_seconds": {
+      "mean": 1.7330719440554578,
+      "median": 1.700356791028753,
+      "p95": 1.8172507920535281
+    },
+    "ttft_seconds": {
+      "mean": 0.4409819043551882,
+      "median": 0.42783347296062857,
+      "p95": 0.5067343700211495
+    },
+    "queue_wait_seconds": {
+      "mean": 0.00021000501389304796,
+      "median": 0.0001769900554791093,
+      "p95": 0.00028147001285105944
+    }
+  },
+  {
+    "strategy": "fifo",
+    "clients": 2,
+    "waves": 3,
+    "attempts": 6,
+    "successes": 6,
+    "rejections": 0,
+    "errors": 0,
+    "rejection_rate": 0.0,
+    "wall_seconds": 10.475202545989305,
+    "successful_requests_per_second": 0.572781287393555,
+    "completion_tokens_per_second": 18.32900119659376,
+    "attempt_latency_seconds": {
+      "mean": 2.6430971559796794,
+      "median": 2.667033962032292,
+      "p95": 3.5446915079373866
+    },
+    "successful_latency_seconds": {
+      "mean": 2.6430971559796794,
+      "median": 2.667033962032292,
+      "p95": 3.5446915079373866
+    },
+    "ttft_seconds": {
+      "mean": 1.3317049543256871,
+      "median": 1.290307090501301,
+      "p95": 2.295538068981841
+    },
+    "queue_wait_seconds": {
+      "mean": 0.8727264593083722,
+      "median": 0.8143092055106536,
+      "p95": 1.8503001519711688
+    }
+  },
+  {
+    "strategy": "fifo",
+    "clients": 4,
+    "waves": 3,
+    "attempts": 12,
+    "successes": 9,
+    "rejections": 3,
+    "errors": 0,
+    "rejection_rate": 0.25,
+    "wall_seconds": 15.832417828030884,
+    "successful_requests_per_second": 0.5684539214260588,
+    "completion_tokens_per_second": 18.19052548563388,
+    "attempt_latency_seconds": {
+      "mean": 2.6661509334129128,
+      "median": 2.6253823640290648,
+      "p95": 5.474448079941794
+    },
+    "successful_latency_seconds": {
+      "mean": 3.5182604691039563,
+      "median": 3.4888092109467834,
+      "p95": 5.474448079941794
+    },
+    "ttft_seconds": {
+      "mean": 2.1844221413290748,
+      "median": 2.1706362300319597,
+      "p95": 4.084831281914376
+    },
+    "queue_wait_seconds": {
+      "mean": 1.712236992148165,
+      "median": 1.7022366769379005,
+      "p95": 3.5843737040413544
+    }
+  },
+  {
+    "strategy": "reject",
+    "clients": 1,
+    "waves": 3,
+    "attempts": 3,
+    "successes": 3,
+    "rejections": 0,
+    "errors": 0,
+    "rejection_rate": 0.0,
+    "wall_seconds": 5.163338529877365,
+    "successful_requests_per_second": 0.5810194281549952,
+    "completion_tokens_per_second": 18.592621700959846,
+    "attempt_latency_seconds": {
+      "mean": 1.720842518300439,
+      "median": 1.7178110159002244,
+      "p95": 1.7280560850631446
+    },
+    "successful_latency_seconds": {
+      "mean": 1.720842518300439,
+      "median": 1.7178110159002244,
+      "p95": 1.7280560850631446
+    },
+    "ttft_seconds": {
+      "mean": 0.43580166130171466,
+      "median": 0.43804705096408725,
+      "p95": 0.4491021840367466
+    },
+    "queue_wait_seconds": {
+      "mean": 0.0003113667092596491,
+      "median": 0.00025089504197239876,
+      "p95": 0.00048563804011791945
+    }
+  },
+  {
+    "strategy": "reject",
+    "clients": 2,
+    "waves": 3,
+    "attempts": 6,
+    "successes": 3,
+    "rejections": 3,
+    "errors": 0,
+    "rejection_rate": 0.5,
+    "wall_seconds": 5.392171946004964,
+    "successful_requests_per_second": 0.5563620800747436,
+    "completion_tokens_per_second": 17.803586562391796,
+    "attempt_latency_seconds": {
+      "mean": 0.9341067781788297,
+      "median": 0.9202288404922001,
+      "p95": 1.8371386770159006
+    },
+    "successful_latency_seconds": {
+      "mean": 1.7970725093424942,
+      "median": 1.7856890660477802,
+      "p95": 1.8371386770159006
+    },
+    "ttft_seconds": {
+      "mean": 0.4475540140022834,
+      "median": 0.4365673459833488,
+      "p95": 0.4765706210164353
+    },
+    "queue_wait_seconds": {
+      "mean": 0.00019556900952011347,
+      "median": 0.00019600905943661928,
+      "p95": 0.0002346440451219678
+    }
+  },
+  {
+    "strategy": "reject",
+    "clients": 4,
+    "waves": 3,
+    "attempts": 12,
+    "successes": 3,
+    "rejections": 9,
+    "errors": 0,
+    "rejection_rate": 0.75,
+    "wall_seconds": 5.584597089909948,
+    "successful_requests_per_second": 0.5371918424375312,
+    "completion_tokens_per_second": 17.190138958000997,
+    "attempt_latency_seconds": {
+      "mean": 0.5469015875714831,
+      "median": 0.11984849948203191,
+      "p95": 2.0669927099952474
+    },
+    "successful_latency_seconds": {
+      "mean": 1.8601536326265584,
+      "median": 1.7985843908973038,
+      "p95": 2.0669927099952474
+    },
+    "ttft_seconds": {
+      "mean": 0.5100841079450523,
+      "median": 0.47339388192631304,
+      "p95": 0.6129312559496611
+    },
+    "queue_wait_seconds": {
+      "mean": 0.00020076369401067495,
+      "median": 0.00020232901442795992,
+      "p95": 0.0002157430863007903
+    }
+  }
+]

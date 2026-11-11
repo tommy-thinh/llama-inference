@@ -5,7 +5,9 @@ with llama.cpp on a CPU-only VPS. Phase 1 establishes verified native inference
 and a measured baseline. Phase 2 adds a local FastAPI backend and vanilla
 JavaScript chat page with progressive streaming and cancellation. Phase 3 adds
 PostgreSQL sessions, saved conversations, and request metrics. Phase 4 security
-controls and deployment templates are prepared locally; **deployment is deferred**.
+controls and deployment templates are prepared locally. Phase5 adds measured
+quantization, KV-cache, CPU, prefix-reuse and concurrency experiments. **Deployment
+is deferred; Dockerization is outside the final scope.**
 
 ## Model access status
 
@@ -139,11 +141,17 @@ Benchmarks own their server processes and write new results under ignored
 - [Frontend behavior and local web usage](docs/06-frontend-backend-communication.md)
 - [Database design, ER diagram, setup, and retention](docs/07-database-design.md)
 - [Anonymous sessions, saved history, and API examples](docs/08-sessions-and-persistence.md)
-- [Full scope and six-phase roadmap](PROJECT_SPEC.md)
+- [Efficient inference fundamentals](docs/12-efficient-ai-fundamentals.md)
+- [Benchmark methodology and reproduction](docs/13-benchmark-methodology.md)
+- [Q4/Q8 artifacts and quality checks](docs/14-quantization-experiments.md)
+- [Cache and concurrency measurements](docs/15-cache-and-concurrency.md)
+- [Performance findings and decisions](docs/16-performance-findings.md)
+- [Scope and revised roadmap](PROJECT_SPEC.md)
 
 Phase 1 is committed as `de5b6b5` (`Phase 1`), Phase 2 as `e9afd64` (`Phase 2`).
-Phase 3 is committed as `bbae986` (`Phase 3`). Phase 4 preparation is authorized,
-with an explicit instruction **not to deploy yet**. Stop before Phase 5. The six-phase roadmap remains in the project spec.
+Phase 3 is committed as `bbae986` (`Phase 3`). Phase4 is committed as `8e0425b`. Phase5 is the final authorized implementation
+milestone. Dockerization is removed from scope. Local testing and future manual
+deployment instructions remain required; **do not deploy yet**.
 
 
 ## Prepare for deployment (do not run go-live steps yet)
@@ -177,3 +185,25 @@ pytest --run-database --run-inference
 ```
 
 Tests use temporary listeners and isolated `_test` schemas; they do not deploy.
+
+
+## Measured Phase5 findings
+
+The [curated run](benchmarks/results/2026-11-10-phase5/README.md) contains18 native
+profiles, verified Q4/Q8 artifacts, actual KV allocation probes, a corrected
+prefix-cache comparison, and a certificate-verified loopback HTTPS stack benchmark.
+Raw records, exact configurations, outputs, tables, charts and source hashes are
+retained. The [findings](docs/16-performance-findings.md) explain uncertainty and
+why active serving defaults remain conservative.
+
+- Q4 vsQ8 short decode:21.19 vs11.30 tokens/s; eight-case toy quality:4/8 vs5/8.
+- At2048 context, actual f16/q8_0/q4_0 KV allocation:64/34/18MiB.
+- Repeated long-prefix TTFT:2.273→0.052s, confirmed by309 cached native tokens.
+- Four native clients: continuous batching31.31 vs serial17.82 output tokens/s,
+  with higher memory allocation. Application admission remains one active/two waiters.
+
+These are small synthetic x86 VPS experiments, not Qualcomm/NPU measurements or
+public-service guarantees. Control drift and a six-thread outlier limit conclusions.
+Future documentation polish should present both the local-running and manual
+deployment paths to engineering reviewers/recruiters without implying a public
+service or container deployment was tested.

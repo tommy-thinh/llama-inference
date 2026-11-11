@@ -1,8 +1,96 @@
 # Project status
 
-Updated: 2026-11-09. **Phase 4 code and deployment preparation are ready locally;
-public deployment is explicitly deferred by Tommy.** Phases 1–3 are committed as
-`de5b6b5`, `e9afd64`, and `bbae986`. No Phase 5 work is authorized.
+Updated: 2026-11-10. **Phase5 is complete locally and is the final implementation
+milestone. Dockerization is removed from scope. Public deployment remains
+explicitly deferred.** Phases1–4 are committed as `de5b6b5`, `e9afd64`, `bbae986`,
+and `8e0425b`. Phase5 changes remain uncommitted for review.
+
+## Phase5 — efficient inference experiments and full local validation
+
+- Downloaded experimental Q8_0 from the same pinned Bartowski revision, after
+  trusted size/SHA/metadata/template provenance checks. Full verified bytes:
+  1,321,083,008, SHA256 `432f310a77f4650a88d0fd59ecdd7cebed8d684bafea53cbff0473542964f0c3`.
+  The active Q4 weights/pin, native build, application defaults, previous Llama
+  baselines, and historical Qwen artifacts are unchanged.
+- Completed18 native profiles:232 successful performance requests,58 warm-ups
+  and174 measured, plus16 separate quality outputs. Compared Q4/Q8,2/4/6 threads,
+  1024/2048/4096 context, f16/q8_0/q4_0 KV, batch/ubatch, Flash Attention,
+  prefix reuse,1/2/4 clients, serial slots/continuous batching. No native request
+  errors occurred. All18 owned native processes shut down cleanly.
+- Six separate verbosity4 probes measured actual KV allocation32/64/128MiB for
+  f16 context1024/2048/4096; q8/q4 KV at2048 used34/18MiB; four f16 slots at2048
+  each used256MiB. Default timed logs omitted allocation, so it was not inferred
+  from RSS. Q4 trace also shows a445.50MiB CPU_REPACK buffer beyond mapped weights.
+- A corrected prefix-control pair adds16 successful performance requests and8
+  repeated quality outputs. Both first warm-ups record cache_n0; warm measured
+  calls reuse50/309 prompt tokens. Long median TTFT falls2.273→0.052s. The first
+  sweep's long warm-up reused30 header tokens; that original raw/source is
+  retained and disclosed rather than silently treated as fully cold.
+- The real certificate-verified loopback HTTPS stack benchmark completed24 waves
+  and56 attempts. Its42 measured attempts include27 successes,15 expected503
+  queue rejections, and zero unexpected errors. FIFO with4 clients completes9/12
+  versus3/12 for immediate rejection. Independent reconciliation confirmed all
+  denominators, throughput, queue metadata, median/p95, and process/schema cleanup.
+- Q4/Q8 short native decode averaged21.19/11.30 tokens/s; toy exact-match scores
+  were4/8 and5/8. Four-client native continuous batching produced31.31 versus
+  serial17.82 output tokens/s at higher memory cost. Active Q4/f16, four threads,
+  one slot, one application generation/two waiters, and disabled cross-session
+  prefix reuse remain conservative choices. No claimed broad quality ranking.
+- Findings explicitly report13.5% control drift, the six-thread long outlier,
+  small samples/fixed order, warm OS pages, approximate stack CPU counter windows,
+  and unthrottled local measurement versus the future300% systemd ceiling.
+  Backend queue time is now measured directly and included in SSE metadata.
+- Saved raw JSON, source/artifact hashes, frozen initial native source, exact
+  configs, quality outputs, generated tables and standalone SVG charts in
+  [the curated run](../benchmarks/results/2026-11-10-phase5/README.md).
+
+| Executed in the `llama` environment | Actual result |
+| --- | --- |
+| `ruff check .` | Passed |
+| `ruff format --check .` | Passed;93 files formatted |
+| `pytest -q` | **389 passed,51 intentional skips**,10.83s |
+| `pytest -q --run-database --run-inference` | **440 passed,0 skipped,0 failed**,56.47s |
+| Independent new benchmark mocks | **71 passed**,0 skipped |
+| Native/paired-prefix/allocation/HTTPS experiments | Complete; expected admission rejections retained |
+
+The full suite includes the whole certificate-verified local HTTPS stack,
+frontend behavior, ownership/persistence, restart/cancellation, security/rate/
+quota controls, migrations/rollback, backup/restore and the new benchmark tests.
+Ordinary51 skips remain43 database cases (two also require native inference)
+and8 other native cases. Caddy was available as a staged test binary. No graphical
+browser layout automation, internet/public HTTPS, installed systemd limits, or
+Qualcomm hardware was tested.
+
+The initial independent tester reproduced valid null-delta and boolean-token
+metric defects; native schema booleans and preflight failure evidence were also
+fixed. Review found report-I/O in stack throughput, unrelated503 misclassification,
+missing unexpected-error status, and the partially cached warm-up; all were
+corrected with retained regressions or fresh paired measurement. The initial
+native source snapshot predates later validation/failure/CPU bookkeeping guards;
+its completed measurements were not edited. One test format wrap was corrected
+without semantic change after the full suites passed; final formatting passes.
+
+Initial research/implementation used GPT-6.1-Sol high before Tommy's mid-task
+preference change. Remaining testing, stack execution and independent review used
+**GPT-6.1-Terra high**, now required for every future subagent. Independent
+[review](phase5-review-2026-11-10.md) verdict: **ship local Phase5**.
+
+Read [fundamentals](12-efficient-ai-fundamentals.md),
+[methodology/reproduction](13-benchmark-methodology.md),
+[quantization](14-quantization-experiments.md),
+[cache/concurrency](15-cache-and-concurrency.md), and
+[findings/decisions](16-performance-findings.md).
+Evidence: [verification](evidence/phase5-verification.json),
+[ordinary JUnit](evidence/phase5-ordinary-tests.xml),
+[live JUnit](evidence/phase5-live-tests.xml), and
+[not-deployed check](evidence/phase5-not-deployed.json).
+
+Future documentation polish should present both local-running and manual
+production deployment to an engineering reviewer/Qualcomm recruiter. Existing
+[local instructions](../README.md#run-the-local-web-application) and
+[deployment/operations guides](09-deployment-guide.md) remain available. Docker
+work is cancelled; public deployment, application schema migration, and later
+portfolio/documentation polish were not silently performed.
 
 ## Phase 4 — prepared, not deployed
 
@@ -72,7 +160,7 @@ Evidence: [final verification/source snapshot](evidence/phase4-verification.json
 Final inspection found no remaining owned Caddy/native processes or listeners
 on80/443/2019/8000/8081, no installed Phase4 unit files, and PostgreSQL still only
 on127.0.0.1:5432. The application migration remains0001, with no quota table.
-Phase4 changes remain uncommitted for Tommy's review.
+Tommy subsequently committed Phase4 as `8e0425b` (`Phase 4`).
 
 Read [deployment instructions](09-deployment-guide.md),
 [security/resource model](10-security-and-resource-management.md), and
@@ -493,7 +581,7 @@ automated. Phase 1 baseline measurements remain separate historical evidence.
 
 ## Next approved action
 
-Tommy can review Phase 4 preparation and follow docs09 when he chooses to
-deploy and supplies a real domain. **Do not deploy yet**: public changes and the
-application migration remain deferred. **Stop before Phase 5**; Efficient AI
-experiments require separate authorization.
+Implementation stops at Phase5. Tommy may separately request final documentation
+polish for engineering recruiters, preserving both local and deployment paths.
+**Do not deploy yet**; public changes and application migrations remain deferred.
+Dockerization is removed; no further implementation phase is assumed.
